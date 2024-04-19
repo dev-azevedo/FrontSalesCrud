@@ -40,18 +40,18 @@
             >
           </li>
         </ul>
-        <div class="text-light">
+        <div class="text-light d-flex align-items-center gap-2">
           Jhonatan Azevedo
           <a
             href="https://www.linkedin.com/in/dev-azevedo/"
-            class="text-light"
+            class="text-light fs-2"
             target="_blank"
           >
             <i class="bi bi-linkedin mx-2"></i
           ></a>
           <a
             href="https://github.com/dev-azevedo"
-            class="text-light"
+            class="text-light fs-2"
             target="_blank"
           >
             <i class="bi bi-github"></i

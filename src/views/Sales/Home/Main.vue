@@ -64,6 +64,7 @@ import api from "@/services/Api.js";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
+import { formatMoney } from "@/services/Helper";
 
 const router = useRouter();
 const sales = ref([]);
@@ -72,10 +73,6 @@ const isLoading = ref(false);
 onMounted(() => {
   getSales();
 });
-
-const formatMoney = (money) => {
-  return money.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-};
 
 const getClientOrProductByName = async (nameOrdescription) => {
   isLoading.value = true;

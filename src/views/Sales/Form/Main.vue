@@ -61,17 +61,17 @@
           </div>
         </div>
         <div
-          v-show="product.id != ''"
           class="w-100 d-flex flex-column justify-content-start align-items-start mt-3"
         >
           <label for="" class="test-start">Valor do produto</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="valor do produto"
-            :value="product.unitaryValue"
-            disabled
-          />
+          <div class="form-control p-1 text-start">
+            <div v-if="!product.unitaryValue" class="text-secondary px-2 py-1">
+              Valor do produto...
+            </div>
+            <div v-else class="px-2 py-1">
+              {{ formatMoney(product.unitaryValue) }}
+            </div>
+          </div>
         </div>
 
         <div
@@ -104,6 +104,7 @@ import BaseForm from "@/components/BaseForm/Main.vue";
 import api from "@/services/Api";
 import Swal from "sweetalert2";
 import { useRoute } from "vue-router";
+import { formatMoney } from "@/services/Helper";
 
 const route = useRoute();
 const idUpdate = computed(() => route.params.id);
@@ -158,10 +159,6 @@ watch(inputSearchProduct, (newValue) => {
 watch(product.id, () => {
   showSugestProducts.value = false;
 });
-
-const formatMoney = (money) => {
-  return money.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-};
 
 const getClientByName = async () => {
   try {

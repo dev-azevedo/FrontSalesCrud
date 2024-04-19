@@ -35,6 +35,9 @@
           <i class="bi bi-check-circle"></i> Atualizar
         </button>
       </div>
+      <div class="text-start w-100 text-danger">
+        *Todos os campos são obrigatórios para cadastrar
+      </div>
     </form>
   </section>
 </template>

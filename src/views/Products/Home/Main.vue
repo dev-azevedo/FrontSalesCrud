@@ -30,7 +30,7 @@
         <tr v-else v-for="(product, index) in products" :key="product.id">
           <th scope="row">{{ index + 1 }}</th>
           <td>{{ product.description }}</td>
-          <td>{{ product.unitaryValue }}</td>
+          <td>{{ formatMoney(product.unitaryValue) }}</td>
           <td>
             <button
               type="button"
@@ -62,6 +62,7 @@ import api from "@/services/Api.js";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
+import { formatMoney } from "@/services/Helper";
 
 const router = useRouter();
 const products = ref([]);
