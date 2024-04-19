@@ -16,23 +16,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link
-              to="/"
-              class="nav-link active"
-              aria-current="page"
-              href="#"
-              >Vendas</router-link
-            >
+            <router-link to="/" class="nav-link active">Vendas</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/clientes" class="nav-link" href="#"
-              >Clientes</router-link
-            >
+            <router-link to="/clientes" class="nav-link">Clientes</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/produtos" class="nav-link" href="#"
-              >Produtos</router-link
-            >
+            <router-link to="/produtos" class="nav-link">Produtos</router-link>
           </li>
         </ul>
         <div class="text-light">By: Jhonatan Azevedo</div>

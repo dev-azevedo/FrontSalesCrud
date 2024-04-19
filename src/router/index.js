@@ -17,15 +17,50 @@ const routes = [
         path: "/clientes",
         name: "clients",
         component: () =>
-          import(/* webpackChunkName: "clients" */ "../views/Clients/Main.vue"),
+          import(/* webpackChunkName: "client" */ "../views/Clients/Main.vue"),
+        children: [
+          {
+            path: "",
+            name: "homeClients",
+            component: import(
+              /* webpackChunkName: "client" */ "../views/Clients/Home/Main.vue"
+            ),
+          },
+          {
+            path: "adicionar/:id",
+            name: "formClients",
+            component: () =>
+              import(
+                /* webpackChunkName: "client" */ "../views/Clients/Form/Main.vue"
+              ),
+          },
+        ],
       },
       {
         path: "/produtos",
         name: "products",
         component: () =>
           import(
-            /* webpackChunkName: "products" */ "../views/Products/Main.vue"
+            /* webpackChunkName: "product" */ "../views/Products/Main.vue"
           ),
+        children: [
+          {
+            path: "",
+            name: "homeProducts",
+            component: () =>
+              import(
+                /* webpackChunkName: "product" */ "../views/Products/Home/Main.vue"
+              ),
+          },
+          {
+            path: "adicionar/:id",
+            name: "formProducts",
+            component: () =>
+              import(
+                /* webpackChunkName: "product" */ "../views/Products/Form/Main.vue"
+              ),
+          },
+        ],
       },
     ],
   },
