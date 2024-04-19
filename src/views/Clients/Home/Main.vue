@@ -78,7 +78,11 @@ const getClientByName = async (description) => {
     const { data } = await api.get(`/client/${description}`);
     if (data) clients.value = data;
   } catch (err) {
-    if (err?.response && err?.response?.data) {
+    if (
+      err?.response &&
+      err?.response?.data &&
+      !err?.response?.data.includes("!DOCTYPE")
+    ) {
       Swal.fire({
         icon: "error",
         text: err.response.data,
@@ -98,7 +102,11 @@ const getClients = async () => {
     const { data } = await api.get("/client/");
     if (data) clients.value = data;
   } catch (err) {
-    if (err?.response && err?.response?.data) {
+    if (
+      err?.response &&
+      err?.response?.data &&
+      !err?.response?.data.includes("!DOCTYPE")
+    ) {
       Swal.fire({
         icon: "error",
         text: err.response.data,

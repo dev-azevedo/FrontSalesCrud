@@ -95,7 +95,11 @@ const getSales = async () => {
     }
   } catch (err) {
     console.log(err);
-    if (err?.response && err?.response?.data) {
+    if (
+      err?.response &&
+      err?.response?.data &&
+      !err?.response?.data.includes("!DOCTYPE")
+    ) {
       Swal.fire({
         icon: "error",
         text: err.response.data,

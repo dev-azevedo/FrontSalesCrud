@@ -77,7 +77,11 @@ const getProductByDescription = async (description) => {
     const { data } = await api.get(`/product/${description}`);
     products.value = data;
   } catch (err) {
-    if (err?.response && err?.response?.data) {
+    if (
+      err?.response &&
+      err?.response?.data &&
+      !err?.response?.data.includes("!DOCTYPE")
+    ) {
       Swal.fire({
         icon: "error",
         text: err.response.data,
@@ -97,7 +101,11 @@ const getProducts = async () => {
     const { data } = await api.get("/product/");
     products.value = data;
   } catch (err) {
-    if (err?.response && err?.response?.data) {
+    if (
+      err?.response &&
+      err?.response?.data &&
+      !err?.response?.data.includes("!DOCTYPE")
+    ) {
       Swal.fire({
         icon: "error",
         text: err.response.data,
