@@ -11,6 +11,8 @@
           <th scope="col">#</th>
           <th scope="col">Cliente</th>
           <th scope="col">Produto</th>
+          <th scope="col">Valor do produto</th>
+          <th scope="col">Quantidade pedidos</th>
           <th scope="col">Total</th>
           <th scope="col">Editar</th>
           <th scope="col">Deletar</th>
@@ -32,6 +34,8 @@
           <th scope="row">{{ index + 1 }}</th>
           <td>{{ sale.client.name }}</td>
           <td>{{ sale.product.description }}</td>
+          <td>{{ formatMoney(sale.product.unitaryValue) }}</td>
+          <td>{{ sale.productQuantity }}</td>
           <td>{{ formatMoney(sale.valueSale) }}</td>
           <td>
             <button
