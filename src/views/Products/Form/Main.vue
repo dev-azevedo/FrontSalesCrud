@@ -1,10 +1,11 @@
 <template>
   <section>
     <BaseForm
-      title="Cadastrar novo produto"
+      :title="titlePage"
       :register="registerProduct"
       :update="updateProduct"
       :disabledSendBtn="disabledSendBtn"
+      :loadingRequest="isLoading"
     >
       <template v-slot:form>
         <div class="d-flex flex-column justify-content-start align-items-start">
@@ -14,6 +15,7 @@
             class="form-control"
             placeholder="Informe a descrição do produto"
             v-model="description"
+            :disabled="isLoading"
           />
         </div>
 
@@ -26,6 +28,7 @@
             class="form-control"
             placeholder="Informe o valoro do produto"
             v-model="unitaryValue"
+            :disabled="isLoading"
           />
         </div>
       </template>
@@ -42,11 +45,16 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 const idUpdate = computed(() => route.params.id);
+const isLoading = ref(false);
 const description = ref("");
 const unitaryValue = ref(0);
 
 const disabledSendBtn = computed(
   () => description.value == "" || unitaryValue.value == 0
+);
+
+const titlePage = computed(() =>
+  idUpdate.value == "novo" ? "Cadastrar novo produto" : "Editar produto"
 );
 
 onMounted(() => {
@@ -57,6 +65,7 @@ onMounted(() => {
 
 const registerProduct = async () => {
   try {
+    isLoading.value = true;
     const { status } = await api.post("/product", {
       description: description.value,
       unitaryValue: unitaryValue.value,
@@ -86,35 +95,73 @@ const registerProduct = async () => {
         timer: 2500,
       });
     }
+  } finally {
+    isLoading.value = false;
   }
 };
 
 const updateProduct = async () => {
-  const { status } = await api.put("/product", {
-    id: idUpdate.value,
-    description: description.value,
-    unitaryValue: unitaryValue.value,
-  });
-
-  if (status == 200) {
-    Swal.fire({
-      icon: "success",
-      title: "Atualizado com sucesso!",
-      showConfirmButton: false,
-      timer: 1500,
+  try {
+    isLoading.value = true;
+    const { status } = await api.put("/product", {
+      id: idUpdate.value,
+      description: description.value,
+      unitaryValue: unitaryValue.value,
     });
 
-    description.value = "";
-    unitaryValue.value = 0;
+    if (status == 200) {
+      Swal.fire({
+        icon: "success",
+        title: "Atualizado com sucesso!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      description.value = "";
+      unitaryValue.value = 0;
+    }
+  } catch (err) {
+    if (
+      err?.response &&
+      err?.response?.data &&
+      !err?.response?.data.includes("!DOCTYPE")
+    ) {
+      Swal.fire({
+        icon: "error",
+        text: err.response.data,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+  } finally {
+    isLoading.value = false;
   }
 };
 
 const getProductById = async () => {
-  const { data } = await api.get(`/product/${idUpdate.value}`);
+  try {
+    isLoading.value = true;
+    const { data } = await api.get(`/product/${idUpdate.value}`);
 
-  if (data) {
-    description.value = data.description;
-    unitaryValue.value = data.unitaryValue;
+    if (data) {
+      description.value = data.description;
+      unitaryValue.value = data.unitaryValue;
+    }
+  } catch (err) {
+    if (
+      err?.response &&
+      err?.response?.data &&
+      !err?.response?.data.includes("!DOCTYPE")
+    ) {
+      Swal.fire({
+        icon: "error",
+        text: err.response.data,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>

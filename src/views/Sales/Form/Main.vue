@@ -1,10 +1,11 @@
 <template>
   <section>
     <BaseForm
-      title="Cadastrar nova venda"
+      :title="titlePage"
       :register="registerSale"
       :update="updateSale"
       :disabledSendBtn="disabledSendBtn"
+      :loadingRequest="isLoading"
     >
       <template v-slot:form>
         <div
@@ -16,6 +17,7 @@
             class="form-control shadow-none"
             placeholder="Informe o nome do cliente"
             v-model="inputSearchClient"
+            :disabled="isLoading"
           />
           <div
             class="bg-secondary w-100 position-absolute top-100 rounded-bottom pb-1"
@@ -42,6 +44,7 @@
             class="form-control"
             placeholder="Informe o nome do produto"
             v-model="inputSearchProduct"
+            :disabled="isLoading"
           />
 
           <div
@@ -83,6 +86,7 @@
             class="form-control"
             placeholder="Informe a quantidade de produto"
             v-model="quantityProduct"
+            :disabled="isLoading"
           />
         </div>
 
@@ -108,6 +112,8 @@ import { formatMoney } from "@/services/Helper";
 
 const route = useRoute();
 const idUpdate = computed(() => route.params.id);
+const isLoading = ref(false);
+
 const quantityProduct = ref(0);
 
 const inputSearchClient = ref([]);
@@ -121,6 +127,9 @@ const product = reactive({ id: "", description: "", unitaryValue: "" });
 const showSugestProducts = ref(false);
 
 const totalSale = computed(() => quantityProduct.value * product.unitaryValue);
+const titlePage = computed(() =>
+  idUpdate.value == "novo" ? "Cadastrar nova venda" : "Editar venda"
+);
 
 const disabledSendBtn = computed(
   () => clientId.value == "" || product.id == "" || quantityProduct.value == ""
@@ -220,6 +229,7 @@ const selectProduct = (productSelect) => {
 
 const registerSale = async () => {
   try {
+    isLoading.value = true;
     const { status } = await api.post("/sale", {
       clientId: clientId.value,
       productId: product.id,
@@ -255,10 +265,14 @@ const registerSale = async () => {
         timer: 2500,
       });
     }
+  } finally {
+    isLoading.value = false;
   }
 };
 
 const updateSale = async () => {
+  isLoading.value = true;
+
   try {
     const { status } = await api.put("/sale", {
       id: idUpdate.value,
@@ -296,11 +310,14 @@ const updateSale = async () => {
         timer: 2500,
       });
     }
+  } finally {
+    isLoading.value = false;
   }
 };
 
 const getSaleById = async () => {
   try {
+    isLoading.value = true;
     const { data } = await api.get(`/sale/${idUpdate.value}`);
     clientId.value = data.client.id;
     product.id = data.product.id;
@@ -322,6 +339,8 @@ const getSaleById = async () => {
         timer: 2500,
       });
     }
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>

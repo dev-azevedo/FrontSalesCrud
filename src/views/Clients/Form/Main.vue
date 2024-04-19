@@ -1,10 +1,11 @@
 <template>
   <section>
     <BaseForm
-      title="Cadastrar novo cliente"
+      :title="titlePage"
       :register="registerClient"
       :update="updateClient"
       :disabledSendBtn="disabledSendBtn"
+      :loadingRequest="isLoading"
     >
       <template v-slot:form>
         <div class="d-flex flex-column justify-content-start align-items-start">
@@ -14,6 +15,7 @@
             class="form-control"
             placeholder="Informe o nome do cliente"
             v-model="name"
+            :disabled="isLoading"
           />
         </div>
 
@@ -26,6 +28,7 @@
             class="form-control"
             placeholder="Informe a cidade"
             v-model="city"
+            :disabled="isLoading"
           />
         </div>
       </template>
@@ -42,6 +45,7 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 const idUpdate = computed(() => route.params.id);
+const isLoading = ref(false);
 const name = ref("");
 const city = ref("");
 
@@ -52,51 +56,112 @@ onMounted(() => {
 });
 
 const disabledSendBtn = computed(() => name.value == "" || city.value == "");
-const registerClient = async () => {
-  const { status } = await api.post("/client", {
-    name: name.value,
-    city: city.value,
-  });
+const titlePage = computed(() =>
+  idUpdate.value == "novo" ? "Cadastrar novo cliente" : "Editar cliente"
+);
 
-  if (status == 201) {
-    Swal.fire({
-      icon: "success",
-      title: "Cadastrado com sucesso!",
-      showConfirmButton: false,
-      timer: 1500,
+const registerClient = async () => {
+  try {
+    isLoading.value = true;
+
+    const { status } = await api.post("/client", {
+      name: name.value,
+      city: city.value,
     });
 
-    name.value = "";
-    city.value = "";
+    if (status == 201) {
+      Swal.fire({
+        icon: "success",
+        title: "Cadastrado com sucesso!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      name.value = "";
+      city.value = "";
+    }
+  } catch (err) {
+    if (
+      err?.response &&
+      err?.response?.data &&
+      !err?.response?.data.includes("!DOCTYPE")
+    ) {
+      Swal.fire({
+        icon: "error",
+        text: err.response.data,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+  } finally {
+    isLoading.value = false;
   }
 };
 
 const updateClient = async () => {
-  const { status } = await api.put("/client", {
-    id: idUpdate.value,
-    name: name.value,
-    city: city.value,
-  });
+  try {
+    isLoading.value = true;
 
-  if (status == 200) {
-    Swal.fire({
-      icon: "success",
-      title: "Atualizado com sucesso!",
-      showConfirmButton: false,
-      timer: 1500,
+    const { status } = await api.put("/client", {
+      id: idUpdate.value,
+      name: name.value,
+      city: city.value,
     });
 
-    name.value = "";
-    city.value = "";
+    if (status == 200) {
+      Swal.fire({
+        icon: "success",
+        title: "Atualizado com sucesso!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      name.value = "";
+      city.value = "";
+    }
+  } catch (err) {
+    if (
+      err?.response &&
+      err?.response?.data &&
+      !err?.response?.data.includes("!DOCTYPE")
+    ) {
+      Swal.fire({
+        icon: "error",
+        text: err.response.data,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+  } finally {
+    isLoading.value = false;
   }
 };
 
 const getClientBy = async () => {
-  const { data } = await api.get(`/client/${idUpdate.value}`);
+  try {
+    isLoading.value = true;
 
-  if (data) {
-    name.value = data.name;
-    city.value = data.city;
+    const { data } = await api.get(`/client/${idUpdate.value}`);
+
+    if (data) {
+      name.value = data.name;
+      city.value = data.city;
+    }
+  } catch (err) {
+    if (
+      err?.response &&
+      err?.response?.data &&
+      !err?.response?.data.includes("!DOCTYPE")
+    ) {
+      Swal.fire({
+        icon: "error",
+        text: err.response.data,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+  } finally {
+    isLoading.value = false;
   }
 };
 </script>

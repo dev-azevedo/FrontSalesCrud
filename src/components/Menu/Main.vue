@@ -40,7 +40,9 @@
             >
           </li>
         </ul>
-        <div class="text-light d-flex align-items-center gap-2">
+        <div
+          class="text-light d-flex align-items-center justify-content-center gap-2"
+        >
           Jhonatan Azevedo
           <a
             href="https://www.linkedin.com/in/dev-azevedo/"

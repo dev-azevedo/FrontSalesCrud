@@ -5,7 +5,11 @@
     >
       <h1>{{ props.title }}</h1>
 
-      <button class="btn btn-sm btn-secondary" @click="router.back()">
+      <button
+        class="btn btn-secondary"
+        @click="router.back()"
+        :disabled="loadingRequest"
+      >
         <i class="bi bi-arrow-left-circle me-1"></i> Voltar
       </button>
     </div>
@@ -20,19 +24,31 @@
           type="button"
           class="btn btn-success"
           @click="register"
-          :disabled="disabledSendBtn"
+          :disabled="disabledSendBtn || loadingRequest"
         >
-          <i class="bi bi-check-circle"></i> Cadastrar
+          <i v-if="!loadingRequest" class="bi bi-check-circle"></i>
+          <div
+            v-else
+            class="spinner-border spinner-border-sm"
+            role="status"
+          ></div>
+          Cadastrar
         </button>
 
         <button
           v-else
           type="button"
           class="btn btn-warning"
-          :disabled="disabledSendBtn"
+          :disabled="disabledSendBtn || loadingRequest"
           @click="update"
         >
-          <i class="bi bi-check-circle"></i> Atualizar
+          <i v-if="!loadingRequest" class="bi bi-check-circle"></i>
+          <div
+            v-else
+            class="spinner-border spinner-border-sm"
+            role="status"
+          ></div>
+          Atualizar
         </button>
       </div>
       <div class="text-start w-100 text-danger">
@@ -48,7 +64,13 @@ import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
-const props = defineProps(["title", "register", "update", "disabledSendBtn"]);
+const props = defineProps([
+  "title",
+  "register",
+  "update",
+  "disabledSendBtn",
+  "loadingRequest",
+]);
 const idUpdate = computed(() => route.params.id);
 </script>
 
