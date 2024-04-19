@@ -12,6 +12,23 @@ const routes = [
         name: "sales",
         component: () =>
           import(/* webpackChunkName: "sales" */ "../views/Sales/Main.vue"),
+        children: [
+          {
+            path: "",
+            name: "homeSales",
+            component: import(
+              /* webpackChunkName: "sales" */ "../views/Sales/Home/Main.vue"
+            ),
+          },
+          {
+            path: "adicionar/:id",
+            name: "formSales",
+            component: () =>
+              import(
+                /* webpackChunkName: "sales" */ "../views/Sales/Form/Main.vue"
+              ),
+          },
+        ],
       },
       {
         path: "/clientes",

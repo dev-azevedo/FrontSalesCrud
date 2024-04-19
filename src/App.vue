@@ -10,4 +10,8 @@
   text-align: center;
   color: #2c3e50;
 }
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
 </style>

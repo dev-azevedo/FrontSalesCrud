@@ -4,6 +4,7 @@
       title="Cadastrar novo cliente"
       :register="registerClient"
       :update="updateClient"
+      :disabledSendBtn="disabledSendBtn"
     >
       <template v-slot:form>
         <div class="d-flex flex-column justify-content-start align-items-start">
@@ -50,6 +51,7 @@ onMounted(() => {
   }
 });
 
+const disabledSendBtn = computed(() => name.value == "" || city.value == "");
 const registerClient = async () => {
   const { status } = await api.post("/client", {
     name: name.value,

@@ -20,11 +20,18 @@
           type="button"
           class="btn btn-success"
           @click="register"
+          :disabled="disabledSendBtn"
         >
           <i class="bi bi-check-circle"></i> Cadastrar
         </button>
 
-        <button v-else type="button" class="btn btn-warning" @click="update">
+        <button
+          v-else
+          type="button"
+          class="btn btn-warning"
+          :disabled="disabledSendBtn"
+          @click="update"
+        >
           <i class="bi bi-check-circle"></i> Atualizar
         </button>
       </div>
@@ -38,7 +45,7 @@ import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
-const props = defineProps(["title", "register", "update"]);
+const props = defineProps(["title", "register", "update", "disabledSendBtn"]);
 const idUpdate = computed(() => route.params.id);
 </script>
 

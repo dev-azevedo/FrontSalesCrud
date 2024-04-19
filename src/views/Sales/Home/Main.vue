@@ -1,41 +1,43 @@
 <template>
   <section class="container mt-3">
     <BaseHome
-      title="Clientes"
-      placeholder="Busque pelo nome do cliente"
-      :newItem="addNewClient"
-      :searchItem="getClientByName"
+      title="Vendas"
+      placeholder="Busque pelo nome do cliente ou descrição do produto"
+      :newItem="addNewSale"
+      :searchItem="getClientOrProductByName"
     >
       <template v-slot:thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Cidade</th>
+          <th scope="col">Cliente</th>
+          <th scope="col">Produto</th>
+          <th scope="col">Total</th>
           <th scope="col">Editar</th>
           <th scope="col">Deletar</th>
         </tr>
       </template>
       <template v-slot:tbody>
         <tr v-if="isLoading">
-          <td colspan="5">
+          <td colspan="6">
             buscando...
             <div class="spinner-border spinner-border-sm" role="status"></div>
           </td>
         </tr>
-        <tr v-else-if="clients.length == 0">
-          <td colspan="5">
-            <i class="bi bi-x-circle"></i> Nenhum cliente cadastrado
+        <tr v-else-if="sales.length == 0">
+          <td colspan="6">
+            <i class="bi bi-x-circle"></i> Nenhuma venda cadastrada
           </td>
         </tr>
-        <tr v-else v-for="(client, index) in clients" :key="client.id">
+        <tr v-else v-for="(sale, index) in sales" :key="sale.id">
           <th scope="row">{{ index + 1 }}</th>
-          <td>{{ client.name }}</td>
-          <td>{{ client.city }}</td>
+          <td>{{ sale.client.name }}</td>
+          <td>{{ sale.product.description }}</td>
+          <td>{{ formatMoney(sale.valueSale) }}</td>
           <td>
             <button
               type="button"
               class="btn btn-sm btn-warning"
-              @click="updateClient(client.id)"
+              @click="updateSale(sale.id)"
             >
               <i class="bi bi-pencil-square"></i>
             </button>
@@ -44,7 +46,7 @@
             <button
               type="button"
               class="btn btn-sm btn-danger"
-              @click="deleteClient(client.id)"
+              @click="deleteSale(sale.id)"
             >
               <i class="bi bi-trash"></i>
             </button>
@@ -52,7 +54,7 @@
         </tr>
       </template>
     </BaseHome>
-    <div class="d-flex">Total de clientes: {{ clients.length }}</div>
+    <div class="d-flex">Total de vendas: {{ sales.length }}</div>
   </section>
 </template>
 
@@ -64,41 +66,45 @@ import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 
 const router = useRouter();
-const clients = ref([]);
+const sales = ref([]);
 const isLoading = ref(false);
 
 onMounted(() => {
-  getClients();
+  getSales();
 });
 
-const getClientByName = async (description) => {
+const formatMoney = (money) => {
+  return money.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+};
+
+const getClientOrProductByName = async (nameOrdescription) => {
   isLoading.value = true;
-  clients.value = [];
-  const { data } = await api.get(`/client/${description}`);
-  clients.value = data;
+  sales.value = [];
+  const { data } = await api.get(`/sale/${nameOrdescription}`);
+  sales.value = data;
   isLoading.value = false;
 };
 
-const getClients = async () => {
+const getSales = async () => {
   isLoading.value = true;
-  clients.value = [];
-  const { data } = await api.get("/client/");
-  clients.value = data;
+  sales.value = [];
+  const { data } = await api.get("/sale/");
+  sales.value = data;
   isLoading.value = false;
 };
 
-const addNewClient = () => {
-  router.push({ name: "formClients", params: { id: "novo" } });
+const addNewSale = () => {
+  router.push({ name: "formSales", params: { id: "novo" } });
 };
 
-const updateClient = (idUpdate) => {
-  router.push({ name: "formClients", params: { id: idUpdate } });
+const updateSale = (idUpdate) => {
+  router.push({ name: "formSales", params: { id: idUpdate } });
 };
 
-const deleteClient = async (id) => {
+const deleteSale = async (id) => {
   Swal.fire({
-    title: "Deletar cliente",
-    text: "Deseja realmente apagar esse cliente?",
+    title: "Deletar venda",
+    text: "Deseja realmente apagar essa venda?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#0d6efd",
@@ -107,14 +113,14 @@ const deleteClient = async (id) => {
     cancelButtonText: "Não",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      await api.delete(`/client/${id}`);
+      await api.delete(`/sale/${id}`);
       Swal.fire({
         icon: "success",
-        title: "Cliente apagado com sucesso!",
+        title: "Venda apagado com sucesso!",
         showConfirmButton: false,
         timer: 1500,
       });
-      getClients();
+      getSales();
     }
   });
 };

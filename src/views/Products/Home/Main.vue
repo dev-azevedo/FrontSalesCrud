@@ -16,10 +16,15 @@
         </tr>
       </template>
       <template v-slot:tbody>
-        <tr v-if="products.length == 0">
+        <tr v-if="isLoading">
           <td colspan="5">
             buscando...
             <div class="spinner-border spinner-border-sm" role="status"></div>
+          </td>
+        </tr>
+        <tr v-if="products.length == 0">
+          <td colspan="5">
+            <i class="bi bi-x-circle"></i> Nenhuma produto cadastrado
           </td>
         </tr>
         <tr v-else v-for="(product, index) in products" :key="product.id">
@@ -47,6 +52,7 @@
         </tr>
       </template>
     </BaseHome>
+    <div class="d-flex">Total de produtos: {{ products.length }}</div>
   </section>
 </template>
 
@@ -59,20 +65,25 @@ import Swal from "sweetalert2";
 
 const router = useRouter();
 const products = ref([]);
+const isLoading = ref(false);
 onMounted(() => {
   getProducts();
 });
 
 const getProductByDescription = async (description) => {
+  isLoading.value = true;
   products.value = [];
   const { data } = await api.get(`/product/${description}`);
   products.value = data;
+  isLoading.value = false;
 };
 
 const getProducts = async () => {
+  isLoading.value = true;
   products.value = [];
   const { data } = await api.get("/product/");
   products.value = data;
+  isLoading.value = false;
 };
 
 const addNewProduct = () => {
