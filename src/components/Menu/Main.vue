@@ -1,7 +1,10 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand me-5 fs-2" href="#">CamposDalearCrud</a>
+      <router-link to="/" class="navbar-brand me-5 fs-2 text-orange"
+        >CamposDalearCrud</router-link
+      >
+      >
       <button
         class="navbar-toggler"
         type="button"
@@ -18,7 +21,7 @@
           <li class="nav-item">
             <router-link
               to="/"
-              exactActiveClass="text-primary fw-bold"
+              exactActiveClass="text-orange fw-bold"
               class="nav-link"
               >Vendas</router-link
             >
@@ -26,7 +29,7 @@
           <li class="nav-item">
             <router-link
               to="/clientes"
-              exactActiveClass="text-primary fw-bold"
+              exactActiveClass="text-orange fw-bold"
               class="nav-link"
               >Clientes</router-link
             >
@@ -34,7 +37,7 @@
           <li class="nav-item">
             <router-link
               to="/produtos"
-              exactActiveClass="text-primary fw-bold"
+              exactActiveClass="text-orange fw-bold"
               class="nav-link"
               >Produtos</router-link
             >
@@ -49,14 +52,14 @@
             class="text-light fs-2"
             target="_blank"
           >
-            <i class="bi bi-linkedin mx-2"></i
+            <i class="bi bi-linkedin mx-2 link-redes"></i
           ></a>
           <a
             href="https://github.com/dev-azevedo"
             class="text-light fs-2"
             target="_blank"
           >
-            <i class="bi bi-github"></i
+            <i class="bi bi-github link-redes"></i
           ></a>
         </div>
       </div>
@@ -67,13 +70,12 @@
 <script setup></script>
 
 <style scoped>
-.router-link-active {
-  /* Estilos para links ativos */
-  color: blue;
+.link-redes:hover {
+  color: orange;
+  transition: 0.3s ease;
 }
 
-.router-link-exact-active {
-  /* Estilos para links ativos que correspondem exatamente à rota atual */
-  font-weight: bold;
+.text-orange {
+  color: orange !important;
 }
 </style>
