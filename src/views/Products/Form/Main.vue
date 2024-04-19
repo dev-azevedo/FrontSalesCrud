@@ -74,7 +74,7 @@ const registerProduct = async () => {
     if (status == 201) {
       Swal.fire({
         icon: "success",
-        title: "cadastado com sucesso!",
+        title: "Cadastrado com sucesso!",
         showConfirmButton: false,
         timer: 1500,
       });

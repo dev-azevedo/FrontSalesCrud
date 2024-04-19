@@ -20,7 +20,7 @@
       </template>
       <template v-slot:tbody>
         <tr v-if="isLoading">
-          <td colspan="6">
+          <td colspan="8">
             buscando...
             <div class="spinner-border spinner-border-sm" role="status"></div>
           </td>
