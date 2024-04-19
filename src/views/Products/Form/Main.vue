@@ -74,7 +74,7 @@ const registerProduct = async () => {
       unitaryValue.value = 0;
     }
   } catch (err) {
-    if (err.response.data) {
+    if (err?.response && err?.response?.data) {
       Swal.fire({
         icon: "error",
         text: err.response.data,

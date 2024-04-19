@@ -22,7 +22,7 @@
             <div class="spinner-border spinner-border-sm" role="status"></div>
           </td>
         </tr>
-        <tr v-if="products.length == 0">
+        <tr v-else-if="products.length == 0">
           <td colspan="5">
             <i class="bi bi-x-circle"></i> Nenhuma produto cadastrado
           </td>
@@ -71,19 +71,43 @@ onMounted(() => {
 });
 
 const getProductByDescription = async (description) => {
-  isLoading.value = true;
-  products.value = [];
-  const { data } = await api.get(`/product/${description}`);
-  products.value = data;
-  isLoading.value = false;
+  try {
+    isLoading.value = true;
+    products.value = [];
+    const { data } = await api.get(`/product/${description}`);
+    products.value = data;
+  } catch (err) {
+    if (err?.response && err?.response?.data) {
+      Swal.fire({
+        icon: "error",
+        text: err.response.data,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 const getProducts = async () => {
-  isLoading.value = true;
-  products.value = [];
-  const { data } = await api.get("/product/");
-  products.value = data;
-  isLoading.value = false;
+  try {
+    isLoading.value = true;
+    products.value = [];
+    const { data } = await api.get("/product/");
+    products.value = data;
+  } catch (err) {
+    if (err?.response && err?.response?.data) {
+      Swal.fire({
+        icon: "error",
+        text: err.response.data,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 const addNewProduct = () => {

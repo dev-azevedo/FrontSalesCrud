@@ -86,11 +86,26 @@ const getClientOrProductByName = async (nameOrdescription) => {
 };
 
 const getSales = async () => {
-  isLoading.value = true;
-  sales.value = [];
-  const { data } = await api.get("/sale/");
-  sales.value = data;
-  isLoading.value = false;
+  try {
+    isLoading.value = true;
+    sales.value = [];
+    const { data } = await api.get("/sale/");
+    if (data) {
+      sales.value = data;
+    }
+  } catch (err) {
+    console.log(err);
+    if (err?.response && err?.response?.data) {
+      Swal.fire({
+        icon: "error",
+        text: err.response.data,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 const addNewSale = () => {

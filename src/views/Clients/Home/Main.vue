@@ -72,19 +72,43 @@ onMounted(() => {
 });
 
 const getClientByName = async (description) => {
-  isLoading.value = true;
-  clients.value = [];
-  const { data } = await api.get(`/client/${description}`);
-  clients.value = data;
-  isLoading.value = false;
+  try {
+    isLoading.value = true;
+    clients.value = [];
+    const { data } = await api.get(`/client/${description}`);
+    if (data) clients.value = data;
+  } catch (err) {
+    if (err?.response && err?.response?.data) {
+      Swal.fire({
+        icon: "error",
+        text: err.response.data,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 const getClients = async () => {
-  isLoading.value = true;
-  clients.value = [];
-  const { data } = await api.get("/client/");
-  clients.value = data;
-  isLoading.value = false;
+  try {
+    isLoading.value = true;
+    clients.value = [];
+    const { data } = await api.get("/client/");
+    if (data) clients.value = data;
+  } catch (err) {
+    if (err?.response && err?.response?.data) {
+      Swal.fire({
+        icon: "error",
+        text: err.response.data,
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    }
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 const addNewClient = () => {

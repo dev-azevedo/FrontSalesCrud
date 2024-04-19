@@ -169,7 +169,7 @@ const getClientByName = async () => {
     const { data } = await api.get(`/client/${inputSearchClient.value}`);
     clients.value = data;
   } catch (err) {
-    if (err.response.data) {
+    if (err?.response && err?.response?.data) {
       Swal.fire({
         icon: "error",
         text: err.response.data,
@@ -194,7 +194,7 @@ const getProductByDescription = async () => {
     const { data } = await api.get(`/product/${inputSearchProduct.value}`);
     products.value = data;
   } catch (err) {
-    if (err.response.data) {
+    if (err?.response && err?.response?.data) {
       Swal.fire({
         icon: "error",
         text: err.response.data,
@@ -238,7 +238,7 @@ const registerSale = async () => {
       quantityProduct.value = 0;
     }
   } catch (err) {
-    if (err.response.data) {
+    if (err?.response && err?.response?.data) {
       Swal.fire({
         icon: "error",
         text: err.response.data,
@@ -275,7 +275,7 @@ const updateSale = async () => {
       quantityProduct.value = 0;
     }
   } catch (err) {
-    if (err.response.data) {
+    if (err?.response && err?.response?.data) {
       Swal.fire({
         icon: "error",
         text: err.response.data,
@@ -297,7 +297,7 @@ const getSaleById = async () => {
     inputSearchProduct.value = data.product.description;
     quantityProduct.value = data.productQuantity;
   } catch (err) {
-    if (err.response.data) {
+    if (err?.response && err?.response?.data) {
       Swal.fire({
         icon: "error",
         text: err.response.data,
