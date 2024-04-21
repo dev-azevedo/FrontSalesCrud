@@ -27,11 +27,11 @@
       </button>
     </div>
 
-    <table class="table table-striped mt-2 max-w-auto">
+    <table class="table table-striped mt-2 max-w-auto overflow-auto">
       <thead>
         <slot name="thead"></slot>
       </thead>
-      <tbody class="overflow-auto">
+      <tbody>
         <slot name="tbody"></slot>
       </tbody>
     </table>

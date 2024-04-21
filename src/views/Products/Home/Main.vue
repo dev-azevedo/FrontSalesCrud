@@ -30,7 +30,7 @@
         <tr v-else v-for="(product, index) in products" :key="product.id">
           <th scope="row">{{ index + 1 }}</th>
           <td>{{ product.description }}</td>
-          <td>{{ formatMoney(product.unitaryValue) }}</td>
+          <td>{{ formatMoneyPtBr(product.unitaryValue) }}</td>
           <td>
             <button
               type="button"
@@ -62,7 +62,7 @@ import api from "@/services/Api.js";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-import { formatMoney } from "@/services/Helper";
+import { formatMoneyPtBr } from "@/services/Helper";
 
 const router = useRouter();
 const products = ref([]);
@@ -78,18 +78,26 @@ const getProductByDescription = async (description) => {
     const { data } = await api.get(`/product/${description}`);
     products.value = data;
   } catch (err) {
-    if (
-      err?.response &&
-      err?.response?.data &&
-      !err?.response?.data.includes("!DOCTYPE")
-    ) {
-      Swal.fire({
+    if (err?.response && err?.response?.data) {
+      let errors = "";
+      err.response.data.errors.map((error) => {
+        errors += error.message + "<br />";
+      });
+
+      return Swal.fire({
         icon: "error",
-        text: err.response.data,
+        html: errors,
         showConfirmButton: false,
-        timer: 2500,
+        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
       });
     }
+
+    Swal.fire({
+      icon: "error",
+      text: "Algo deu errado. Tente novamente",
+      showConfirmButton: false,
+      timer: 2500,
+    });
   } finally {
     isLoading.value = false;
   }
@@ -102,18 +110,26 @@ const getProducts = async () => {
     const { data } = await api.get("/product/");
     products.value = data;
   } catch (err) {
-    if (
-      err?.response &&
-      err?.response?.data &&
-      !err?.response?.data.includes("!DOCTYPE")
-    ) {
-      Swal.fire({
+    if (err?.response && err?.response?.data) {
+      let errors = "";
+      err.response.data.errors.map((error) => {
+        errors += error.message + "<br />";
+      });
+
+      return Swal.fire({
         icon: "error",
-        text: err.response.data,
+        html: errors,
         showConfirmButton: false,
-        timer: 2500,
+        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
       });
     }
+
+    Swal.fire({
+      icon: "error",
+      text: "Algo deu errado. Tente novamente",
+      showConfirmButton: false,
+      timer: 2500,
+    });
   } finally {
     isLoading.value = false;
   }

@@ -83,18 +83,26 @@ const registerProduct = async () => {
       unitaryValue.value = 0;
     }
   } catch (err) {
-    if (
-      err?.response &&
-      err?.response?.data &&
-      !err?.response?.data.includes("!DOCTYPE")
-    ) {
-      Swal.fire({
+    if (err?.response && err?.response?.data) {
+      let errors = "";
+      err.response.data.errors.map((error) => {
+        errors += error.message + "<br />";
+      });
+
+      return Swal.fire({
         icon: "error",
-        text: err.response.data,
+        html: errors,
         showConfirmButton: false,
-        timer: 2500,
+        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
       });
     }
+
+    Swal.fire({
+      icon: "error",
+      text: "Algo deu errado. Tente novamente",
+      showConfirmButton: false,
+      timer: 2500,
+    });
   } finally {
     isLoading.value = false;
   }
@@ -121,18 +129,26 @@ const updateProduct = async () => {
       unitaryValue.value = 0;
     }
   } catch (err) {
-    if (
-      err?.response &&
-      err?.response?.data &&
-      !err?.response?.data.includes("!DOCTYPE")
-    ) {
-      Swal.fire({
+    if (err?.response && err?.response?.data) {
+      let errors = "";
+      err.response.data.errors.map((error) => {
+        errors += error.message + "<br />";
+      });
+
+      return Swal.fire({
         icon: "error",
-        text: err.response.data,
+        html: errors,
         showConfirmButton: false,
-        timer: 2500,
+        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
       });
     }
+
+    Swal.fire({
+      icon: "error",
+      text: "Algo deu errado. Tente novamente",
+      showConfirmButton: false,
+      timer: 2500,
+    });
   } finally {
     isLoading.value = false;
   }
@@ -148,18 +164,26 @@ const getProductById = async () => {
       unitaryValue.value = data.unitaryValue;
     }
   } catch (err) {
-    if (
-      err?.response &&
-      err?.response?.data &&
-      !err?.response?.data.includes("!DOCTYPE")
-    ) {
-      Swal.fire({
+    if (err?.response && err?.response?.data) {
+      let errors = "";
+      err.response.data.errors.map((error) => {
+        errors += error.message + "<br />";
+      });
+
+      return Swal.fire({
         icon: "error",
-        text: err.response.data,
+        html: errors,
         showConfirmButton: false,
-        timer: 2500,
+        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
       });
     }
+
+    Swal.fire({
+      icon: "error",
+      text: "Algo deu errado. Tente novamente",
+      showConfirmButton: false,
+      timer: 2500,
+    });
   } finally {
     isLoading.value = false;
   }

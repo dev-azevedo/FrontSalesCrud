@@ -4,7 +4,7 @@
       <router-link to="/" class="navbar-brand me-5 fs-2 text-orange"
         >CamposDalearCrud</router-link
       >
-      >
+
       <button
         class="navbar-toggler"
         type="button"

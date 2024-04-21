@@ -72,7 +72,7 @@
               Valor do produto...
             </div>
             <div v-else class="px-2 py-1">
-              {{ formatMoney(product.unitaryValue) }}
+              {{ formatMoneyPtBr(product.unitaryValue) }}
             </div>
           </div>
         </div>
@@ -94,7 +94,7 @@
           class="w-100 d-flex flex-column justify-content-start align-items-start mt-3"
         >
           <label for="" class="test-start"
-            >Total: {{ formatMoney(totalSale) }}</label
+            >Total: {{ formatMoneyPtBr(totalSale) }}</label
           >
         </div>
       </template>
@@ -108,7 +108,7 @@ import BaseForm from "@/components/BaseForm/Main.vue";
 import api from "@/services/Api";
 import Swal from "sweetalert2";
 import { useRoute } from "vue-router";
-import { formatMoney } from "@/services/Helper";
+import { formatMoneyPtBr } from "@/services/Helper";
 
 const route = useRoute();
 const idUpdate = computed(() => route.params.id);
@@ -175,18 +175,26 @@ const getClientByName = async () => {
     const { data } = await api.get(`/client/${inputSearchClient.value}`);
     clients.value = data;
   } catch (err) {
-    if (
-      err?.response &&
-      err?.response?.data &&
-      !err?.response?.data.includes("!DOCTYPE")
-    ) {
-      Swal.fire({
+    if (err?.response && err?.response?.data) {
+      let errors = "";
+      err.response.data.errors.map((error) => {
+        errors += error.message + "<br />";
+      });
+
+      return Swal.fire({
         icon: "error",
-        text: err.response.data,
+        html: errors,
         showConfirmButton: false,
-        timer: 2500,
+        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
       });
     }
+
+    Swal.fire({
+      icon: "error",
+      text: "Algo deu errado. Tente novamente",
+      showConfirmButton: false,
+      timer: 2500,
+    });
   }
 };
 
@@ -204,18 +212,26 @@ const getProductByDescription = async () => {
     const { data } = await api.get(`/product/${inputSearchProduct.value}`);
     products.value = data;
   } catch (err) {
-    if (
-      err?.response &&
-      err?.response?.data &&
-      !err?.response?.data.includes("!DOCTYPE")
-    ) {
-      Swal.fire({
+    if (err?.response && err?.response?.data) {
+      let errors = "";
+      err.response.data.errors.map((error) => {
+        errors += error.message + "<br />";
+      });
+
+      return Swal.fire({
         icon: "error",
-        text: err.response.data,
+        html: errors,
         showConfirmButton: false,
-        timer: 2500,
+        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
       });
     }
+
+    Swal.fire({
+      icon: "error",
+      text: "Algo deu errado. Tente novamente",
+      showConfirmButton: false,
+      timer: 2500,
+    });
   }
 };
 
@@ -298,18 +314,26 @@ const updateSale = async () => {
       quantityProduct.value = 0;
     }
   } catch (err) {
-    if (
-      err?.response &&
-      err?.response?.data &&
-      !err?.response?.data.includes("!DOCTYPE")
-    ) {
-      Swal.fire({
+    if (err?.response && err?.response?.data) {
+      let errors = "";
+      err.response.data.errors.map((error) => {
+        errors += error.message + "<br />";
+      });
+
+      return Swal.fire({
         icon: "error",
-        text: err.response.data,
+        html: errors,
         showConfirmButton: false,
-        timer: 2500,
+        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
       });
     }
+
+    Swal.fire({
+      icon: "error",
+      text: "Algo deu errado. Tente novamente",
+      showConfirmButton: false,
+      timer: 2500,
+    });
   } finally {
     isLoading.value = false;
   }
@@ -327,18 +351,26 @@ const getSaleById = async () => {
     inputSearchProduct.value = data.product.description;
     quantityProduct.value = data.productQuantity;
   } catch (err) {
-    if (
-      err?.response &&
-      err?.response?.data &&
-      !err?.response?.data.includes("!DOCTYPE")
-    ) {
-      Swal.fire({
+    if (err?.response && err?.response?.data) {
+      let errors = "";
+      err.response.data.errors.map((error) => {
+        errors += error.message + "<br />";
+      });
+
+      return Swal.fire({
         icon: "error",
-        text: err.response.data,
+        html: errors,
         showConfirmButton: false,
-        timer: 2500,
+        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
       });
     }
+
+    Swal.fire({
+      icon: "error",
+      text: "Algo deu errado. Tente novamente",
+      showConfirmButton: false,
+      timer: 2500,
+    });
   } finally {
     isLoading.value = false;
   }

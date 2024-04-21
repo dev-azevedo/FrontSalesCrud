@@ -14,6 +14,7 @@
           <th scope="col">Valor do produto</th>
           <th scope="col">Quantidade pedidos</th>
           <th scope="col">Total</th>
+          <th scope="col">Data e hora da venda</th>
           <th scope="col">Editar</th>
           <th scope="col">Deletar</th>
         </tr>
@@ -34,9 +35,10 @@
           <th scope="row">{{ index + 1 }}</th>
           <td>{{ sale.client.name }}</td>
           <td>{{ sale.product.description }}</td>
-          <td>{{ formatMoney(sale.product.unitaryValue) }}</td>
+          <td>{{ formatMoneyPtBr(sale.product.unitaryValue) }}</td>
           <td>{{ sale.productQuantity }}</td>
-          <td>{{ formatMoney(sale.valueSale) }}</td>
+          <td>{{ formatMoneyPtBr(sale.valueSale) }}</td>
+          <td>{{ FormatDateTimePtBr(sale.createdOn) }}</td>
           <td>
             <button
               type="button"
@@ -68,7 +70,7 @@ import api from "@/services/Api.js";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-import { formatMoney } from "@/services/Helper";
+import { formatMoneyPtBr, FormatDateTimePtBr } from "@/services/Helper";
 
 const router = useRouter();
 const sales = ref([]);
@@ -93,21 +95,29 @@ const getSales = async () => {
     const { data } = await api.get("/sale/");
     if (data) {
       sales.value = data;
+      console.log(sales.value);
     }
   } catch (err) {
-    console.log(err);
-    if (
-      err?.response &&
-      err?.response?.data &&
-      !err?.response?.data.includes("!DOCTYPE")
-    ) {
-      Swal.fire({
+    if (err?.response && err?.response?.data) {
+      let errors = "";
+      err.response.data.errors.map((error) => {
+        errors += error.message + "<br />";
+      });
+
+      return Swal.fire({
         icon: "error",
-        text: err.response.data,
+        html: errors,
         showConfirmButton: false,
-        timer: 2500,
+        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
       });
     }
+
+    Swal.fire({
+      icon: "error",
+      text: "Algo deu errado. Tente novamente",
+      showConfirmButton: false,
+      timer: 2500,
+    });
   } finally {
     isLoading.value = false;
   }
