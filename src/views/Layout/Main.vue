@@ -1,8 +1,7 @@
 <template>
   <section>
-    <Menu />
-
-    <div>
+    <Menu></Menu>
+    <div class="mb-5">
       <router-view />
     </div>
   </section>

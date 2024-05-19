@@ -2,6 +2,7 @@
   <section class="container mt-3">
     <BaseHome
       title="Clientes"
+      icon="bi-person"
       placeholder="Busque pelo nome do cliente"
       :newItem="addNewClient"
       :searchItem="getClientByName"
@@ -11,19 +12,18 @@
           <th scope="col">#</th>
           <th scope="col">Nome</th>
           <th scope="col">Cidade</th>
-          <th scope="col">Editar</th>
-          <th scope="col">Deletar</th>
+          <th scope="col"></th>
         </tr>
       </template>
       <template v-slot:tbody>
         <tr v-if="isLoading">
-          <td colspan="5">
+          <td colspan="5" class="p-5">
             buscando...
             <div class="spinner-border spinner-border-sm" role="status"></div>
           </td>
         </tr>
         <tr v-else-if="clients.length == 0">
-          <td colspan="5">
+          <td colspan="5" class="p-5 text-danger">
             <i class="bi bi-x-circle"></i> Nenhum cliente cadastrado
           </td>
         </tr>
@@ -34,44 +34,31 @@
           <td>
             <button
               type="button"
-              class="btn btn-sm btn-warning"
+              class="btn border-end fw-bold text-warning"
               @click="updateClient(client.id)"
             >
-              <i class="bi bi-pencil-square"></i>
+              <i class="bi bi-pencil-square"></i> Editar
             </button>
-          </td>
-          <td>
             <button
               type="button"
-              class="btn btn-sm btn-danger"
+              class="btn text-danger fw-bold"
               @click="deleteClient(client.id)"
             >
-              <i class="bi bi-trash"></i>
+              <i class="bi bi-trash"></i> Deletar
             </button>
           </td>
         </tr>
       </template>
     </BaseHome>
 
-    <div class="d-flex justify-content-between align-items-center">
-      <Pagination
-        :pageNumber="pageNumber"
-        :totalPages="totalPages"
-        @changePage="pageNumber = $event"
-      />
-
-      <div class="">Total de produtos: {{ totalItems }}</div>
-
-      <select
-        class="form-control shadow-none"
-        style="width: 60px !important"
-        v-model="pageSize"
-      >
-        <option :value="10">10</option>
-        <option :value="20">20</option>
-        <option :value="50">50</option>
-      </select>
-    </div>
+    <Pagination
+      v-if="clients.length > 0 && totalPages > 1"
+      :pageNumber="pageNumber"
+      :totalPages="totalPages"
+      :totalItems="totalItems"
+      @changePageNumber="pageNumber = $event"
+      @changePageSize="pageSize = $event"
+    />
   </section>
 </template>
 

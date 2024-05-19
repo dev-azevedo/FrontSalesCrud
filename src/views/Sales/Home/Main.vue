@@ -2,81 +2,110 @@
   <section class="container mt-3">
     <BaseHome
       title="Vendas"
+      icon="bi-basket"
       placeholder="Busque pelo nome do cliente ou descrição do produto"
       :newItem="addNewSale"
       :searchItem="getClientOrProductByName"
     >
       <template v-slot:thead>
-        <tr>
-          <th scope="col">#</th>
+        <tr class="text-start">
           <th scope="col">Cliente</th>
           <th scope="col">Produto</th>
-          <th scope="col">Valor do produto</th>
           <th scope="col">Quantidade pedidos</th>
-          <th scope="col">Total</th>
+          <th scope="col">Preço</th>
           <th scope="col">Data e hora da venda</th>
-          <th scope="col">Editar</th>
-          <th scope="col">Deletar</th>
+          <th scope="col"></th>
         </tr>
       </template>
       <template v-slot:tbody>
         <tr v-if="isLoading">
-          <td colspan="8">
+          <td colspan="9" class="p-5">
             buscando...
             <div class="spinner-border spinner-border-sm" role="status"></div>
           </td>
         </tr>
         <tr v-else-if="sales.length == 0">
-          <td colspan="6">
+          <td colspan="9" class="p-5 text-danger">
             <i class="bi bi-x-circle"></i> Nenhuma venda cadastrada
           </td>
         </tr>
-        <tr v-else v-for="(sale, index) in sales" :key="sale.id">
-          <th scope="row">{{ index + 1 }}</th>
+        <tr v-else v-for="sale in sales" :key="sale.id" class="text-start">
           <td>{{ sale.client.name }}</td>
           <td>{{ sale.product.description }}</td>
-          <td>{{ formatMoneyPtBr(sale.product.unitaryValue) }}</td>
           <td>{{ sale.productQuantity }}</td>
-          <td>{{ formatMoneyPtBr(sale.valueSale) }}</td>
+          <td class="text-start">
+            <div>
+              <span class="text-secondary fs-6">Valor por unidade: </span>
+              <span class="fs-5">
+                {{ formatMoneyPtBr(sale.product.unitaryValue) }}
+              </span>
+            </div>
+            <div>
+              <span class="text-secondary fs-6"> Valor total: </span>
+              <span class="fs-5">
+                {{ formatMoneyPtBr(sale.valueSale) }}
+              </span>
+            </div>
+          </td>
           <td>{{ FormatDateTimePtBr(sale.createdOn) }}</td>
           <td>
             <button
               type="button"
-              class="btn btn-sm btn-warning"
+              class="btn text-warning fw-bold border-end"
               @click="updateSale(sale.id)"
             >
-              <i class="bi bi-pencil-square"></i>
+              <i class="bi bi-pencil-square"></i> Editar
             </button>
-          </td>
-          <td>
             <button
               type="button"
-              class="btn btn-sm btn-danger"
+              class="btn text-danger fw-bold"
               @click="deleteSale(sale.id)"
             >
-              <i class="bi bi-trash"></i>
+              <i class="bi bi-trash"></i> Deletar
             </button>
           </td>
         </tr>
       </template>
     </BaseHome>
-    <div class="d-flex">Total de vendas: {{ sales.length }}</div>
+
+    <Pagination
+      v-if="sales.length > 0 && totalPages > 1"
+      :pageNumber="pageNumber"
+      :totalPages="totalPages"
+      :totalItems="totalItems"
+      @changePageNumber="pageNumber = $event"
+      @changePageSize="pageSize = $event"
+    />
   </section>
 </template>
 
 <script setup>
 import BaseHome from "@/components/BaseHome/Main.vue";
 import api from "@/services/Api.js";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import { formatMoneyPtBr, FormatDateTimePtBr } from "@/services/Helper";
+import Pagination from "@/components/Pagination/Main.vue";
 
 const router = useRouter();
 const sales = ref([]);
+const totalItems = ref(0);
+const totalPages = ref(0);
+const pageNumber = ref(1);
+const pageSize = ref(10);
 const isLoading = ref(false);
 
 onMounted(() => {
+  getSales();
+});
+
+watch(pageNumber, () => {
+  getSales();
+});
+
+watch(pageSize, () => {
+  pageNumber.value = 1;
   getSales();
 });
 
@@ -92,9 +121,14 @@ const getSales = async () => {
   try {
     isLoading.value = true;
     sales.value = [];
-    const { data } = await api.get("/sale/");
+    const { data } = await api.get(
+      `/sale?pageNumber=${pageNumber.value}&pageSize=${pageSize.value}`
+    );
     if (data) {
-      sales.value = data;
+      totalItems.value = data.totalItems;
+      totalPages.value = data.totalPages;
+      pageNumber.value = data.pageNumber;
+      sales.value = data.items;
       console.log(sales.value);
     }
   } catch (err) {

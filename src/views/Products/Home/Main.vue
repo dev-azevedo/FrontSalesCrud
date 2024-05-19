@@ -2,6 +2,7 @@
   <section class="container mt-3">
     <BaseHome
       title="Produto"
+      icon="bi-box-seam"
       placeholder="Busque pelo nome do produto"
       :newItem="addNewProduct"
       :searchItem="getProductByDescription"
@@ -11,8 +12,7 @@
           <th scope="col">#</th>
           <th scope="col">Descrição</th>
           <th scope="col">Preço</th>
-          <th scope="col">Editar</th>
-          <th scope="col">Deletar</th>
+          <th scope="col"></th>
         </tr>
       </template>
       <template v-slot:tbody>
@@ -34,43 +34,31 @@
           <td>
             <button
               type="button"
-              class="btn btn-sm btn-warning"
+              class="btn text-warning fw-bold border-end"
               @click="updateProduct(product.id)"
             >
-              <i class="bi bi-pencil-square"></i>
+              <i class="bi bi-pencil-square"></i> Editar
             </button>
-          </td>
-          <td>
             <button
               type="button"
-              class="btn btn-sm btn-danger"
+              class="btn text-danger fw-bold"
               @click="deleteProduct(product.id)"
             >
-              <i class="bi bi-trash"></i>
+              <i class="bi bi-trash"></i> Deletar
             </button>
           </td>
         </tr>
       </template>
     </BaseHome>
-    <div class="d-flex justify-content-between align-items-center">
-      <Pagination
-        :pageNumber="pageNumber"
-        :totalPages="totalPages"
-        @changePage="pageNumber = $event"
-      />
 
-      <div class="">Total de produtos: {{ totalItems }}</div>
-
-      <select
-        class="form-control shadow-none"
-        style="width: 60px !important"
-        v-model="pageSize"
-      >
-        <option :value="10">10</option>
-        <option :value="20">20</option>
-        <option :value="50">50</option>
-      </select>
-    </div>
+    <Pagination
+      v-if="products.length > 0 && totalPages > 1"
+      :pageNumber="pageNumber"
+      :totalPages="totalPages"
+      :totalItems="totalItems"
+      @changePageNumber="pageNumber = $event"
+      @changePageSize="pageSize = $event"
+    />
   </section>
 </template>
 
@@ -95,7 +83,7 @@ onMounted(() => {
   getProducts();
 });
 
-watch(pageSize, () => {
+watch(pageNumber, () => {
   getProducts();
 });
 

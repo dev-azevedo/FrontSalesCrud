@@ -3,7 +3,9 @@
     <div
       class="w-100 mt-5 text-start d-flex justify-content-between align-items-center"
     >
-      <h1 class="w-50">{{ props.title }}</h1>
+      <h1 class="w-50">
+        <i :class="['bi', props.icon]"></i> {{ props.title }}
+      </h1>
 
       <div class="w-50 d-flex align-items-center justify-content-end gap-1">
         <input
@@ -27,7 +29,7 @@
       </button>
     </div>
 
-    <table class="table table-striped mt-2 max-w-auto overflow-auto">
+    <table class="table mt-2 max-w-auto overflow-auto">
       <thead>
         <slot name="thead"></slot>
       </thead>
@@ -41,7 +43,13 @@
 <script setup>
 import { defineProps, ref } from "vue";
 
-const props = defineProps(["title", "placeholder", "newItem", "searchItem"]);
+const props = defineProps([
+  "title",
+  "placeholder",
+  "newItem",
+  "searchItem",
+  "icon",
+]);
 const search = ref("");
 </script>
 
