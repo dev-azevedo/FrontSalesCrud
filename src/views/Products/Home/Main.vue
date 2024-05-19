@@ -95,7 +95,12 @@ onMounted(() => {
   getProducts();
 });
 
-watch([pageNumber, pageSize], () => {
+watch(pageSize, () => {
+  getProducts();
+});
+
+watch(pageSize, () => {
+  pageNumber.value = 1;
   getProducts();
 });
 

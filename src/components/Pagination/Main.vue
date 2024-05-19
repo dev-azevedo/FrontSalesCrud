@@ -1,5 +1,5 @@
 <template>
-  <nav aria-label="Page navigation example">
+  <nav>
     <ul class="pagination">
       <li
         v-show="props.pageNumber > 1"

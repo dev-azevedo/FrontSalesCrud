@@ -52,22 +52,55 @@
         </tr>
       </template>
     </BaseHome>
-    <div class="d-flex">Total de clientes: {{ clients.length }}</div>
+
+    <div class="d-flex justify-content-between align-items-center">
+      <Pagination
+        :pageNumber="pageNumber"
+        :totalPages="totalPages"
+        @changePage="pageNumber = $event"
+      />
+
+      <div class="">Total de produtos: {{ totalItems }}</div>
+
+      <select
+        class="form-control shadow-none"
+        style="width: 60px !important"
+        v-model="pageSize"
+      >
+        <option :value="10">10</option>
+        <option :value="20">20</option>
+        <option :value="50">50</option>
+      </select>
+    </div>
   </section>
 </template>
 
 <script setup>
 import BaseHome from "@/components/BaseHome/Main.vue";
 import api from "@/services/Api.js";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
+import Pagination from "@/components/Pagination/Main.vue";
 
 const router = useRouter();
 const clients = ref([]);
+const totalItems = ref(0);
+const totalPages = ref(0);
+const pageNumber = ref(1);
+const pageSize = ref(10);
 const isLoading = ref(false);
 
 onMounted(() => {
+  getClients();
+});
+
+watch(pageNumber, () => {
+  getClients();
+});
+
+watch(pageSize, () => {
+  pageNumber.value = 1;
   getClients();
 });
 
@@ -107,8 +140,15 @@ const getClients = async () => {
   try {
     isLoading.value = true;
     clients.value = [];
-    const { data } = await api.get("/client/");
-    if (data) clients.value = data;
+    const { data } = await api.get(
+      `/client?pageNumber=${pageNumber.value}&pageSize=${pageSize.value}`
+    );
+    if (data) {
+      totalItems.value = data.totalItems;
+      totalPages.value = data.totalPages;
+      pageNumber.value = data.pageNumber;
+      clients.value = data.items;
+    }
   } catch (err) {
     if (err?.response && err?.response?.data) {
       let errors = "";
