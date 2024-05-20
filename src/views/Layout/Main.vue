@@ -1,7 +1,7 @@
 <template>
-  <section>
-    <Menu></Menu>
-    <div class="mb-5">
+  <section class="flex h-screen">
+    <Menu class="w-1/6"></Menu>
+    <div class="w-5/6">
       <router-view />
     </div>
   </section>

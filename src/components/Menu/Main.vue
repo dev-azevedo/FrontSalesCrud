@@ -1,67 +1,57 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <router-link to="/" class="navbar-brand me-5 fs-2 text-orange"
-        >SalesCrud</router-link
-      >
-
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <router-link
-              to="/"
-              exactActiveClass="text-orange fw-bold"
-              class="nav-link"
-              >Vendas</router-link
-            >
-          </li>
-          <li class="nav-item">
-            <router-link
-              to="/clientes"
-              exactActiveClass="text-orange fw-bold"
-              class="nav-link"
-              >Clientes</router-link
-            >
-          </li>
-          <li class="nav-item">
-            <router-link
-              to="/produtos"
-              exactActiveClass="text-orange fw-bold"
-              class="nav-link"
-              >Produtos</router-link
-            >
-          </li>
-        </ul>
-        <div
-          class="text-light d-flex align-items-center justify-content-center gap-2"
+  <nav class="w-full bg-slate-900 flex flex-col items-center">
+    <router-link
+      to="/"
+      class="text-slate-900 text-4xl p-20 w-full flex items-center justify-center bg-red-600"
+      >SalesCrud</router-link
+    >
+    <ul class="text-white mt-10 text-lg w-full px-2">
+      <li class="border-b pt-5">
+        <router-link
+          to="/"
+          exactActiveClass="text-red-600 font-bold"
+          class="pl-5 hover:opacity-50 transition ease duration-300"
+          ><i class="bi bi-basket"></i> Vendas</router-link
         >
-          Jhonatan Azevedo
-          <a
-            href="https://www.linkedin.com/in/dev-azevedo/"
-            class="text-light fs-2"
-            target="_blank"
-          >
-            <i class="bi bi-linkedin mx-2 link-redes"></i
-          ></a>
-          <a
-            href="https://github.com/dev-azevedo"
-            class="text-light fs-2"
-            target="_blank"
-          >
-            <i class="bi bi-github link-redes"></i
-          ></a>
-        </div>
+      </li>
+      <li class="border-b pt-5">
+        <router-link
+          to="/clientes"
+          exactActiveClass="text-red-600 font-bold"
+          class="pl-5 hover:opacity-50 transition ease duration-300"
+          ><i class="bi bi-person"></i> Clientes</router-link
+        >
+      </li>
+      <li class="border-b pt-5">
+        <router-link
+          to="/produtos"
+          exactActiveClass="text-red-600 font-bold"
+          class="pl-5 hover:opacity-50 transition ease duration-300"
+          ><i class="bi bi-box-seam"></i> Produtos</router-link
+        >
+      </li>
+    </ul>
+    <div class="flex-col items-center justify-center gap-2 mt-10">
+      <span class="text-xl text-white"> Jhonatan Azevedo </span>
+      <div class="text-center">
+        <a
+          href="https://www.linkedin.com/in/dev-azevedo/"
+          class="text-light fs-2"
+          target="_blank"
+        >
+          <i
+            class="bi bi-linkedin mx-2 text-white text-lg hover:text-red-600 transition ease duration-300"
+          ></i
+        ></a>
+        <a
+          href="https://github.com/dev-azevedo"
+          class="text-light fs-2"
+          target="_blank"
+        >
+          <i
+            class="bi bi-github text-white text-lg hover:text-red-600 transition ease duration-300"
+          ></i
+        ></a>
       </div>
     </div>
   </nav>

@@ -3,15 +3,11 @@
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-.cursor-pointer {
-  cursor: pointer !important;
-}
+/* slate-900 */
+/* amber-500 */
+/* rose-500 */
+/* amber-200 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 </style>
