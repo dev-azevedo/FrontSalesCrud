@@ -1,17 +1,17 @@
 <template>
-  <div class="w-100 d-flex justify-content-between align-items-center">
+  <div class="w-100 flex justify-between items-center px-10 mt-5">
     <nav>
-      <ul class="pagination">
+      <ul class="flex">
         <li
           v-show="props.pageNumber > 1"
-          class="page-item btn shadow-lg me-1"
+          class="p-2 bg-white rounded-md shadow-lg me-1 cursor-pointer"
           @click="firstPage()"
         >
           <i class="bi bi-chevron-double-left"></i>
         </li>
         <li
           v-show="props.pageNumber > 1"
-          class="page-item btn shadow-lg me-1"
+          class="p-2 bg-white rounded-md shadow-lg me-1 cursor-pointer"
           @click="backPage()"
         >
           <i class="bi bi-chevron-left"></i>
@@ -19,19 +19,21 @@
 
         <li
           v-show="props.pageNumber > 1"
-          class="page-item btn shadow-lg me-1"
+          class="p-2 bg-white rounded-md shadow-lg me-1 cursor-pointer"
           @click="backPage()"
         >
           {{ props.pageNumber - 1 }}
         </li>
 
-        <li class="page-item btn shadow-lg me-1 text-warning fw-bold">
+        <li
+          class="p-2 bg-white rounded-md shadow-lg me-1 cursor-pointer text-emerald-400 font-bold"
+        >
           {{ props.pageNumber }}
         </li>
 
         <li
           v-show="props.pageNumber < props.totalPages"
-          class="page-item btn shadow-lg me-1"
+          class="p-2 bg-white rounded-md shadow-lg me-1 cursor-pointer"
           @click="nextPage()"
         >
           {{ props.pageNumber + 1 }}
@@ -39,7 +41,7 @@
 
         <li
           v-show="props.pageNumber < props.totalPages"
-          class="page-item btn shadow-lg me-1"
+          class="p-2 bg-white rounded-md shadow-lg me-1 cursor-pointer"
           @click="nextPage()"
         >
           <i class="bi bi-chevron-right"></i>
@@ -47,7 +49,7 @@
 
         <li
           v-show="props.pageNumber < props.totalPages"
-          class="page-item btn shadow-lg me-1"
+          class="p-2 bg-white rounded-md shadow-lg me-1 cursor-pointer"
           @click="lastPage()"
         >
           <i class="bi bi-chevron-double-right"></i>
@@ -58,7 +60,7 @@
     <div class="">Total de items: {{ props.totalItems }}</div>
 
     <select
-      class="form-control shadow-none"
+      class="bg-white rounded-md p-1 cursor-pointer"
       style="width: 60px !important"
       v-model="pageSize"
       @change="changePageSize()"
@@ -73,7 +75,7 @@
 <script setup>
 import { defineProps, defineEmits, ref } from "vue";
 
-const pageSize = ref(10);
+const pageSize = ref(null);
 
 const props = defineProps(["pageNumber", "totalPages", "totalItems"]);
 const emits = defineEmits(["changePageNumber", "changePageSize"]);

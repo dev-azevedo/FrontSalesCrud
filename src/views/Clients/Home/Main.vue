@@ -7,47 +7,55 @@
       :newItem="addNewClient"
       :searchItem="getClientByName"
     >
-      <template v-slot:thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Cidade</th>
-          <th scope="col"></th>
-        </tr>
-      </template>
-      <template v-slot:tbody>
-        <tr v-if="isLoading">
-          <td colspan="5" class="p-5">
-            buscando...
-            <div class="spinner-border spinner-border-sm" role="status"></div>
-          </td>
-        </tr>
-        <tr v-else-if="clients.length == 0">
-          <td colspan="5" class="p-5 text-danger">
-            <i class="bi bi-x-circle"></i> Nenhum cliente cadastrado
-          </td>
-        </tr>
-        <tr v-else v-for="(client, index) in clients" :key="client.id">
-          <th scope="row">{{ index + 1 }}</th>
-          <td>{{ client.name }}</td>
-          <td>{{ client.city }}</td>
-          <td>
+      <template v-slot:lista>
+        <div
+          v-if="isLoading"
+          class="bg-white p-2 mb-3 flex justify-center items-center"
+        >
+          buscando...
+        </div>
+        <div
+          v-else-if="clients.length == 0"
+          class="w-full bg-white p-2 mb-3 flex justify-center items-center"
+        >
+          <i class="bi bi-x-circle"></i> Nenhum cliente cadastrado
+        </div>
+
+        <div
+          v-else
+          v-for="client in clients"
+          :key="client.id"
+          class="rounded-md bg-white p-2 mb-3 flex justify-between items-center border-l-8 border-slate-500 font-normal"
+        >
+          <div class="w-1/3 truncate cursor-pointer" :title="client.name">
+            <span class="text-sm text-slate-500">Nome: </span>
+            <span>
+              {{ client.name }}
+            </span>
+          </div>
+          <div class="w-1/3 flex justify-center">
+            <span class="text-sm text-slate-500">Cidade: </span>
+            <span>
+              {{ client.city }}
+            </span>
+          </div>
+          <div class="w-1/3 flex justify-end">
             <button
               type="button"
-              class="btn border-end fw-bold text-warning"
+              class="text-yellow-500 pe-2 border-e me-2"
               @click="updateClient(client.id)"
             >
               <i class="bi bi-pencil-square"></i> Editar
             </button>
             <button
               type="button"
-              class="btn text-danger fw-bold"
+              class="text-red-600 me-2"
               @click="deleteClient(client.id)"
             >
               <i class="bi bi-trash"></i> Deletar
             </button>
-          </td>
-        </tr>
+          </div>
+        </div>
       </template>
     </BaseHome>
 

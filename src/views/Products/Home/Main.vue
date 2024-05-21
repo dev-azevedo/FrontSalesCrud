@@ -7,47 +7,58 @@
       :newItem="addNewProduct"
       :searchItem="getProductByDescription"
     >
-      <template v-slot:thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Descrição</th>
-          <th scope="col">Preço</th>
-          <th scope="col"></th>
-        </tr>
-      </template>
-      <template v-slot:tbody>
-        <tr v-if="isLoading">
-          <td colspan="5">
-            buscando...
-            <div class="spinner-border spinner-border-sm" role="status"></div>
-          </td>
-        </tr>
-        <tr v-else-if="products.length == 0">
-          <td colspan="5">
-            <i class="bi bi-x-circle"></i> Nenhuma produto cadastrado
-          </td>
-        </tr>
-        <tr v-else v-for="(product, index) in products" :key="product.id">
-          <th scope="row">{{ index + 1 }}</th>
-          <td>{{ product.description }}</td>
-          <td>{{ formatMoneyPtBr(product.unitaryValue) }}</td>
-          <td>
+      <template v-slot:lista>
+        <div
+          v-if="isLoading"
+          class="bg-white p-2 mb-3 flex justify-center items-center"
+        >
+          buscando...
+        </div>
+        <div
+          v-else-if="products.length == 0"
+          class="w-full bg-white p-2 mb-3 flex justify-center items-center"
+        >
+          <i class="bi bi-x-circle"></i> Nenhum produto cadastrado
+        </div>
+
+        <div
+          v-else
+          v-for="product in products"
+          :key="product.id"
+          class="rounded-md bg-white p-2 mb-3 flex justify-between items-center border-l-8 border-slate-500 font-normal"
+        >
+          <div
+            class="w-1/3 truncate cursor-pointer"
+            :title="product.description"
+          >
+            <span class="text-sm text-slate-500">Descrição: </span>
+            <span>
+              {{ product.description }}
+            </span>
+          </div>
+          <div class="w-1/3 flex justify-center">
+            <span class="text-sm text-slate-500">Preço: </span>
+            <span>
+              {{ formatMoneyPtBr(product.unitaryValue) }}
+            </span>
+          </div>
+          <div class="w-1/3 flex justify-end">
             <button
               type="button"
-              class="btn text-warning fw-bold border-end"
+              class="text-yellow-500 pe-2 border-e me-2"
               @click="updateProduct(product.id)"
             >
               <i class="bi bi-pencil-square"></i> Editar
             </button>
             <button
               type="button"
-              class="btn text-danger fw-bold"
+              class="text-red-600 me-2"
               @click="deleteProduct(product.id)"
             >
               <i class="bi bi-trash"></i> Deletar
             </button>
-          </td>
-        </tr>
+          </div>
+        </div>
       </template>
     </BaseHome>
 

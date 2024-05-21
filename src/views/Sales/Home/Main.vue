@@ -7,64 +7,81 @@
       :newItem="addNewSale"
       :searchItem="getClientOrProductByName"
     >
-      <template v-slot:thead>
-        <tr class="text-start">
-          <th scope="col">Cliente</th>
-          <th scope="col">Produto</th>
-          <th scope="col">Quantidade pedidos</th>
-          <th scope="col">Preço</th>
-          <th scope="col">Data e hora da venda</th>
-          <th scope="col"></th>
-        </tr>
-      </template>
-      <template v-slot:tbody>
-        <tr v-if="isLoading">
-          <td colspan="9" class="p-5">
-            buscando...
-            <div class="spinner-border spinner-border-sm" role="status"></div>
-          </td>
-        </tr>
-        <tr v-else-if="sales.length == 0">
-          <td colspan="9" class="p-5 text-danger">
-            <i class="bi bi-x-circle"></i> Nenhuma venda cadastrada
-          </td>
-        </tr>
-        <tr v-else v-for="sale in sales" :key="sale.id" class="text-start">
-          <td>{{ sale.client.name }}</td>
-          <td>{{ sale.product.description }}</td>
-          <td>{{ sale.productQuantity }}</td>
-          <td class="text-start">
+      <template v-slot:lista>
+        <div
+          v-if="isLoading"
+          class="w-full bg-white p-2 mb-3 flex justify-center items-center"
+        >
+          buscando...
+        </div>
+        <div
+          v-else-if="sales.length == 0"
+          class="w-full bg-white p-2 mb-3 flex justify-center items-center"
+        >
+          <i class="bi bi-x-circle"></i> Nenhuma venda cadastrado
+        </div>
+
+        <div
+          v-else
+          v-for="sale in sales"
+          :key="sale.id"
+          class="rounded-md bg-white p-2 mb-3 flex justify-between items-center border-l-8 border-slate-500 font-normal"
+        >
+          <div>
+            <span class="text-sm text-slate-500">Cliente: </span>
+            <span>
+              {{ sale.client.name }}
+            </span>
+          </div>
+          <div>
             <div>
-              <span class="text-secondary fs-6">Valor por unidade: </span>
+              <span class="text-sm text-slate-500">Produto: </span>
+              <span>
+                {{ sale.product.description }}
+              </span>
+            </div>
+            <div>
+              <span class="text-sm text-slate-500">Quantidade: </span>
+              <span>{{ sale.productQuantity }}</span>
+            </div>
+          </div>
+          <div class="text-start">
+            <div>
+              <span class="text-sm text-slate-500">Valor por unidade: </span>
               <span class="fs-5">
                 {{ formatMoneyPtBr(sale.product.unitaryValue) }}
               </span>
             </div>
             <div>
-              <span class="text-secondary fs-6"> Valor total: </span>
+              <span class="text-sm text-slate-500"> Valor total: </span>
               <span class="fs-5">
                 {{ formatMoneyPtBr(sale.valueSale) }}
               </span>
             </div>
-          </td>
-          <td>{{ FormatDateTimePtBr(sale.createdOn) }}</td>
-          <td>
+          </div>
+          <div>
+            <span class="text-sm text-slate-500"> Data da venda: </span>
+            <span>
+              {{ formatDateTimePtBr(sale.createdOn) }}
+            </span>
+          </div>
+          <div>
             <button
               type="button"
-              class="btn text-warning fw-bold border-end"
+              class="text-yellow-500 pe-2 border-e me-2"
               @click="updateSale(sale.id)"
             >
               <i class="bi bi-pencil-square"></i> Editar
             </button>
             <button
               type="button"
-              class="btn text-danger fw-bold"
+              class="text-red-600 me-2"
               @click="deleteSale(sale.id)"
             >
               <i class="bi bi-trash"></i> Deletar
             </button>
-          </td>
-        </tr>
+          </div>
+        </div>
       </template>
     </BaseHome>
 
@@ -85,7 +102,7 @@ import api from "@/services/Api.js";
 import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-import { formatMoneyPtBr, FormatDateTimePtBr } from "@/services/Helper";
+import { formatMoneyPtBr, formatDateTimePtBr } from "@/services/Helper";
 import Pagination from "@/components/Pagination/Main.vue";
 
 const router = useRouter();

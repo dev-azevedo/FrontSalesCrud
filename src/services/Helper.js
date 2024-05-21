@@ -2,7 +2,7 @@ export const formatMoneyPtBr = (money) => {
   return money.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 };
 
-export const FormatDateTimePtBr = (dateTime) => {
+export const formatDateTimePtBr = (dateTime) => {
   var data = new Date(dateTime);
 
   var dataFormatada = data.toLocaleString("pt-BR", {
