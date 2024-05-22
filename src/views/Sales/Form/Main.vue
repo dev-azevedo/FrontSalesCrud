@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="w-full">
     <BaseForm
       :title="titlePage"
       :register="registerSale"
@@ -98,10 +98,11 @@ import { computed, onMounted, reactive, ref, watch } from "vue";
 import BaseForm from "@/components/BaseForm/Main.vue";
 import api from "@/services/Api";
 import Swal from "sweetalert2";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { formatMoneyPtBr } from "@/services/Helper";
 
 const route = useRoute();
+const router = useRouter();
 const idUpdate = computed(() => route.params.id);
 const isLoading = ref(false);
 
@@ -258,6 +259,8 @@ const registerSale = async () => {
       product.description = "";
       product.unitaryValue = "";
       quantityProduct.value = 0;
+
+      router.back();
     }
   } catch (err) {
     if (
@@ -303,6 +306,8 @@ const updateSale = async () => {
       inputSearchClient.value = "";
       inputSearchProduct.value = "";
       quantityProduct.value = 0;
+
+      router.back();
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {

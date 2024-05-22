@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="w-full">
     <BaseForm
       :title="titlePage"
       :register="registerClient"
@@ -39,9 +39,10 @@ import { computed, onMounted, ref } from "vue";
 import BaseForm from "@/components/BaseForm/Main.vue";
 import api from "@/services/Api";
 import Swal from "sweetalert2";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
+const router = useRouter();
 const idUpdate = computed(() => route.params.id);
 const isLoading = ref(false);
 const name = ref("");
@@ -77,6 +78,8 @@ const registerClient = async () => {
 
       name.value = "";
       city.value = "";
+
+      router.back();
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
@@ -124,6 +127,8 @@ const updateClient = async () => {
 
       name.value = "";
       city.value = "";
+
+      router.back();
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {

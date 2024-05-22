@@ -11,6 +11,14 @@
           to="/"
           exactActiveClass="text-emerald-400 font-bold"
           class="pl-5 hover:opacity-50 transition ease duration-300"
+          ><i class="bi bi-basket"></i> Dashboard</router-link
+        >
+      </li>
+      <li class="border-b pt-5">
+        <router-link
+          to="/vendas"
+          exactActiveClass="text-emerald-400 font-bold"
+          class="pl-5 hover:opacity-50 transition ease duration-300"
           ><i class="bi bi-basket"></i> Vendas</router-link
         >
       </li>

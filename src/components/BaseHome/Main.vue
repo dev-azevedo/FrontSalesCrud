@@ -31,15 +31,6 @@
     <hr class="border-b mt-5 w-fill" />
 
     <div class="px-10 flex-col justify-center mt-10">
-      <table>
-        <thead>
-          <slot name="thead"></slot>
-        </thead>
-        <tbody class="bg-white">
-          <slot name="tbody"></slot>
-        </tbody>
-      </table>
-
       <slot name="lista"></slot>
     </div>
   </section>

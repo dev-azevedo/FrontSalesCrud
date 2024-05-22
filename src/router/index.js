@@ -9,15 +9,20 @@ const routes = [
     children: [
       {
         path: "/",
+        name: "dashboard",
+        component: () => import("@/views/Dashboard/Main.vue"),
+      },
+      {
+        path: "/vendas",
         name: "sales",
         component: () =>
-          import(/* webpackChunkName: "sales" */ "../views/Sales/Main.vue"),
+          import(/* webpackChunkName: "sales" */ "@/views/Sales/Main.vue"),
         children: [
           {
             path: "",
             name: "homeSales",
             component: import(
-              /* webpackChunkName: "sales" */ "../views/Sales/Home/Main.vue"
+              /* webpackChunkName: "sales" */ "@/views/Sales/Home/Main.vue"
             ),
           },
           {
@@ -25,7 +30,7 @@ const routes = [
             name: "formSales",
             component: () =>
               import(
-                /* webpackChunkName: "sales" */ "../views/Sales/Form/Main.vue"
+                /* webpackChunkName: "sales" */ "@/views/Sales/Form/Main.vue"
               ),
           },
         ],
@@ -34,13 +39,13 @@ const routes = [
         path: "/clientes",
         name: "clients",
         component: () =>
-          import(/* webpackChunkName: "client" */ "../views/Clients/Main.vue"),
+          import(/* webpackChunkName: "client" */ "@/views/Clients/Main.vue"),
         children: [
           {
             path: "",
             name: "homeClients",
             component: import(
-              /* webpackChunkName: "client" */ "../views/Clients/Home/Main.vue"
+              /* webpackChunkName: "client" */ "@/views/Clients/Home/Main.vue"
             ),
           },
           {
@@ -48,7 +53,7 @@ const routes = [
             name: "formClients",
             component: () =>
               import(
-                /* webpackChunkName: "client" */ "../views/Clients/Form/Main.vue"
+                /* webpackChunkName: "client" */ "@/views/Clients/Form/Main.vue"
               ),
           },
         ],
@@ -57,16 +62,14 @@ const routes = [
         path: "/produtos",
         name: "products",
         component: () =>
-          import(
-            /* webpackChunkName: "product" */ "../views/Products/Main.vue"
-          ),
+          import(/* webpackChunkName: "product" */ "@/views/Products/Main.vue"),
         children: [
           {
             path: "",
             name: "homeProducts",
             component: () =>
               import(
-                /* webpackChunkName: "product" */ "../views/Products/Home/Main.vue"
+                /* webpackChunkName: "product" */ "@/views/Products/Home/Main.vue"
               ),
           },
           {
@@ -74,7 +77,7 @@ const routes = [
             name: "formProducts",
             component: () =>
               import(
-                /* webpackChunkName: "product" */ "../views/Products/Form/Main.vue"
+                /* webpackChunkName: "product" */ "@/views/Products/Form/Main.vue"
               ),
           },
         ],
