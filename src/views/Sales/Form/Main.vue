@@ -8,24 +8,23 @@
       :loadingRequest="isLoading"
     >
       <template v-slot:form>
-        <div
-          class="d-flex flex-column justify-content-start align-items-start position-relative"
-        >
+        <div class="flex flex-col justify-start items-start mt-5 relative">
           <label for="" class="test-start">Cliente</label>
           <input
             type="text"
-            class="form-control shadow-none"
+            class="w-full p-2 rounded-md outline-0"
             placeholder="Informe o nome do cliente"
             v-model="inputSearchClient"
             :disabled="isLoading"
           />
           <div
-            class="bg-secondary w-100 position-absolute top-100 rounded-bottom pb-1"
+            class="bg-slate-500 w-full absolute top-16 rounded-b p-2"
             style="z-index: 1000"
             v-if="showSugestClients"
           >
+            <!-- v-if="" -->
             <div
-              class="text-start w-100 cursor-pointer p-2 text-white bg-secondary border-bottom border-white"
+              class="text-start w-full cursor-pointer p-2 text-white border-b border-white"
               v-for="client in clients"
               :key="client.id"
               @click="selectClient(client)"
@@ -35,25 +34,23 @@
           </div>
         </div>
 
-        <div
-          class="d-flex flex-column justify-content-start align-items-start position-relative mt-3"
-        >
+        <div class="flex flex-col justify-start items-start mt-5 relative">
           <label for="" class="test-start">Produto</label>
           <input
             type="text"
-            class="form-control"
+            class="w-full p-2 rounded-md outline-0"
             placeholder="Informe o nome do produto"
             v-model="inputSearchProduct"
             :disabled="isLoading"
           />
 
           <div
-            class="bg-secondary w-100 position-absolute top-100 rounded-bottom pb-1"
+            class="bg-slate-500 w-full absolute top-16 rounded-b p-2"
             style="z-index: 1000"
             v-if="showSugestProducts"
           >
             <div
-              class="text-start w-100 cursor-pointer p-2 text-white bg-secondary border-bottom border-white"
+              class="text-start w-full cursor-pointer p-2 text-white border-b border-white"
               v-for="product in products"
               :key="product.id"
               @click="selectProduct(product)"
@@ -64,35 +61,29 @@
           </div>
         </div>
         <div
-          class="w-100 d-flex flex-column justify-content-start align-items-start mt-3"
+          class="w-100 flex flex-col justify-start items-start mt-5"
+          v-show="product.unitaryValue"
         >
           <label for="" class="test-start">Valor do produto</label>
-          <div class="form-control p-1 text-start">
-            <div v-if="!product.unitaryValue" class="text-secondary px-2 py-1">
-              Valor do produto...
-            </div>
-            <div v-else class="px-2 py-1">
+          <div class="w-full bg-white p-2 rounded-md outline-0 text-start">
+            <div>
               {{ formatMoneyPtBr(product.unitaryValue) }}
             </div>
           </div>
         </div>
 
-        <div
-          class="w-100 d-flex flex-column justify-content-start align-items-start mt-3"
-        >
+        <div class="w-100 flex flex-col justify-start items-start mt-5">
           <label for="" class="test-start">Quantidade</label>
           <input
             type="number"
-            class="form-control"
+            class="w-full p-2 rounded-md outline-0"
             placeholder="Informe a quantidade de produto"
             v-model="quantityProduct"
             :disabled="isLoading"
           />
         </div>
 
-        <div
-          class="w-100 d-flex flex-column justify-content-start align-items-start mt-3"
-        >
+        <div class="w-100 flex flex-col justify-start items-start mt-5">
           <label for="" class="test-start"
             >Total: {{ formatMoneyPtBr(totalSale) }}</label
           >

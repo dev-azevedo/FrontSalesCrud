@@ -1,5 +1,5 @@
 <template>
-  <section class="container mt-3">
+  <section class="mt-5 font-medium">
     <div class="w-full mt-5 text-start flex justify-between items-center px-10">
       <h1 class="w-1/2 text-2xl font-semibold text-slate-900">
         <i :class="['bi', props.icon]"></i> {{ props.title }}

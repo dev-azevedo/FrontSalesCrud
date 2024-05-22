@@ -8,24 +8,22 @@
       :loadingRequest="isLoading"
     >
       <template v-slot:form>
-        <div class="d-flex flex-column justify-content-start align-items-start">
+        <div class="flex flex-col justify-start items-start">
           <label for="" class="test-start">Nome</label>
           <input
             type="text"
-            class="form-control"
+            class="w-full p-2 rounded-md outline-0"
             placeholder="Informe o nome do cliente"
             v-model="name"
             :disabled="isLoading"
           />
         </div>
 
-        <div
-          class="d-flex flex-column justify-content-start align-items-start mt-3"
-        >
+        <div class="flex flex-col justify-start items-start mt-5">
           <label for="" class="test-start">Cidade</label>
           <input
             type="text"
-            class="form-control"
+            class="w-full p-2 rounded-md outline-0"
             placeholder="Informe a cidade"
             v-model="city"
             :disabled="isLoading"

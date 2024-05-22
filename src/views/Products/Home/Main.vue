@@ -108,7 +108,7 @@ const getProductByDescription = async (description) => {
     isLoading.value = true;
     products.value = [];
     const { data } = await api.get(`/product/${description}`);
-    products.value = data.items;
+    products.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {
       let errors = "";
@@ -187,8 +187,8 @@ const deleteProduct = async (id) => {
     text: "Deseja realmente apagar esse produto?",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#0d6efd",
-    cancelButtonColor: "#dc3545",
+    confirmButtonColor: "#34d399",
+    cancelButtonColor: "#0f172a",
     confirmButtonText: "Sim",
     cancelButtonText: "Não",
   }).then(async (result) => {

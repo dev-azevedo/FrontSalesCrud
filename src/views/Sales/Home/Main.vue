@@ -188,8 +188,8 @@ const deleteSale = async (id) => {
     text: "Deseja realmente apagar essa venda?",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#0d6efd",
-    cancelButtonColor: "#dc3545",
+    confirmButtonColor: "#34d399",
+    cancelButtonColor: "#0f172a",
     confirmButtonText: "Sim",
     cancelButtonText: "Não",
   }).then(async (result) => {

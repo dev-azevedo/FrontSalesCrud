@@ -27,17 +27,18 @@
           :key="client.id"
           class="rounded-md bg-white p-2 mb-3 flex justify-between items-center border-l-8 border-slate-500 font-normal"
         >
-          <div class="w-1/3 truncate cursor-pointer" :title="client.name">
-            <span class="text-sm text-slate-500">Nome: </span>
+          <div
+            class="w-1/3 truncate cursor-pointer flex justify-start items-center"
+            :title="client.name"
+          >
+            <span class="text-sm text-slate-500 me-1">Nome: </span>
             <span>
               {{ client.name }}
             </span>
           </div>
-          <div class="w-1/3 flex justify-center">
-            <span class="text-sm text-slate-500">Cidade: </span>
-            <span>
-              {{ client.city }}
-            </span>
+          <div class="w-1/3 flex justify-center items-center">
+            <span class="text-sm text-slate-500 me-1">Cidade: </span>
+            <span>{{ client.city }}</span>
           </div>
           <div class="w-1/3 flex justify-end">
             <button
@@ -184,8 +185,8 @@ const deleteClient = async (id) => {
     text: "Deseja realmente apagar esse cliente?",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#0d6efd",
-    cancelButtonColor: "#dc3545",
+    confirmButtonColor: "#34d399",
+    cancelButtonColor: "#0f172a",
     confirmButtonText: "Sim",
     cancelButtonText: "Não",
   }).then(async (result) => {
