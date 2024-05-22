@@ -21,13 +21,13 @@ The main frameworks/libraries used in the project
 To clone and run this application, you'll need Git and Node.js (which comes with npm) installed on your computer. From your command line:
 
 ```bash
-  git clone https://github.com/dev-azevedo/FrontCamposDealerCrud.git
+  git clone https://github.com/dev-azevedo/FrontSalesCrud.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd FrontCamposDealerCrud
+  cd FrontSalesCrud
 ```
 
 Install dependencies
@@ -59,7 +59,7 @@ To run this project, you will need to add the following environment variables to
 
 ## 🔋 Full Stack project
 
-[**API:**](https://github.com/dev-azevedo/ApiCamposDealerCrud) .Net 6, EntityFrameworkCore, SqlServer, AutoMapper;
+[**API:**](https://github.com/dev-azevedo/ApiSalesCrud) .Net 6, EntityFrameworkCore, SqlServer, AutoMapper;
 
 **Client:** Vue Js 3, Vue-router 4, Axios, SweetAlert2;
 
