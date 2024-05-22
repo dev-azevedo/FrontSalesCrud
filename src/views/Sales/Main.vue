@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="flex justify-center">
     <router-view></router-view>
   </section>
 </template>

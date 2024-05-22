@@ -36,7 +36,7 @@
               {{ product.description }}
             </span>
           </div>
-          <div class="w-1/3 flex justify-center">
+          <div class="w-1/3 flex justify-center items-center gap-1">
             <span class="text-sm text-slate-500">Preço: </span>
             <span>
               {{ formatMoneyPtBr(product.unitaryValue) }}
