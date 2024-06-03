@@ -8,10 +8,16 @@
 /* emerald-400 */
 /* amber-200 */
 
-* {
-  box-sizing: border-box !important;
-}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  box-sizing: border-box !important;
+}
+
+button:hover {
+  opacity: 0.5 !important;
+  transition: all ease 0.3s;
+}
 </style>

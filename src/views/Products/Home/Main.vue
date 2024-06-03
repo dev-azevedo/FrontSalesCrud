@@ -21,7 +21,10 @@
           <i class="bi bi-x-circle"></i> Nenhum produto cadastrado
         </div>
 
-        <div v-else class="grid grid-cols-3 gap-5">
+        <div
+          v-else
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5"
+        >
           <div
             v-for="product in products"
             :key="product.id"
@@ -34,11 +37,8 @@
                 alt="quebrou"
               />
 
-              <div
-                v-else
-                class="py-20 flex justify-center items-center bg-gray-300"
-              >
-                <i class="bi bi-box"></i>
+              <div v-else class="flex justify-center items-center bg-gray-300">
+                <i class="bi bi-box text-6xl text-gray-100 m-10"></i>
               </div>
             </div>
 
@@ -59,7 +59,7 @@
                   {{ formatMoneyPtBr(product.unitaryValue) }}
                 </span>
               </div>
-              <div class="mb-3 flex justify-between">
+              <div class="mb-3 flex justify-end gap-5">
                 <button
                   type="button"
                   class="text-yellow-500 pe-2"
@@ -106,7 +106,7 @@ const products = ref([]);
 const totalItems = ref(0);
 const totalPages = ref(0);
 const pageNumber = ref(1);
-const pageSize = ref(10);
+const pageSize = ref(12);
 const isLoading = ref(false);
 
 onMounted(() => {
