@@ -28,7 +28,7 @@
           <div
             v-for="product in products"
             :key="product.id"
-            class="rounded-md p-2 flex flex-col shadow-lg"
+            class="rounded-md p-2 flex flex-col justify-between shadow-lg"
           >
             <div class="w-full h-1/2 truncate cursor-pointer rounded-t-md mb-3">
               <img

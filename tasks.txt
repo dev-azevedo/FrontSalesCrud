@@ -1,0 +1,9 @@
+Produtos:
+[] Trazer imagem quando for editar Produto;
+[] Tratar remover imagem quando for editar;
+[] Remover imagem quando deletar Produto;
+
+Clientes: 
+[] Adicionar coluna de PathImage na tabela de cliante;
+[] Criar endPoint para arquivos em cliente;
+[] Retornar PathImage de cliente no get;

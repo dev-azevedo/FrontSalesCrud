@@ -28,10 +28,24 @@
           class="rounded-md bg-white p-2 mb-3 flex justify-between items-center border-l-8 border-slate-500 font-normal"
         >
           <div>
-            <span class="text-sm text-slate-500">Cliente: </span>
-            <span>
-              {{ sale.client.name }}
-            </span>
+            <div>
+              <span class="text-sm text-slate-500">Cliente: </span>
+              <span>
+                {{ sale.client.name }}
+              </span>
+            </div>
+
+            <div>
+              <span
+                class="text-sm text-slate-500 me-2 cursor-pointer"
+                title="Data da venda"
+              >
+                <i class="bi bi-calendar3"></i>
+              </span>
+              <span>
+                {{ formatDateTimePtBr(sale.createdOn) }}
+              </span>
+            </div>
           </div>
           <div>
             <div>
@@ -47,23 +61,17 @@
           </div>
           <div class="text-start">
             <div>
-              <span class="text-sm text-slate-500">Valor por unidade: </span>
+              <span class="text-sm text-slate-500">Unidade: </span>
               <span class="fs-5">
                 {{ formatMoneyPtBr(sale.product.unitaryValue) }}
               </span>
             </div>
             <div>
-              <span class="text-sm text-slate-500"> Valor total: </span>
+              <span class="text-sm text-slate-500"> Total: </span>
               <span class="fs-5">
                 {{ formatMoneyPtBr(sale.valueSale) }}
               </span>
             </div>
-          </div>
-          <div>
-            <span class="text-sm text-slate-500"> Data da venda: </span>
-            <span>
-              {{ formatDateTimePtBr(sale.createdOn) }}
-            </span>
           </div>
           <div>
             <button
