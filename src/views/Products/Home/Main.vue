@@ -21,42 +21,61 @@
           <i class="bi bi-x-circle"></i> Nenhum produto cadastrado
         </div>
 
-        <div
-          v-else
-          v-for="product in products"
-          :key="product.id"
-          class="rounded-md bg-white p-2 mb-3 flex justify-between items-center border-l-8 border-slate-500 font-normal"
-        >
+        <div v-else class="grid grid-cols-3 gap-5">
           <div
-            class="w-1/3 truncate cursor-pointer"
-            :title="product.description"
+            v-for="product in products"
+            :key="product.id"
+            class="rounded-md p-2 flex flex-col shadow-lg"
           >
-            <span class="text-sm text-slate-500">Descrição: </span>
-            <span>
-              {{ product.description }}
-            </span>
-          </div>
-          <div class="w-1/3 flex justify-center items-center gap-1">
-            <span class="text-sm text-slate-500">Preço: </span>
-            <span>
-              {{ formatMoneyPtBr(product.unitaryValue) }}
-            </span>
-          </div>
-          <div class="w-1/3 flex justify-end">
-            <button
-              type="button"
-              class="text-yellow-500 pe-2 border-e me-2"
-              @click="updateProduct(product.id)"
-            >
-              <i class="bi bi-pencil-square"></i> Editar
-            </button>
-            <button
-              type="button"
-              class="text-red-600 me-2"
-              @click="deleteProduct(product.id)"
-            >
-              <i class="bi bi-trash"></i> Deletar
-            </button>
+            <div class="w-full h-1/2 truncate cursor-pointer rounded-t-md mb-3">
+              <img
+                v-if="product.imageUrl"
+                :src="product.imageUrl"
+                alt="quebrou"
+              />
+
+              <div
+                v-else
+                class="py-20 flex justify-center items-center bg-gray-300"
+              >
+                <i class="bi bi-box"></i>
+              </div>
+            </div>
+
+            <div class="">
+              <div
+                class="mb-3 truncate cursor-pointer"
+                :title="product.description"
+              >
+                <span class="text-sm text-slate-500">Descrição: </span>
+                <span>
+                  {{ product.description }}
+                </span>
+              </div>
+
+              <div class="mb-3 items-center gap-1">
+                <span class="text-sm text-slate-500">Preço: </span>
+                <span>
+                  {{ formatMoneyPtBr(product.unitaryValue) }}
+                </span>
+              </div>
+              <div class="mb-3 flex justify-between">
+                <button
+                  type="button"
+                  class="text-yellow-500 pe-2"
+                  @click="updateProduct(product.id)"
+                >
+                  <i class="bi bi-pencil-square"></i> Editar
+                </button>
+                <button
+                  type="button"
+                  class="text-red-600 me-2"
+                  @click="deleteProduct(product.id)"
+                >
+                  <i class="bi bi-trash"></i> Deletar
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </template>
