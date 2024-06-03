@@ -32,13 +32,14 @@
           >
             <div class="w-full h-1/2 truncate cursor-pointer rounded-t-md mb-3">
               <img
-                v-if="product.imageUrl"
-                :src="product.imageUrl"
+                v-if="product.pathImage"
+                :src="product.pathImage"
                 alt="quebrou"
+                class="bg-auto hover:bg-cover bg-no-repeat bg-center"
               />
 
               <div v-else class="flex justify-center items-center bg-gray-300">
-                <i class="bi bi-box text-6xl text-gray-100 m-10"></i>
+                <i class="bi bi-box text-6xl text-gray-100 m-16"></i>
               </div>
             </div>
 
