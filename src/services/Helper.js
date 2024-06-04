@@ -15,3 +15,25 @@ export const formatDateTimePtBr = (dateTime) => {
 
   return dataFormatada;
 };
+
+export const getMimeType = (extension) => {
+  switch (extension) {
+    case ".jpg":
+      return "image/jpeg";
+    case ".jpeg":
+      return "image/jpeg";
+    case ".png":
+      return "image/png";
+    default:
+      return "application/octet-stream";
+  }
+};
+
+export const getExtnsionFile = (mimeType) => {
+  switch (mimeType) {
+    case "image/jpeg":
+      return ".jpg";
+    case "image/png":
+      return ".png";
+  }
+};

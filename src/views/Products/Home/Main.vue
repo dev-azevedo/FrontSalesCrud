@@ -28,17 +28,22 @@
           <div
             v-for="product in products"
             :key="product.id"
-            class="rounded-md p-2 flex flex-col justify-between shadow-lg"
+            class="rounded-md p-2 bg-white flex flex-col justify-between shadow-lg"
           >
-            <div class="w-full h-1/2 truncate cursor-pointer rounded-t-md mb-3">
+            <div
+              class="w-full max-h-48 truncate flex items-center justify-center cursor-pointer rounded-t-md mb-3"
+            >
               <img
                 v-if="product.pathImage"
                 :src="product.pathImage"
                 alt="quebrou"
-                class="bg-auto hover:bg-cover bg-no-repeat bg-center"
+                class="bg-center"
               />
 
-              <div v-else class="flex justify-center items-center bg-gray-300">
+              <div
+                v-else
+                class="flex justify-center items-center w-full h-48 bg-gray-300"
+              >
                 <i class="bi bi-box text-6xl text-gray-100 m-16"></i>
               </div>
             </div>

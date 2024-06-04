@@ -80,6 +80,7 @@
                         >
                           {{ index + 1 }}. {{ file.name }}
                         </span>
+
                         <button
                           class="bg-red-500 p-2 rounded-md text-white"
                           @click.prevent="removeFile(index)"
@@ -112,6 +113,7 @@ import BaseForm from "@/components/BaseForm/Main.vue";
 import api from "@/services/Api";
 import Swal from "sweetalert2";
 import { useRoute, useRouter } from "vue-router";
+import { getExtnsionFile } from "@/services/Helper";
 
 const route = useRoute();
 const router = useRouter();
@@ -148,21 +150,30 @@ const registerProduct = async () => {
     });
 
     if (status == 201) {
-      const status = await registerImageProduct(data.id);
+      if (listFilesUpload.value.length > 0) {
+        const status = await sendImageProduct(data.id);
 
-      if (status == 200) {
-        Swal.fire({
-          icon: "success",
-          title: "Cadastrado com sucesso!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        if (status == 200) {
+          Swal.fire({
+            icon: "success",
+            title: "Cadastrado com sucesso!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
 
-        description.value = null;
-        unitaryValue.value = null;
+          description.value = null;
+          unitaryValue.value = null;
 
-        router.back();
+          return router.back();
+        }
       }
+
+      await removeImageProduct(data.id);
+
+      description.value = null;
+      unitaryValue.value = null;
+
+      return router.back();
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
@@ -190,7 +201,7 @@ const registerProduct = async () => {
   }
 };
 
-const registerImageProduct = async (id) => {
+const sendImageProduct = async (id) => {
   const formData = new FormData();
 
   listFilesUpload.value.forEach((item) => {
@@ -207,6 +218,14 @@ const registerImageProduct = async (id) => {
   }
 };
 
+const removeImageProduct = async (id) => {
+  try {
+    await api.delete(`/product/file/${id}`);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const updateProduct = async () => {
   try {
     isLoading.value = true;
@@ -217,17 +236,29 @@ const updateProduct = async () => {
     });
 
     if (status == 200) {
-      Swal.fire({
-        icon: "success",
-        title: "Atualizado com sucesso!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      if (listFilesUpload.value.length > 0) {
+        const status = await sendImageProduct(idUpdate.value);
 
+        if (status == 200) {
+          Swal.fire({
+            icon: "success",
+            title: "Atualizado com sucesso!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          description.value = null;
+          unitaryValue.value = null;
+
+          return router.back();
+        }
+      }
+
+      await removeImageProduct(idUpdate.value);
       description.value = null;
       unitaryValue.value = null;
 
-      router.back();
+      return router.back();
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
@@ -263,6 +294,19 @@ const getProductById = async () => {
     if (data) {
       description.value = data.description;
       unitaryValue.value = data.unitaryValue;
+
+      if (data.pathImage != null) {
+        let fileName = data.pathImage.split("/");
+        fileName = fileName[fileName.length - 1];
+
+        const result = await api.get(data.pathImage);
+        const ext = getExtnsionFile(result.headers["content-type"]);
+        const mimeType = result.headers["content-type"];
+
+        const file = await urlToFile(data.pathImage, fileName + ext, mimeType);
+        console.log(file);
+        listFilesUpload.value = [file];
+      }
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
@@ -346,6 +390,15 @@ const onInputChange = (e) => {
       timer: 2500,
     });
   });
+};
+
+const urlToFile = async (url, filename, mimeType) => {
+  // Buscar a imagem
+  const response = await fetch(url);
+  // Converter a resposta em um Blob
+  const blob = await response.blob();
+  // Criar um arquivo a partir do Blob
+  return new File([blob], filename, { type: mimeType });
 };
 </script>
 

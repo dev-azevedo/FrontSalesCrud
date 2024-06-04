@@ -154,7 +154,6 @@ const getSales = async () => {
       totalPages.value = data.totalPages;
       pageNumber.value = data.pageNumber;
       sales.value = data.items;
-      console.log(sales.value);
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {

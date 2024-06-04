@@ -191,7 +191,6 @@ const getClientByName = async () => {
 };
 
 const selectClient = (client) => {
-  console.log(client);
   inputSearchClient.value = client.name;
   clientId.value = client.id;
   showSugestClients.value = false;
