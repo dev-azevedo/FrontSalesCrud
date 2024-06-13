@@ -82,8 +82,14 @@ const routes = [
           },
         ],
       },
+     
     ],
   },
+  {
+    path: "/inicio",
+    name: "init",
+    component: () => import(/* webpackChunkName: "init" */ "@/views/Init/Main.vue"),
+  }
 ];
 
 const router = createRouter({

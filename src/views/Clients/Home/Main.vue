@@ -28,13 +28,21 @@
           class="rounded-md bg-white p-2 mb-3 flex justify-between items-center border-l-8 border-slate-500 font-normal"
         >
           <div
-            class="w-1/3 truncate cursor-pointer flex justify-start items-center"
+            class="w-1/3 truncate cursor-pointer flex-col justify-start items-center"
             :title="client.name"
           >
-            <span class="text-sm text-slate-500 me-1">Nome: </span>
-            <span>
-              {{ client.name }}
-            </span>
+            <div>
+              <span class="text-sm text-slate-500 me-1">Nome: </span>
+              <span>
+                {{ client.name }}
+              </span>
+            </div>
+            <div>
+              <span class="text-sm text-slate-500 me-1">Email: </span>
+              <span>
+                {{ client.email }}
+              </span>
+            </div>
           </div>
           <div class="w-1/3 flex justify-center items-center">
             <span class="text-sm text-slate-500 me-1">Cidade: </span>

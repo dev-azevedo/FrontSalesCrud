@@ -20,4 +20,16 @@ button:hover {
   opacity: 0.5 !important;
   transition: all ease 0.3s;
 }
+
+button:disabled{
+  opacity: .5 !important;
+  cursor: not-allowed !important;
+}
+
+.spicy-rice-regular {
+  font-family: "Spicy Rice", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 </style>

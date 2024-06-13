@@ -37,3 +37,17 @@ export const getExtnsionFile = (mimeType) => {
       return ".png";
   }
 };
+
+export const validateEmail = (email) => {
+  var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+};
+
+export const formatDate = (date) => {
+  const [day, month, year] = date.split("/");
+
+    const formattedDay = day.toString().padStart(2, '0');
+    const formattedMonth = month.toString().padStart(2, '0');
+
+    return `${year}-${formattedMonth}-${formattedDay}`;
+}
