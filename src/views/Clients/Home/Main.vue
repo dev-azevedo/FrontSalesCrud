@@ -14,6 +14,7 @@
         >
           buscando...
         </div>
+
         <div
           v-else-if="clients.length == 0"
           class="w-full bg-white p-2 mb-3 flex justify-center items-center"
@@ -23,46 +24,63 @@
 
         <div
           v-else
-          v-for="client in clients"
-          :key="client.id"
-          class="rounded-md bg-white p-2 mb-3 flex justify-between items-center border-l-8 border-slate-500 font-normal"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5"
         >
           <div
-            class="w-1/3 truncate cursor-pointer flex-col justify-start items-center"
-            :title="client.name"
+            v-for="client in clients"
+            :key="client.id"
+            class="rounded-md p-2 bg-white flex flex-col justify-between shadow-lg"
           >
-            <div>
+            <div
+              class="w-full max-h-48 truncate flex items-center justify-center cursor-pointer rounded-t-md mb-3"
+            >
+              <img
+                v-if="client.pathImage"
+                :src="client.pathImage"
+                alt="quebrou"
+                class="bg-center"
+              />
+
+              <div
+                v-else
+                class="flex justify-center items-center w-full h-48 bg-gray-300"
+              >
+                <i class="bi bi-box text-6xl text-gray-100 m-16"></i>
+              </div>
+            </div>
+
+            <div class="">
+              <div
+                class="mb-3 truncate cursor-pointer"
+                :title="client.name"
+              >
               <span class="text-sm text-slate-500 me-1">Nome: </span>
               <span>
                 {{ client.name }}
               </span>
+              </div>
+
+              <div class="mb-3 items-center gap-1">
+                <span class="text-sm text-slate-500 me-1">Cidade: </span>
+                <span>{{ client.city }}</span>
+              </div>
+              <div class="mb-3 flex justify-end gap-5">
+                <button
+                  type="button"
+                  class="text-yellow-500 pe-2"
+                  @click="updateClient(client.id)"
+                >
+                  <i class="bi bi-pencil-square"></i> Editar
+                </button>
+                <button
+                  type="button"
+                  class="text-red-600 me-2"
+                  @click="deleteClient(client.id)"
+                >
+                  <i class="bi bi-trash"></i> Deletar
+                </button>
+              </div>
             </div>
-            <div>
-              <span class="text-sm text-slate-500 me-1">Email: </span>
-              <span>
-                {{ client.email }}
-              </span>
-            </div>
-          </div>
-          <div class="w-1/3 flex justify-center items-center">
-            <span class="text-sm text-slate-500 me-1">Cidade: </span>
-            <span>{{ client.city }}</span>
-          </div>
-          <div class="w-1/3 flex justify-end">
-            <button
-              type="button"
-              class="text-yellow-500 pe-2 border-e me-2"
-              @click="updateClient(client.id)"
-            >
-              <i class="bi bi-pencil-square"></i> Editar
-            </button>
-            <button
-              type="button"
-              class="text-red-600 me-2"
-              @click="deleteClient(client.id)"
-            >
-              <i class="bi bi-trash"></i> Deletar
-            </button>
           </div>
         </div>
       </template>

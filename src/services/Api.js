@@ -5,7 +5,7 @@ const api = axios.create({
 });
 
 
-export function setupInterceptors(router) {
+export const setupInterceptors = (router) => {
   api.interceptors.response.use(
     response => {
       return response;
