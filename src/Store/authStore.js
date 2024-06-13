@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, reactive, watch } from "vue";
-import api from "../utils/axios";
+import api from "@/services/Api.js";
 
 export const authUser = defineStore("authUser", () => {
   const user = reactive({

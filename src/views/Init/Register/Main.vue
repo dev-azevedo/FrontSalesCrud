@@ -116,8 +116,7 @@
 <script setup>
 import api from "@/services/Api";
 import { computed, defineEmits, ref, watch } from "vue";
-import { toast } from "vue3-toastify";
-import "vue3-toastify/dist/index.css";
+import toast from "@/services/Toast";
 import { validateEmail, formatDate } from "@/services/Helper";
 
 const emit = defineEmits(["styleInit"]);
@@ -154,8 +153,7 @@ const passwordNotMatch = computed(
 
 watch(email, () => {
   if (email.value && !realEmail.value) {
-    toast("Email inválido. Preencha corretamente.", {
-      type: "error",
+    toast.error("Email inválido. Preencha corretamente.", {
       autoClose: false,
     });
   }
@@ -163,18 +161,16 @@ watch(email, () => {
 
 watch([password, passwordNotMatch], () => {
   if (password.value && password.value.length < 8) {
-    return toast(
+    return toast.error(
       `Senha muito curta. Informe uma senha de pelo menos 8 caracteres.`,
       {
-        type: "error",
         autoClose: false,
       }
     );
   }
 
   if (passwordNotMatch.value) {
-    return toast(`Senha incompativel. Preencha corretamente.`, {
-      type: "error",
+    return toast.error(`Senha incompativel. Preencha corretamente.`, {
       autoClose: false,
     });
   }
@@ -188,8 +184,7 @@ watch(birthOfDate, (newValue) => {
 
     if (month < 1 || month > 12) {
       birthOfDate.value = "";
-      return toast(`Data inválida. Informe uma data de nascimento válida.`, {
-        type: "error",
+      return toast.error(`Data inválida. Informe uma data de nascimento válida.`, {
         autoClose: false,
       });
     }
@@ -197,8 +192,7 @@ watch(birthOfDate, (newValue) => {
     const daysInMonth = year && month && new Date(year, month, 0).getDate();
     if (day < 1 || day > daysInMonth) {
       birthOfDate.value = "";
-      return toast(`Data inválida. Informe uma data de nascimento válida.`, {
-        type: "error",
+      return toast.error(`Data inválida. Informe uma data de nascimento válida.`, {
         autoClose: false,
       });
     }
@@ -207,8 +201,7 @@ watch(birthOfDate, (newValue) => {
     const currentYear = new Date().getFullYear();
     if ((year.length == 4 && year < 1900) || year > currentYear) {
       birthOfDate.value = "";
-      return toast(`Data inválida. Informe uma data de nascimento válida.`, {
-        type: "error",
+      return toast.error(`Data inválida. Informe uma data de nascimento válida.`, {
         autoClose: false,
       });
     }
@@ -228,8 +221,7 @@ const register = async () => {
     });
 
     if (status === 200) {
-        toast(`Cadastrado realizado com sucesso!`, {
-            type: "success",
+        toast.success(`Cadastrado realizado com sucesso!`, {
             autoClose: 3000,
         });
         emit('styleInit', '') 

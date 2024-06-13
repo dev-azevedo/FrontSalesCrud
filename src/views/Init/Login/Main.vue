@@ -67,7 +67,10 @@
 import api from "@/services/Api";
 import { computed, defineEmits, ref } from "vue";
 import { useRouter } from "vue-router";
+import toast from "@/services/Toast";
+import { authUser } from "@/store/authStore";
 
+const useAuthStore = authUser();
 const router = useRouter();
 const emit = defineEmits(["styleInit"]);
 const email = ref("");
@@ -78,13 +81,21 @@ const disabledSendBtn = computed(() => !email.value || !password.value);
 
 const signIn = async () => {
   try {
-    const { status } = await api.post("/auth/login", {
+    const { status, data } = await api.post("/auth/signin", {
       email: email.value,
       password: password.value,
     });
+
+    useAuthStore.setUser(data);
     status === 200 && router.push("/");
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    if (err?.response && err?.response?.data) {
+      err.response.data.errors.map((error) => {
+        toast.error(error.message, {
+          autoClose: false,
+        });
+      });
+    }
   }
 };
 </script>

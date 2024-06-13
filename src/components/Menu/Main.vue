@@ -9,7 +9,7 @@
 
       <ul class="text-white mt-10 text-lg w-full px-2">
         <li class="">
-          <span class="text-white pl-5"> Olá, Jhonatan Azevedo </span>
+          <span class="text-white pl-5"> Olá, {{userFullName}} </span>
         </li>
         <li class="pt-5 border-b border-slate-700"></li>
         <li class="pt-5">
@@ -89,7 +89,14 @@
   </nav>
 </template>
 
-<script setup></script>
+<script setup>
+import { authUser } from "@/store/authStore";
+import { computed } from "vue";
+
+const useAuthStore = authUser();
+
+const userFullName = computed(() => useAuthStore.getUser.fullName);
+</script>
 
 <style scoped>
 .link-redes:hover {
