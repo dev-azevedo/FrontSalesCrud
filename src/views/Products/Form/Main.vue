@@ -9,7 +9,7 @@
     >
       <template v-slot:form>
         <div class="flex flex-col justify-start items-start">
-          <label for="" class="test-start">Descrição</label>
+          <label for="" class="text-start">Descrição</label>
           <input
             type="text"
             class="w-full p-2 rounded-md outline-0"
@@ -20,7 +20,7 @@
         </div>
 
         <div class="flex flex-col justify-start items-start mt-5">
-          <label for="" class="test-start">Valor</label>
+          <label for="" class="text-start">Valor</label>
           <input
             type="number"
             class="w-full p-2 rounded-md outline-0"
@@ -34,7 +34,7 @@
           <div
             class="intro-y flex flex-col sm:flex-row items-center pb-2 border-b border-slate-200/60 dark:border-darkmode-400"
           >
-            <h2 class="text-base mr-auto">Importe os arquivos da empresa</h2>
+            <h2 class="">Importe a imagem do produto</h2>
           </div>
           <div>
             <form
@@ -59,8 +59,8 @@
                       >
                     </div>
                     <span class=""
-                      >Arraste ou clique aqui para importar o certificado e os
-                      funcionários <br />
+                      >Arraste ou clique aqui para importar imagem do produto
+                      <br />
                       <span class="text-sm"
                         >Aceitamos apenas arquivos '.jpg', '.jpeg' ou
                         '.png'</span
