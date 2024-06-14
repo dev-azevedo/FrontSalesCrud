@@ -47,7 +47,7 @@
         <li class="pt-5 border-b border-slate-700"></li>
         <li class="pt-5">
           <router-link
-            to="/"
+            to="/perfil"
             exactActiveClass="text-emerald-600 font-bold"
             class="pl-5 hover:opacity-50 transition ease duration-300"
             ><i class="bi bi-person-circle"></i> Perfil</router-link

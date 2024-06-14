@@ -2,7 +2,7 @@
   <section class="container mt-3">
     <BaseHome
       title="Clientes"
-      icon="bi-person"
+      icon="bi-people"
       placeholder="Busque pelo nome do cliente"
       :newItem="addNewClient"
       :searchItem="getClientByName"
@@ -25,15 +25,15 @@
 
         <div
           v-else
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5"
+         class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-5"
         >
           <div
             v-for="client in clients"
             :key="client.id"
-            class="rounded-md p-2 bg-white flex flex-col justify-between shadow-lg"
+        class="rounded-md bg-white flex flex-col justify-between shadow-xl"
           >
             <div
-              class="w-full max-h-48 truncate flex items-center justify-center cursor-pointer rounded-t-md mb-3"
+                class="w-full max-h-56 truncate flex items-center justify-center cursor-pointer rounded-t-md"
             >
               <img
                 v-if="client.pathImage"
@@ -44,42 +44,43 @@
 
               <div
                 v-else
-                class="flex justify-center items-center w-full h-48 bg-gray-300"
+                  class="flex justify-center items-center w-full h-56 bg-gray-300"
               >
-                <i class="bi bi-box text-6xl text-gray-100 m-16"></i>
+                <i class="bi bi-people text-6xl text-gray-100 m-16"></i>
               </div>
+            </div>
+            <div class="grid grid-cols-3 mb-5 divide-x divide-slate-300">
+              <button type="button" class="bg-slate-100">
+                <i class="bi bi-basket text-emerald-400"></i>
+              </button>
+              <button
+                type="button"
+                class="bg-slate-100 p-2"
+                @click="updateClient(client.id)"
+              >
+                <i class="bi bi-pencil-square text-yellow-400"></i>
+              </button>
+              <button
+                type="button"
+                class="bg-slate-100"
+                  @click="deleteClient(client.id)"
+              >
+                <i class="bi bi-trash text-red-600"></i>
+              </button>
             </div>
 
             <div class="">
               <div
-                class="mb-3 truncate cursor-pointer"
+                class="truncate cursor-pointer flex justify-center"
                 :title="client.name"
               >
-              <span class="text-sm text-slate-500 me-1">Nome: </span>
-              <span>
+              <span class="text-lg text-center">
                 {{ client.name }}
               </span>
               </div>
 
-              <div class="mb-3 items-center gap-1">
-                <span class="text-sm text-slate-500 me-1">Cidade: </span>
-                <span>{{ client.city }}</span>
-              </div>
-              <div class="mb-3 flex justify-end gap-5">
-                <button
-                  type="button"
-                  class="text-yellow-500 pe-2"
-                  @click="updateClient(client.id)"
-                >
-                  <i class="bi bi-pencil-square"></i> Editar
-                </button>
-                <button
-                  type="button"
-                  class="text-red-600 me-2"
-                  @click="deleteClient(client.id)"
-                >
-                  <i class="bi bi-trash"></i> Deletar
-                </button>
+              <div class="mb-3 items-center flex justify-center">
+                <span class="text-sm text-slate-500">{{ client.city }}</span>
               </div>
             </div>
           </div>

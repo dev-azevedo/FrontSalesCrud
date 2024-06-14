@@ -83,7 +83,12 @@ const routes = [
           },
         ],
       },
-     
+      {
+        path: "/perfil",
+        name: "profile",
+        component: () =>
+          import(/* webpackChunkName: "product" */ "@/views/Profile/Main.vue"),
+      },
     ],
   },
   {
