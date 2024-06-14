@@ -15,28 +15,28 @@
       v-model="email"
     />
 
-    <div class="focus-within:border-emerald-400 rounded-md p-2 border flex">
+    <div class="focus-within:border-emerald-400 rounded-md border flex">
       <input
         :type="typeInputPassword"
         placeholder="Senha"
-        class="outline-none w-full"
+        class="outline-none w-full p-2"
         v-model="password"
       />
-        <button
-           v-if="typeInputPassword === 'password'"
-          type="button"
-          @click="typeInputPassword = 'text'"
-        >
-          <i class="bi bi-eye text-xl"></i>
-        </button>
-        
-        <button
+      <button
+        v-if="typeInputPassword === 'password'"
+        type="button"
+        @click="typeInputPassword = 'text'"
+      >
+        <i class="bi bi-eye text-xl"></i>
+      </button>
+
+      <button
         v-else
-          type="button"
-          @click.prevent="typeInputPassword = 'password'"
-        >
-          <i class="bi bi-eye-slash text-xl"></i>
-        </button>
+        type="button"
+        @click.prevent="typeInputPassword = 'password'"
+      >
+        <i class="bi bi-eye-slash text-xl"></i>
+      </button>
     </div>
 
     <div class="mb-10 flex justify-end">
@@ -45,11 +45,12 @@
     <div class="flex flex-col gap-3">
       <button
         type="button"
-        class="bg-emerald-400 text-white rounded-md p-2"
+        class="bg-emerald-400 text-white rounded-md p-2 flex justify-center"
         @click="signIn()"
         :disabled="disabledSendBtn"
       >
-        Entrar
+        <Spinner v-if="loading" :size="'h-6 w-6'" />
+        <span v-else>Entrar</span>
       </button>
 
       <button
@@ -69,6 +70,7 @@ import { computed, defineEmits, ref } from "vue";
 import { useRouter } from "vue-router";
 import toast from "@/services/Toast";
 import { authUser } from "@/store/authStore";
+import Spinner from "@/components/Spinner/Main.vue";
 
 const useAuthStore = authUser();
 const router = useRouter();
@@ -76,11 +78,13 @@ const emit = defineEmits(["styleInit"]);
 const email = ref("");
 const password = ref("");
 const typeInputPassword = ref("password");
+const loading = ref(false);
 
 const disabledSendBtn = computed(() => !email.value || !password.value);
 
 const signIn = async () => {
   try {
+    loading.value = true;
     const { status, data } = await api.post("/auth/signin", {
       email: email.value,
       password: password.value,
@@ -96,6 +100,8 @@ const signIn = async () => {
         });
       });
     }
+  } finally {
+    loading.value = false;
   }
 };
 </script>

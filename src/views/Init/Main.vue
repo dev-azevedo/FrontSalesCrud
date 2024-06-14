@@ -6,7 +6,7 @@
     <div
       class="flex justify-center items-center w-1/3 flex-shrink-0"
     >
-      <Login @styleInit="styleInit = $event" />
+      <SignIn @styleInit="styleInit = $event" />
     </div>
     <div class="bg-emerald-400 w-1/3 flex-shrink-0 p-20">
       <div class="flex justify-center"><span class="text-xl text-white font-normal">Ganhe acesso a ofertas exclusivas e novidades.</span></div>
@@ -15,7 +15,7 @@
     </div>
     <div class="flex justify-center items-center  w-1/3  flex-shrink-0">
 
-        <Register @styleInit="styleInit = $event" />
+        <SignUp @styleInit="styleInit = $event" />
       
     </div>
   </section>
@@ -23,8 +23,8 @@
   
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from "vue";
-import Login from "./Login/Main.vue";
-import Register from "./Register/Main.vue";
+import SignIn from "./SignIn/Main.vue";
+import SignUp from "./SignUp/Main.vue";
 
 const styleInit = ref("");
 
