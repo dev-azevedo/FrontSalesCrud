@@ -22,11 +22,12 @@
         <div class="flex flex-col justify-start items-start mt-5">
           <label for="" class="text-start">Valor</label>
           <input
-            type="number"
+            type="text"
             class="w-full p-2 rounded-md outline-none border focus:border-b-emerald-400"
-            placeholder="Informe o valoro do produto"
-            v-model="unitaryValue"
+            placeholder="Informe o valor do produto"
+            v-model.lazy="unitaryValue"
             :disabled="isLoading"
+            v-money="money"
           />
         </div>
 
@@ -41,7 +42,6 @@
               titleDropzone="Arraste ou clique aqui para importar imagem do produto"
               @onFileUpload="($event) => (listFilesUpload = $event)"
             />
-            {{ listFilesUpload }}
           </div>
         </section>
       </template>
@@ -53,10 +53,15 @@
 import { computed, onMounted, ref } from "vue";
 import BaseForm from "@/components/BaseForm/Main.vue";
 import api from "@/services/Api";
-import Swal from "sweetalert2";
 import { useRoute, useRouter } from "vue-router";
-import { getExtnsionFile } from "@/services/Helper";
+import {
+  getExtnsionFile,
+  convertCurrencyToFloat,
+  formatMoneyPtBr,
+} from "@/services/Helper";
 import Dropzone from "@/components/Dropzone/Main.vue";
+import toast from "@/services/Toast";
+import { VMoney } from "v-money";
 
 const route = useRoute();
 const router = useRouter();
@@ -66,6 +71,14 @@ const description = ref(null);
 const unitaryValue = ref(null);
 
 const listFilesUpload = ref([]);
+
+const money = ref({
+  decimal: ",",
+  thousands: ".",
+  prefix: "R$ ",
+  precision: 2,
+  masked: false,
+});
 
 const disabledSendBtn = computed(
   () => !description.value || !unitaryValue.value
@@ -86,7 +99,7 @@ const registerProduct = async () => {
     isLoading.value = true;
     const { status, data } = await api.post("/product", {
       description: description.value,
-      unitaryValue: unitaryValue.value,
+      unitaryValue: convertCurrencyToFloat(unitaryValue.value),
     });
 
     if (status == 201) {
@@ -94,47 +107,42 @@ const registerProduct = async () => {
         const status = await sendImageProduct(data.id);
 
         if (status == 200) {
-          Swal.fire({
-            icon: "success",
-            title: "Cadastrado com sucesso!",
-            showConfirmButton: false,
-            timer: 1500,
+          toast.success("Cadastrado com sucesso!", {
+            autoClose: 2500,
           });
 
           description.value = null;
           unitaryValue.value = null;
 
-          return router.back();
+          setTimeout(() => {
+            return router.back();
+          }, 2500);
         }
       }
 
       await removeImageProduct(data.id);
+      toast.success("Cadastrado com sucesso!", {
+        autoClose: 2500,
+      });
 
       description.value = null;
       unitaryValue.value = null;
 
-      return router.back();
+      setTimeout(() => {
+        return router.back();
+      }, 2500);
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
       err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
+        return toast.error(error, {
+          autoClose: 3500,
+        });
       });
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
+    return toast.error("Algo deu errado. Tente novamente.", {
+      autoClose: 3500,
     });
   } finally {
     isLoading.value = false;
@@ -169,75 +177,68 @@ const removeImageProduct = async (id) => {
 const updateProduct = async () => {
   try {
     isLoading.value = true;
-    
+
     const { status } = await api.put("/product", {
       id: idUpdate.value,
       description: description.value,
-      unitaryValue: unitaryValue.value,
+      unitaryValue: convertCurrencyToFloat(unitaryValue.value),
     });
 
     if (status == 200) {
       if (listFilesUpload.value.length > 0) {
         try {
           const status = await sendImageProduct(idUpdate.value);
-          console.log(status);
 
           if (status == 200) {
-            Swal.fire({
-              icon: "success",
-              title: "Atualizado com sucesso!",
-              showConfirmButton: false,
-              timer: 1500,
+            toast.success("Atualizado com sucesso!", {
+              autoClose: 2500,
             });
 
             description.value = null;
             unitaryValue.value = null;
 
-            return router.back();
+            setTimeout(() => {
+              return router.back();
+            }, 2500);
           }
         } catch (err) {
           if (err?.response && err?.response?.data) {
-          let errors = "";
             err.response.data.errors.map((error) => {
-              errors += error.message + "<br />";
+              return toast.error(error, {
+                autoClose: 3500,
+              });
             });
-
-            return Swal.fire({
-              icon: "error",
-              html: errors,
-              showConfirmButton: false,
-              timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-            }); 
-
           }
+
+          return toast.error("Algo deu errado. Tente novamente.", {
+            autoClose: 3500,
+          });
         }
       }
 
       await removeImageProduct(idUpdate.value);
+
+      toast.success("Atualizado com sucesso!", {
+        autoClose: 2500,
+      });
       description.value = null;
       unitaryValue.value = null;
 
+      setTimeout(() => {
+        return router.back();
+      }, 2500);
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
       err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
+        return toast.error(error, {
+                autoClose: 3500,
+        });
       });
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
+    return toast.error("Algo deu errado. Tente novamente.", {
+      autoClose: 3500,
     });
   } finally {
     isLoading.value = false;
@@ -251,7 +252,7 @@ const getProductById = async () => {
 
     if (data) {
       description.value = data.description;
-      unitaryValue.value = data.unitaryValue;
+      unitaryValue.value = formatMoneyPtBr(data.unitaryValue);
 
       if (data.pathImage != null) {
         let fileName = data.pathImage.split("/");
@@ -268,24 +269,15 @@ const getProductById = async () => {
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
       err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
+        return toast.error(error, {
+                autoClose: 3500,
+              });
       });
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
+    return toast.error("Algo deu errado. Tente novamente.", {
+      autoClose: 3500,
     });
   } finally {
     isLoading.value = false;

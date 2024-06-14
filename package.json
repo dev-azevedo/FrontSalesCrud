@@ -13,6 +13,7 @@
     "pinia": "^2.1.7",
     "sweetalert2": "^11.10.8",
     "tailwindcss": "^3.4.3",
+    "v-money": "^0.8.1",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vue-the-mask": "^0.11.1",

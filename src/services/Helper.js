@@ -51,3 +51,12 @@ export const formatDate = (date) => {
 
     return `${year}-${formattedMonth}-${formattedDay}`;
 }
+
+export const convertCurrencyToFloat = (currencyString) => {
+  if(currencyString) {
+    let cleanedString = currencyString.replace("R$", "").replace(".", "").replace(",", ".");
+    return parseFloat(cleanedString);
+  }
+
+  return currencyString;
+}
