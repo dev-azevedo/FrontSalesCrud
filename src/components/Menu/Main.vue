@@ -75,14 +75,14 @@
     </div>
     <div class="flex-col items-center justify-center gap-2 my-10">
       <span class="text-xl text-white"> Jhonatan Azevedo </span>
-      <div class="text-center">
+      <div class="flex  justify-center gap-5">
         <a
           href="https://www.linkedin.com/in/dev-azevedo/"
           class="text-light fs-2"
           target="_blank"
         >
           <i
-            class="bi bi-linkedin mx-2 text-white text-lg hover:text-emerald-400 transition ease duration-300"
+            class="bi bi-linkedin text-white text-lg hover:text-emerald-400 transition ease duration-300"
           ></i
         ></a>
         <a
@@ -92,6 +92,28 @@
         >
           <i
             class="bi bi-github text-white text-lg hover:text-emerald-400 transition ease duration-300"
+          ></i
+        ></a>
+
+        <a
+          href="https://github.com/dev-azevedo/FrontSalesCrud"
+          class="text-light fs-2"
+          target="_blank"
+          title="Github do projeto - Front-end"
+        >
+          <i
+            class="bi bi-file-earmark-code text-white text-lg hover:text-emerald-400 transition ease duration-300"
+          ></i
+        ></a>
+       
+        <a
+          href="https://github.com/dev-azevedo/ApiSalesCrud"
+          class="text-light fs-2"
+          target="_blank"
+          title="Github do projeto - API"
+        >
+          <i
+            class="bi bi-file-earmark-code-fill text-white text-lg hover:text-emerald-400 transition ease duration-300"
           ></i
         ></a>
       </div>
