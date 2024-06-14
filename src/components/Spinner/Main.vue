@@ -15,7 +15,3 @@ const props = defineProps({
 
 const size = computed(() => props.size)
 </script>
-
-<style lang="scss" scoped>
-
-</style>
