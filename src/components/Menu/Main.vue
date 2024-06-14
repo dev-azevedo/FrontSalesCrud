@@ -8,10 +8,10 @@
       >
 
       <ul class="text-white mt-10 text-lg w-full px-2">
-        <li class="">
-          <span class="text-white pl-5"> Olá, {{userFullName}} </span>
+        <li class="" v-show="userFullName">
+          <span class="text-white pl-5"> Olá, {{ userFullName }} </span>
         </li>
-        <li class="pt-5 border-b border-slate-700"></li>
+        <li v-show="userFullName" class="pt-5 border-b border-slate-700"></li>
         <li class="pt-5">
           <router-link
             to="/"
@@ -45,7 +45,7 @@
           >
         </li>
         <li class="pt-5 border-b border-slate-700"></li>
-        <li class="pt-5">
+        <li class="pt-5" v-show="token">
           <router-link
             to="/perfil"
             exactActiveClass="text-emerald-600 font-bold"
@@ -55,11 +55,21 @@
         </li>
         <li class="pt-5">
           <button
+            v-if="token"
             type="button"
             @click="logout()"
             class="pl-5 hover:opacity-50 transition ease duration-300"
-            ><i class="bi bi-door-open-fill"></i> Sair</button
           >
+            <i class="bi bi-door-open-fill"></i> Sair
+          </button>
+          <button
+            v-else
+            type="button"
+            @click="router.push('/inicio')"
+            class="pl-5 hover:opacity-50 transition ease duration-300"
+          >
+          <i class="bi bi-door-closed-fill"></i> Entrar
+          </button>
         </li>
       </ul>
     </div>
@@ -94,14 +104,14 @@ import { authUser } from "@/store/authStore";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 
-const useAuthStore = authUser();
 const router = useRouter();
+const useAuthStore = authUser();
 const userFullName = computed(() => useAuthStore.getUser.fullName);
+const token = computed(() => useAuthStore.getToken);
 
 const logout = () => {
-  useAuthStore.logout(); 
-  router.push("/inicio");
-}
+  useAuthStore.logout();
+};
 </script>
 
 <style scoped>

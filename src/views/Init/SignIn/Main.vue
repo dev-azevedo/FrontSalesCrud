@@ -49,7 +49,7 @@
         type="button"
         class="bg-emerald-400 text-white rounded-md p-2 flex justify-center"
         @click="signIn()"
-        :disabled="disabledSendBtn"
+        :disabled="disabledSendBtn || loading"
       >
         <Spinner v-if="loading" :size="'h-6 w-6'" />
         <span v-else>Entrar</span>
@@ -62,6 +62,13 @@
       >
         Não tem conta? Cadastre-se
       </button>
+      <button
+        type="button"
+        class="bg-slate-100 text-slate-900 border rounded-md p-2"
+        @click="router.back()"
+      >
+        Voltar
+      </button>
     </div>
   </form>
 </template>
@@ -69,13 +76,14 @@
 <script setup>
 import api from "@/services/Api";
 import { computed, defineEmits, ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import toast from "@/services/Toast";
 import { authUser } from "@/store/authStore";
 import Spinner from "@/components/Spinner/Main.vue";
 
 const useAuthStore = authUser();
 const router = useRouter();
+const route = useRoute();
 const emit = defineEmits(["styleInit"]);
 const email = ref("");
 const password = ref("");
@@ -93,7 +101,13 @@ const signIn = async () => {
     });
 
     useAuthStore.setUser(data);
-    status === 200 && router.push("/");
+    if(status === 200) {
+     if(route.params?.callback) {
+        return router.push(route.params.callback);
+      }
+
+      router.push("/");
+    }
   } catch (err) {
     if (err?.response && err?.response?.data) {
       err.response.data.errors.map((error) => {

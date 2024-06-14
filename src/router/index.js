@@ -29,6 +29,7 @@ const routes = [
           {
             path: "adicionar/:id",
             name: "formSales",
+            meta: { auth: true },
             component: () =>
               import(
                 /* webpackChunkName: "sales" */ "@/views/Sales/Form/Main.vue"
@@ -52,6 +53,7 @@ const routes = [
           {
             path: "adicionar/:id",
             name: "formClients",
+            meta: { auth: true },
             component: () =>
               import(
                 /* webpackChunkName: "client" */ "@/views/Clients/Form/Main.vue"
@@ -76,6 +78,7 @@ const routes = [
           {
             path: "adicionar/:id",
             name: "formProducts",
+            meta: { auth: true },
             component: () =>
               import(
                 /* webpackChunkName: "product" */ "@/views/Products/Form/Main.vue"
@@ -86,13 +89,14 @@ const routes = [
       {
         path: "/perfil",
         name: "profile",
+        meta: { auth: true },
         component: () =>
           import(/* webpackChunkName: "product" */ "@/views/Profile/Main.vue"),
       },
     ],
   },
   {
-    path: "/inicio",
+    path: "/inicio/:callback?",
     name: "init",
     component: () => import(/* webpackChunkName: "init" */ "@/views/Init/Main.vue"),
   }

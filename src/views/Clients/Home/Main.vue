@@ -39,7 +39,7 @@
                 v-if="client.pathImage"
                 :src="client.pathImage"
                 alt="quebrou"
-                class="bg-center"
+                class="bg-center h-56 bg-gray-300 w-full"
               />
 
               <div

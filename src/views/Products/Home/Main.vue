@@ -32,13 +32,13 @@
             class="rounded-md bg-white flex flex-col justify-between shadow-xl"
           >
             <div
-              class="w-full max-h-56 truncate flex items-center justify-center cursor-pointer rounded-t-md"
+              class="w-full max-h-56 truncate flex items-center justify-center rounded-t-md"
             >
               <img
                 v-if="product.pathImage"
                 :src="product.pathImage"
                 alt="quebrou"
-                class="bg-center bg-contain"
+                class="bg-center h-56 bg-gray-300 w-full"
               />
 
               <div
@@ -70,7 +70,7 @@
 
             <div class="">
               <div
-                class="truncate cursor-pointer flex justify-center"
+                class="truncate flex justify-center"
                 :title="product.description"
               >
                 <span class="text-lg text-center">

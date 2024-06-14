@@ -102,9 +102,9 @@
     <div class="flex flex-col gap-3">
       <button
         type="button"
-        class="bg-emerald-400 text-white rounded-md p-2"
+        class="bg-emerald-400 text-white rounded-md p-2 flex justify-center"
         @click="register()"
-        :disabled="disabledSendBtn"
+        :disabled="disabledSendBtn || loading"
       >
         <Spinner v-if="loading" :size="'h-6 w-6'" />
         <span v-else>Cadastrar</span>
@@ -231,7 +231,7 @@ const register = async () => {
   try {
     loading.value = true;
 
-    const { status } = await api.post("/auth/register", {
+    const { status } = await api.post("/auth/signup", {
       email: email.value,
       password: password.value,
       confirmPassword: confirmPassword.value,
