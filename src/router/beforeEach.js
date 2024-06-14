@@ -7,23 +7,31 @@ export default async (to, from, next) => {
  
   console.log(to.fullPath);
   console.log(token.value);
+
+  if (!token.value) {
+    console.log("Passo 1")
+    await auth.getTokenStorage();
+  }
+
   if (to.fullPath == "/inicio" && token.value) {
-    console.log("dash");
+    console.log("Passo 2")
     return next({ path: "/", replace: true });
   }
 
-  if (!token.value && to.fullPath != "/inicio") {
-    console.log("dash 2");
-    auth.validateRefreshToken();
-    if (!token.value) {
+  if (to.fullPath != "/inicio" && !token.value) {
+    console.log("Passo 3");
+    const newToken = await auth.getTokenStorage();
+    console.log("newToken: ", newToken);
+
+    if (!newToken) {
       return next({ name: "init" });
     }
 
-    console.log("dash 3");
-    return next({ path: "/", replace: true });
+   console.log("Passo 4");
+    return next();
   }
 
 
-  console.log("dash 4");
+  console.log("Passo 5");
   return next();
 };

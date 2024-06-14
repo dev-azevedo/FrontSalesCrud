@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, reactive, watch } from "vue";
+import { computed, reactive } from "vue";
 import api from "@/services/Api.js";
 
 export const authUser = defineStore("authUser", () => {
@@ -28,29 +28,35 @@ export const authUser = defineStore("authUser", () => {
     localStorage.setItem("@salesCrud", JSON.stringify(token));
   };
 
+  const getTokenStorage = () => {
+    return new Promise((resolve, reject) => {
+      const storage = localStorage.getItem("@salesCrud");
 
+      if (storage) {
+        const token = JSON.parse(storage);
 
-  const getTokenStorage = async () => {
-    console.log("chamou");
-    const storage = localStorage.getItem("@salesCrud");
- 
-    if (storage) {
-      const token = JSON.parse(storage);
+        if (token)
+          api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-      if (token)
-        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        return api
+          .get("/auth/validate")
+          .then(({data}) => {
+            if (data.token) {
+              setUser(data);
+              resolve(token);
+              return;
+            }
 
-
-      try {
-        const response = await api.get("/auth/validate");
-        if (response.data.token) {
-          setUser(response.data);
-        } 
-      } catch (error) {
-        console.log("error", error);
+            resolve(null);
+          })
+          .catch((error) => {
+            reject(error);
+            return;
+          });
       }
-    }
-    
+
+      resolve(null);
+    });
   };
 
   const logout = () => {
@@ -63,16 +69,6 @@ export const authUser = defineStore("authUser", () => {
     delete api.defaults.headers.common["Authorization"];
     localStorage.removeItem("@salesCrud");
   };
-
-
-
-  watch(
-    () => localStorage.getItem("@salesCrud"),
-    async () => {
-      await getTokenStorage();
-    },
-    { immediate: true }
-  );
 
   return {
     setUser,
