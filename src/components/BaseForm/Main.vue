@@ -24,32 +24,26 @@
           <button
             v-if="idUpdate == 'novo'"
             type="button"
-            class="cursor-pointer px-2 py-1 bg-emerald-400 rounded-md hover:opacity-50 ease duration-300 disabled:opacity-35 disabled:cursor-not-allowed"
+            class="cursor-pointer px-2 py-1 bg-emerald-400 rounded-md flex justify-center items-center gap-1"
             @click="register"
             :disabled="disabledSendBtn || loadingRequest"
           >
-            <i v-if="!loadingRequest" class="bi bi-check-circle"></i>
-            <div
-              v-else
-              class="spinner-border spinner-border-sm"
-              role="status"
-            ></div>
+            <Spinner v-if="loadingRequest" :size="'h-4 w-4'" />
+            <i v-else class="bi bi-check-circle"></i>
+
             Cadastrar
           </button>
 
           <button
             v-else
             type="button"
-            class="cursor-pointer px-2 py-1 bg-yellow-400 rounded-md hover:opacity-50 ease duration-300 disabled:opacity-35 disabled:cursor-not-allowed"
+            class="cursor-pointer px-2 py-1 bg-yellow-400 rounded-md flex justify-center items-center gap-1"
             :disabled="disabledSendBtn || loadingRequest"
             @click="update"
           >
-            <i v-if="!loadingRequest" class="bi bi-check-circle"></i>
-            <div
-              v-else
-              class="spinner-border spinner-border-sm"
-              role="status"
-            ></div>
+            <Spinner v-if="loadingRequest" :size="'h-4 w-4'" />
+            <i v-else class="bi bi-check-circle"></i>
+
             Atualizar
           </button>
         </div>
@@ -61,6 +55,7 @@
 <script setup>
 import { defineProps, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import Spinner from "@/components/Spinner/Main.vue";
 
 const router = useRouter();
 const route = useRoute();

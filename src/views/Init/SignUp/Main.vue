@@ -23,60 +23,63 @@
       v-model.lazy="email"
     />
 
-    <div class="focus-within:border-2 focus-within:border-emerald-400 rounded-md p-2 border flex mb-3">
+    <div
+      class="focus-within:border-2 focus-within:border-emerald-400 rounded-md p-2 border flex mb-3"
+    >
       <input
         :type="typeInputPassword"
         placeholder="Senha"
         class="outline-none w-full"
         v-model.lazy="password"
       />
-        <button
-           v-if="typeInputPassword === 'password'"
-          type="button"
-          @click="typeInputPassword = 'text'"
-        >
-          <i class="bi bi-eye text-xl"></i>
-        </button>
-        
-        <button
+      <button
+        v-if="typeInputPassword === 'password'"
+        type="button"
+        @click="typeInputPassword = 'text'"
+      >
+        <i class="bi bi-eye text-xl"></i>
+      </button>
+
+      <button
         v-else
-          type="button"
-          @click.prevent="typeInputPassword = 'password'"
-        >
-          <i class="bi bi-eye-slash text-xl"></i>
-        </button>
+        type="button"
+        @click.prevent="typeInputPassword = 'password'"
+      >
+        <i class="bi bi-eye-slash text-xl"></i>
+      </button>
     </div>
 
-
-    <div class="focus-within:border-2 focus-within:border-emerald-400 rounded-md p-2 border flex mb-3">
+    <div
+      class="focus-within:border-2 focus-within:border-emerald-400 rounded-md p-2 border flex mb-3"
+    >
       <input
         :type="typeInputConfirmPassword"
         placeholder="Confirme sua senha"
         class="outline-none w-full"
         v-model.lazy="confirmPassword"
       />
-        <button
-           v-if="typeInputConfirmPassword === 'password'"
-          type="button"
-          @click="typeInputConfirmPassword = 'text'"
-        >
-          <i class="bi bi-eye text-xl"></i>
-        </button>
-        
-        <button
+      <button
+        v-if="typeInputConfirmPassword === 'password'"
+        type="button"
+        @click="typeInputConfirmPassword = 'text'"
+      >
+        <i class="bi bi-eye text-xl"></i>
+      </button>
+
+      <button
         v-else
-          type="button"
-          @click.prevent="typeInputConfirmPassword = 'password'"
-        >
-          <i class="bi bi-eye-slash text-xl"></i>
-        </button>
+        type="button"
+        @click.prevent="typeInputConfirmPassword = 'password'"
+      >
+        <i class="bi bi-eye-slash text-xl"></i>
+      </button>
     </div>
 
     <input
       type="text"
       placeholder="Data de nascimento"
       class="mb-1 rounded-md p-2 border outline-emerald-400"
-      :class="{'mb-5': !disabledSendBtn}"
+      :class="{ 'mb-5': !disabledSendBtn }"
       v-mask="'##/##/####'"
       v-model="birthOfDate"
     />
@@ -99,7 +102,8 @@
         @click="register()"
         :disabled="disabledSendBtn"
       >
-        Cadastrar
+        <Spinner v-if="loading" :size="'h-6 w-6'" />
+        <span v-else>Cadastrar</span>
       </button>
 
       <button
@@ -118,6 +122,7 @@ import api from "@/services/Api";
 import { computed, defineEmits, ref, watch } from "vue";
 import toast from "@/services/Toast";
 import { validateEmail, formatDate } from "@/services/Helper";
+import Spinner from "@/components/Spinner/Main.vue";
 
 const emit = defineEmits(["styleInit"]);
 
@@ -129,6 +134,7 @@ const birthOfDate = ref("");
 
 const typeInputPassword = ref("password");
 const typeInputConfirmPassword = ref("password");
+const loading = ref(false);
 
 const disabledSendBtn = computed(
   () =>
@@ -184,52 +190,63 @@ watch(birthOfDate, (newValue) => {
 
     if (month < 1 || month > 12) {
       birthOfDate.value = "";
-      return toast.error(`Data inválida. Informe uma data de nascimento válida.`, {
-        autoClose: false,
-      });
+      return toast.error(
+        `Data inválida. Informe uma data de nascimento válida.`,
+        {
+          autoClose: false,
+        }
+      );
     }
 
     const daysInMonth = year && month && new Date(year, month, 0).getDate();
     if (day < 1 || day > daysInMonth) {
       birthOfDate.value = "";
-      return toast.error(`Data inválida. Informe uma data de nascimento válida.`, {
-        autoClose: false,
-      });
+      return toast.error(
+        `Data inválida. Informe uma data de nascimento válida.`,
+        {
+          autoClose: false,
+        }
+      );
     }
 
     // Validação do ano
     const currentYear = new Date().getFullYear();
     if ((year.length == 4 && year < 1900) || year > currentYear) {
       birthOfDate.value = "";
-      return toast.error(`Data inválida. Informe uma data de nascimento válida.`, {
-        autoClose: false,
-      });
+      return toast.error(
+        `Data inválida. Informe uma data de nascimento válida.`,
+        {
+          autoClose: false,
+        }
+      );
     }
   }
 });
 
-
 const register = async () => {
   try {
+    loading.value = true;
+
     const { status } = await api.post("/auth/register", {
-        email: email.value,
-        password: password.value,
-        confirmPassword: confirmPassword.value,
-        dateOfBirth: formatDate(birthOfDate.value),
-        userRole: 2,
-        fullName: fullName.value,
+      email: email.value,
+      password: password.value,
+      confirmPassword: confirmPassword.value,
+      dateOfBirth: formatDate(birthOfDate.value),
+      userRole: 2,
+      fullName: fullName.value,
     });
 
     if (status === 200) {
-        toast.success(`Cadastrado realizado com sucesso!`, {
-            autoClose: 3000,
-        });
-        emit('styleInit', '') 
-        return resetForm();
-
+      toast.success(`Cadastrado realizado com sucesso!`, {
+        autoClose: 3000,
+      });
+      emit("styleInit", "");
+      return resetForm();
     }
   } catch (error) {
     console.log(error);
+  } finally {
+    loading.value = false;
   }
 };
 

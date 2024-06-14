@@ -1,5 +1,5 @@
 <template>
-    <div class="animate-spin border-4 border-t-emerald-300  rounded-full" :class="size"></div>
+    <div class="animate-spin border-4 border-t-slate-800/75  rounded-full" :class="size"></div>
 </template>
 
 <script setup>
