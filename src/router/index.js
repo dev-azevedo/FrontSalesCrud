@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import beforeEach from "./beforeEach";
 
 const routes = [
   {
@@ -21,7 +22,7 @@ const routes = [
           {
             path: "",
             name: "homeSales",
-            component: import(
+            component: () => import(
               /* webpackChunkName: "sales" */ "@/views/Sales/Home/Main.vue"
             ),
           },
@@ -44,7 +45,7 @@ const routes = [
           {
             path: "",
             name: "homeClients",
-            component: import(
+            component: () => import(
               /* webpackChunkName: "client" */ "@/views/Clients/Home/Main.vue"
             ),
           },
@@ -92,9 +93,12 @@ const routes = [
   }
 ];
 
+
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+
+router.beforeEach(beforeEach);
 
 export default router;
