@@ -12,7 +12,7 @@
           <label for="" class="test-start">Nome</label>
           <input
             type="text"
-            class="w-full p-2 rounded-md outline-0"
+            class="w-full  p-2 rounded-md outline-0 border focus:border-b-emerald-400"
             placeholder="Informe o nome do cliente"
             v-model="name"
             :disabled="isLoading"
@@ -23,7 +23,7 @@
           <label for="" class="test-start">Cidade</label>
           <input
             type="text"
-            class="w-full p-2 rounded-md outline-0"
+            class="w-full p-2 rounded-md outline-0 border focus:border-b-emerald-400"
             placeholder="Informe a cidade"
             v-model="city"
             :disabled="isLoading"

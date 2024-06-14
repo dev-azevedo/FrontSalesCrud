@@ -6,6 +6,7 @@
       placeholder="Busque pelo nome do cliente"
       :newItem="addNewClient"
       :searchItem="getClientByName"
+       @resetGet="getClients"
     >
       <template v-slot:lista>
         <div
@@ -126,11 +127,13 @@ watch(pageSize, () => {
   getClients();
 });
 
-const getClientByName = async (description) => {
+const getClientByName = async (name) => {
+  if (!name) return
+
   try {
     isLoading.value = true;
     clients.value = [];
-    const { data } = await api.get(`/client/${description}`);
+    const { data } = await api.get(`/client/${name}`);
     if (data) clients.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {

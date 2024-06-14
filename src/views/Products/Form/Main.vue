@@ -12,7 +12,7 @@
           <label for="" class="text-start">Descrição</label>
           <input
             type="text"
-            class="w-full p-2 rounded-md outline-0"
+            class="w-full p-2 rounded-md outline-none border focus:border-b-emerald-400"
             placeholder="Informe a descrição do produto"
             v-model="description"
             :disabled="isLoading"
@@ -23,7 +23,7 @@
           <label for="" class="text-start">Valor</label>
           <input
             type="number"
-            class="w-full p-2 rounded-md outline-0"
+            class="w-full p-2 rounded-md outline-none border focus:border-b-emerald-400"
             placeholder="Informe o valoro do produto"
             v-model="unitaryValue"
             :disabled="isLoading"

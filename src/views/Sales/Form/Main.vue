@@ -12,7 +12,7 @@
           <label for="" class="test-start">Cliente</label>
           <input
             type="text"
-            class="w-full p-2 rounded-md outline-0"
+            class="w-full p-2 rounded-md outline-none border focus:border-b-emerald-400"
             placeholder="Informe o nome do cliente"
             v-model="inputSearchClient"
             :disabled="isLoading"
@@ -38,7 +38,7 @@
           <label for="" class="test-start">Produto</label>
           <input
             type="text"
-            class="w-full p-2 rounded-md outline-0"
+            class="w-full p-2 rounded-md outline-none border focus:border-b-emerald-400"
             placeholder="Informe o nome do produto"
             v-model="inputSearchProduct"
             :disabled="isLoading"
@@ -76,7 +76,7 @@
           <label for="" class="test-start">Quantidade</label>
           <input
             type="number"
-            class="w-full p-2 rounded-md outline-0"
+            class="w-full p-2 rounded-md outline-none border focus:border-b-emerald-400"
             placeholder="Informe a quantidade de produto"
             v-model="quantityProduct"
             :disabled="isLoading"

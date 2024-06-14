@@ -12,30 +12,31 @@
     <input
       type="text"
       placeholder="Nome completo"
-      class="mb-3 rounded-md p-2 border outline-emerald-400"
+      class="mb-3 rounded-md p-2 outline-none border focus:border-b-emerald-400"
       v-model="fullName"
     />
 
     <input
       type="email"
       placeholder="Email"
-      class="mb-3 rounded-md p-2 border outline-emerald-400"
+      class="mb-3 rounded-md p-2 outline-none border focus:border-b-emerald-400"
       v-model.lazy="email"
     />
 
     <div
-      class="focus-within:border-2 focus-within:border-emerald-400 rounded-md p-2 border flex mb-3"
+      class="border focus-within:border-b-emerald-400 rounded-md flex mb-3"
     >
       <input
         :type="typeInputPassword"
         placeholder="Senha"
-        class="outline-none w-full"
+        class="outline-none w-full p-2"
         v-model.lazy="password"
       />
       <button
         v-if="typeInputPassword === 'password'"
         type="button"
         @click="typeInputPassword = 'text'"
+        class="p-1"
       >
         <i class="bi bi-eye text-xl"></i>
       </button>
@@ -44,24 +45,26 @@
         v-else
         type="button"
         @click.prevent="typeInputPassword = 'password'"
+         class="p-1"
       >
         <i class="bi bi-eye-slash text-xl"></i>
       </button>
     </div>
 
     <div
-      class="focus-within:border-2 focus-within:border-emerald-400 rounded-md p-2 border flex mb-3"
+      class="border focus-within:border-b-emerald-400  rounded-md flex mb-3"
     >
       <input
         :type="typeInputConfirmPassword"
         placeholder="Confirme sua senha"
-        class="outline-none w-full"
+        class="outline-none w-full p-2"
         v-model.lazy="confirmPassword"
       />
       <button
         v-if="typeInputConfirmPassword === 'password'"
         type="button"
         @click="typeInputConfirmPassword = 'text'"
+         class="p-1"
       >
         <i class="bi bi-eye text-xl"></i>
       </button>
@@ -70,6 +73,7 @@
         v-else
         type="button"
         @click.prevent="typeInputConfirmPassword = 'password'"
+         class="p-1"
       >
         <i class="bi bi-eye-slash text-xl"></i>
       </button>
@@ -78,7 +82,7 @@
     <input
       type="text"
       placeholder="Data de nascimento"
-      class="mb-1 rounded-md p-2 border outline-emerald-400"
+      class="mb-1 rounded-md p-2 outline-none border focus:border-b-emerald-400"
       :class="{ 'mb-5': !disabledSendBtn }"
       v-mask="'##/##/####'"
       v-model="birthOfDate"

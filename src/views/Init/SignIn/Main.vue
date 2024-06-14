@@ -11,11 +11,11 @@
     <input
       type="email"
       placeholder="Email"
-      class="mb-3 rounded-md p-2 border outline-emerald-400"
+      class="mb-3 rounded-md p-2 outline-none border focus:border-b-emerald-400"
       v-model="email"
     />
 
-    <div class="focus-within:border-emerald-400 rounded-md border flex">
+    <div class="focus-within:border-b-emerald-400 rounded-md border flex">
       <input
         :type="typeInputPassword"
         placeholder="Senha"
@@ -26,6 +26,7 @@
         v-if="typeInputPassword === 'password'"
         type="button"
         @click="typeInputPassword = 'text'"
+         class="p-1"
       >
         <i class="bi bi-eye text-xl"></i>
       </button>
@@ -34,6 +35,7 @@
         v-else
         type="button"
         @click.prevent="typeInputPassword = 'password'"
+         class="p-1"
       >
         <i class="bi bi-eye-slash text-xl"></i>
       </button>

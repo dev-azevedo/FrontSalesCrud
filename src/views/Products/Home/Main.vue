@@ -6,6 +6,7 @@
       placeholder="Busque pelo nome do produto"
       :newItem="addNewProduct"
       :searchItem="getProductByDescription"
+      @resetGet="getProducts"
     >
       <template v-slot:lista>
         <div
@@ -129,6 +130,8 @@ watch(pageSize, () => {
 });
 
 const getProductByDescription = async (description) => {
+  if (!description) return;
+
   try {
     isLoading.value = true;
     products.value = [];

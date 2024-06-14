@@ -8,15 +8,18 @@
       <div class="w-1/2 flex items-center justify-end gap-1">
         <input
           type="text"
-          class="border w-full p-2 rounded-md"
+          class="border w-full p-2 rounded-md outline-none focus:border-b-emerald-400"
           :placeholder="placeholder"
           v-model="search"
-          @keyup.enter="searchItem(search)"
+          @keyup.enter="search && searchItem(search)"
         />
         <button
+          type="button"
           class="bg-emerald-400 p-2 rounded-md text-white hover:opacity-50 ease duration-300"
+          :disabled="!search"
+          @click="searchItem(search)"
         >
-          <i class="bi bi-search" @click="searchItem(search)"></i>
+          <i class="bi bi-search"></i>
         </button>
 
         <button
@@ -37,7 +40,7 @@
 </template>
 
 <script setup>
-import { defineProps, ref } from "vue";
+import { defineProps, defineEmits, ref, watch } from "vue";
 
 const props = defineProps([
   "title",
@@ -46,7 +49,15 @@ const props = defineProps([
   "searchItem",
   "icon",
 ]);
+
+const emit = defineEmits(["resetGet"]);
 const search = ref("");
+
+watch(search, (newValue) => {
+  if (newValue.length == 0) 
+    return emit("resetGet");
+
+});
 </script>
 
 <style scoped></style>
