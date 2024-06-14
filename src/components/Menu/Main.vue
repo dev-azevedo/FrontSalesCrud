@@ -54,11 +54,11 @@
           >
         </li>
         <li class="pt-5">
-          <router-link
-            to="/inicio"
-            exactActiveClass="text-emerald-600 font-bold"
+          <button
+            type="button"
+            @click="logout()"
             class="pl-5 hover:opacity-50 transition ease duration-300"
-            ><i class="bi bi-door-open-fill"></i> Sair</router-link
+            ><i class="bi bi-door-open-fill"></i> Sair</button
           >
         </li>
       </ul>
@@ -92,10 +92,16 @@
 <script setup>
 import { authUser } from "@/store/authStore";
 import { computed } from "vue";
+import { useRouter } from "vue-router";
 
 const useAuthStore = authUser();
-
+const router = useRouter();
 const userFullName = computed(() => useAuthStore.getUser.fullName);
+
+const logout = () => {
+  useAuthStore.logout(); 
+  router.push("/inicio");
+}
 </script>
 
 <style scoped>
