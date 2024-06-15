@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col w-1/2 p-2">
+  <form class="flex flex-col w-full lg:w-1/2 p-10 lg:p-2">
     <div class="text-8xl spicy-rice-regular mb-16 flex justify-center">
       <span class="text-slate-900">Sales</span>
       <span class="text-emerald-400">Crud</span>
@@ -58,7 +58,7 @@
       <button
         type="button"
         class="bg-slate-900 text-white rounded-md p-2"
-        @click="emit('styleInit', '-translate-x-1/3')"
+        @click="emit('styleInit', true)"
       >
         Não tem conta? Cadastre-se
       </button>

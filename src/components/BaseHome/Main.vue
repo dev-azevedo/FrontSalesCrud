@@ -1,11 +1,11 @@
 <template>
   <section class="mt-5 font-medium">
-    <div class="w-full mt-5 text-start flex justify-between items-center px-10">
-      <h1 class="w-1/2 text-2xl font-semibold text-slate-900">
+    <div class="w-full mt-5 text-start flex flex-col lg:flex-row lg:justify-between lg:items-center px-10 gap-2">
+      <h1 class="w-full lg:w-1/2 text-2xl font-semibold text-slate-900">
         <i :class="['bi', props.icon]"></i> {{ props.title }}
       </h1>
 
-      <div class="w-1/2 flex items-center justify-end gap-1">
+      <div class="w-full lg:w-1/2 flex items-center justify-end gap-1">
         <input
           type="text"
           class="border w-full p-2 rounded-md outline-none focus:border-b-emerald-400"

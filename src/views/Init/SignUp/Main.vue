@@ -1,9 +1,14 @@
 <template>
-  <form class="flex flex-col w-1/2 p-2">
+  <form class="flex flex-col w-full lg:w-1/2 p-10 lg:p-2">
     <div class="text-8xl spicy-rice-regular mb-16 flex justify-center">
-      <span class="text-slate-900">Sales</span>
-      <span class="text-emerald-400">Crud</span>
+      <span class="text-emerald-400">Sales</span>
+      <span class="text-slate-900">Crud</span>
     </div>
+
+    <span class="spicy-rice-regular text-8xl">
+      <span class="text-slate-900">S</span>
+      <span class="text-emerald-400">C</span>
+    </span>
 
     <div class="mb-5">
       <span>Junte-se a nós e aproveite os melhores produtos.</span>
@@ -23,9 +28,7 @@
       v-model.lazy="email"
     />
 
-    <div
-      class="border focus-within:border-b-emerald-400 rounded-md flex mb-3"
-    >
+    <div class="border focus-within:border-b-emerald-400 rounded-md flex mb-3">
       <input
         :type="typeInputPassword"
         placeholder="Senha"
@@ -45,15 +48,13 @@
         v-else
         type="button"
         @click.prevent="typeInputPassword = 'password'"
-         class="p-1"
+        class="p-1"
       >
         <i class="bi bi-eye-slash text-xl"></i>
       </button>
     </div>
 
-    <div
-      class="border focus-within:border-b-emerald-400  rounded-md flex mb-3"
-    >
+    <div class="border focus-within:border-b-emerald-400 rounded-md flex mb-3">
       <input
         :type="typeInputConfirmPassword"
         placeholder="Confirme sua senha"
@@ -64,7 +65,7 @@
         v-if="typeInputConfirmPassword === 'password'"
         type="button"
         @click="typeInputConfirmPassword = 'text'"
-         class="p-1"
+        class="p-1"
       >
         <i class="bi bi-eye text-xl"></i>
       </button>
@@ -73,7 +74,7 @@
         v-else
         type="button"
         @click.prevent="typeInputConfirmPassword = 'password'"
-         class="p-1"
+        class="p-1"
       >
         <i class="bi bi-eye-slash text-xl"></i>
       </button>
