@@ -5,6 +5,7 @@ import VueTheMask from 'vue-the-mask'
 import { createPinia } from 'pinia'
 import money from "v-money"
 import Vue3Toasity from 'vue3-toastify';
+import {setupInterceptors} from "@/services/Api.js";
 
 const pinia = createPinia()
 const app = createApp(App)
@@ -17,5 +18,7 @@ app.use(Vue3Toasity, {
     position: 'bottom-right',
     autoClose: 3000,
 });
+
+setupInterceptors(router);
 
 app.mount('#app')
