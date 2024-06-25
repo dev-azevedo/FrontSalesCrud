@@ -40,6 +40,7 @@
           <div>
             <Dropzone
               titleDropzone="Arraste ou clique aqui para importar imagem do produto"
+              :files="listFilesUpload"
               @onFileUpload="($event) => (listFilesUpload = $event)"
             />
           </div>
@@ -197,8 +198,8 @@ const updateProduct = async () => {
             description.value = null;
             unitaryValue.value = null;
 
-            setTimeout(() => {
-              return router.back();
+            return setTimeout(() => {
+              router.back();
             }, 2500);
           }
         } catch (err) {
@@ -232,7 +233,7 @@ const updateProduct = async () => {
     if (err?.response && err?.response?.data) {
       err.response.data.errors.map((error) => {
         return toast.error(error, {
-                autoClose: 3500,
+          autoClose: 3500,
         });
       });
     }
@@ -263,16 +264,17 @@ const getProductById = async () => {
         const mimeType = result.headers["content-type"];
 
         const file = await urlToFile(data.pathImage, fileName + ext, mimeType);
-        console.log(file);
+        console.log("file", file);
         listFilesUpload.value = [file];
+        console.log("file", listFilesUpload.value);
       }
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
       err.response.data.errors.map((error) => {
         return toast.error(error, {
-                autoClose: 3500,
-              });
+          autoClose: 3500,
+        });
       });
     }
 
