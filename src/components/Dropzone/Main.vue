@@ -14,7 +14,7 @@
           class="label-upload w-full p-4 rounded-md text-center"
           :class="{ isDraggingStyle: isDragging }"
         >
-          <div class="spinner-custom rounded" v-show="isLoading">
+          <div class="spinner-custom rounded" v-show="loading">
             <span class="text-white"> Importando... </span>
             <span class="text-white fs-12">Isso pode levar alguns minutos</span>
           </div>
@@ -50,7 +50,7 @@
           </div>
         </label>
         <input
-          :disabled="isLoading"
+          :disabled="loading"
           type="file"
           id="upload"
           :accept="acceptTypes"
@@ -75,6 +75,7 @@ const props = defineProps(["titleDropzone", "isLoading", "files"]);
 
 const titleDropzone = computed(() => props.titleDropzone);
 const hasFile = computed(() => props.files.length > 0);
+const loading = computed(() => props.isLoading);
 
 watch(hasFile, () => {
   listFilesUpload.value = props.files;

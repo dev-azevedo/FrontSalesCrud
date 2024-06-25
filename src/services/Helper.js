@@ -1,3 +1,5 @@
+import api from "./Api";
+
 export const formatMoneyPtBr = (money) => {
   return money.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 };
@@ -46,17 +48,28 @@ export const validateEmail = (email) => {
 export const formatDate = (date) => {
   const [day, month, year] = date.split("/");
 
-    const formattedDay = day.toString().padStart(2, '0');
-    const formattedMonth = month.toString().padStart(2, '0');
+  const formattedDay = day.toString().padStart(2, "0");
+  const formattedMonth = month.toString().padStart(2, "0");
 
-    return `${year}-${formattedMonth}-${formattedDay}`;
-}
+  return `${year}-${formattedMonth}-${formattedDay}`;
+};
 
 export const convertCurrencyToFloat = (currencyString) => {
-  if(currencyString) {
-    let cleanedString = currencyString.replace("R$", "").replace(".", "").replace(",", ".");
+  if (currencyString) {
+    let cleanedString = currencyString
+      .replace("R$", "")
+      .replace(".", "")
+      .replace(",", ".");
     return parseFloat(cleanedString);
   }
 
   return currencyString;
-}
+};
+
+export const urlToFile = async (url, filename, mimeType) => {
+  const response = await api.get(url);
+
+  const blob = await response.blob();
+
+  return new File([blob], filename, { type: mimeType });
+};
