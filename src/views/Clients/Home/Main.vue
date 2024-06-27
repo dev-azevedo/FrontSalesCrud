@@ -6,7 +6,7 @@
       placeholder="Busque pelo nome do cliente"
       :newItem="addNewClient"
       :searchItem="getClientByName"
-       @resetGet="getClients"
+      @resetGet="getClients"
     >
       <template v-slot:lista>
         <div
@@ -25,15 +25,15 @@
 
         <div
           v-else
-         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-5"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-5"
         >
           <div
             v-for="client in clients"
             :key="client.id"
-        class="rounded-md bg-white flex flex-col justify-between shadow-xl"
+            class="rounded-md bg-white flex flex-col justify-between shadow-xl"
           >
             <div
-                class="w-full max-h-56 truncate flex items-center justify-center cursor-pointer rounded-t-md"
+              class="w-full max-h-56 truncate flex items-center justify-center cursor-pointer rounded-t-md"
             >
               <img
                 v-if="client.pathImage"
@@ -44,7 +44,7 @@
 
               <div
                 v-else
-                  class="flex justify-center items-center w-full h-56 bg-gray-300"
+                class="flex justify-center items-center w-full h-56 bg-gray-300"
               >
                 <i class="bi bi-people text-6xl text-gray-100 m-16"></i>
               </div>
@@ -63,20 +63,28 @@
               <button
                 type="button"
                 class="bg-slate-100"
-                  @click="deleteClient(client.id)"
+                @click="deleteClient(client.id)"
               >
                 <i class="bi bi-trash text-red-600"></i>
               </button>
             </div>
 
-            <div class="">
+            <div class="flex flex-col justify-start items-start px-5">
               <div
                 class="truncate cursor-pointer flex justify-center"
                 :title="client.name"
               >
-              <span class="text-lg text-center">
-                {{ client.name }}
-              </span>
+                <span class="text-lg text-center">
+                  {{ client.name }}
+                </span>
+              </div>
+              <div
+                class="truncate cursor-pointer flex justify-center"
+                :title="client.email"
+              >
+                <span class="text-sm text-center text-slate-500">
+                  {{ client.email }}
+                </span>
               </div>
 
               <div class="mb-3 items-center flex justify-center">
@@ -129,7 +137,7 @@ watch(pageSize, () => {
 });
 
 const getClientByName = async (name) => {
-  if (!name) return
+  if (!name) return;
 
   try {
     isLoading.value = true;

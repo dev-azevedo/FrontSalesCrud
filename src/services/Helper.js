@@ -69,7 +69,8 @@ export const convertCurrencyToFloat = (currencyString) => {
 export const urlToFile = async (url, filename, mimeType) => {
   const response = await api.get(url);
 
-  const blob = await response.blob();
-
-  return new File([blob], filename, { type: mimeType });
+  if (response.status == 200) {
+    const blob = await response.blob();
+    return new File([blob], filename, { type: mimeType });
+  }
 };

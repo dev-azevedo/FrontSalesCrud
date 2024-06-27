@@ -19,6 +19,17 @@
           />
         </div>
 
+        <div class="flex flex-col justify-start items-start">
+          <label for="" class="test-start">Email</label>
+          <input
+            type="text"
+            class="w-full p-2 rounded-md outline-0 border focus:border-b-emerald-400"
+            placeholder="Informe o email do cliente"
+            v-model="email"
+            :disabled="isLoading"
+          />
+        </div>
+
         <div class="flex flex-col justify-start items-start my-5">
           <label for="" class="test-start">Cidade</label>
           <input
@@ -55,6 +66,7 @@ const router = useRouter();
 const idUpdate = computed(() => route.params.id);
 const isLoading = ref(false);
 const name = ref("");
+const email = ref("");
 const city = ref("");
 const listFilesUpload = ref([]);
 
@@ -75,6 +87,7 @@ const registerClient = async () => {
 
     const { status, data } = await api.post("/client", {
       name: name.value,
+      email: email.value,
       city: city.value,
     });
 
@@ -158,6 +171,7 @@ const updateClient = async () => {
     const { status } = await api.put("/client", {
       id: idUpdate.value,
       name: name.value,
+      email: email.value,
       city: city.value,
     });
 
@@ -231,6 +245,7 @@ const getClientBy = async () => {
 
     if (data) {
       name.value = data.name;
+      email.value = data.email;
       city.value = data.city;
 
       if (data.pathImage != null) {
@@ -254,6 +269,7 @@ const getClientBy = async () => {
       });
     }
 
+    console.log(err);
     return toast.error("Algo deu errado. Tente novamente.", {
       autoClose: 3500,
     });
