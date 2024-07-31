@@ -9,13 +9,7 @@
       @resetGet="getClients"
     >
       <template v-slot:lista>
-        <div
-          v-if="isLoading"
-          class="bg-white p-2 mb-3 flex justify-center items-center"
-        >
-          buscando...
-        </div>
-
+        <SkeletonLoading v-if="isLoading" :heightCard="'h-56'" />
         <div
           v-else-if="clients.length == 0"
           class="w-full bg-white p-2 mb-3 flex justify-center items-center"
@@ -114,6 +108,7 @@ import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import Pagination from "@/components/Pagination/Main.vue";
+import SkeletonLoading from "@/components/SkeletonLoading/Main.vue";
 
 const router = useRouter();
 const clients = ref([]);

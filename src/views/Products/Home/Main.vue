@@ -9,12 +9,8 @@
       @resetGet="getProducts"
     >
       <template v-slot:lista>
-        <div
-          v-if="isLoading"
-          class="bg-white p-2 mb-3 flex justify-center items-center"
-        >
-          buscando...
-        </div>
+        <SkeletonLoading v-if="isLoading" :heightCard="'h-56'" />
+
         <div
           v-else-if="products.length == 0"
           class="w-full bg-white p-2 mb-3 flex justify-center items-center"
@@ -68,17 +64,14 @@
               </button>
             </div>
 
-            <div class="">
-              <div
-                class="truncate flex justify-center"
-                :title="product.description"
-              >
-                <span class="text-lg text-center">
+            <div class="px-5">
+              <div class="truncate flex" :title="product.description">
+                <span class="text-lg">
                   {{ product.description.toUpperCase() }}
                 </span>
               </div>
 
-              <div class="mb-3 items-center flex justify-center">
+              <div class="mb-3 items-center flex">
                 <span class="text-sm text-slate-500">
                   {{ formatMoneyPtBr(product.unitaryValue) }}
                 </span>
@@ -108,6 +101,7 @@ import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import { formatMoneyPtBr } from "@/services/Helper";
 import Pagination from "@/components/Pagination/Main.vue";
+import SkeletonLoading from "@/components/SkeletonLoading/Main.vue";
 
 const router = useRouter();
 const products = ref([]);

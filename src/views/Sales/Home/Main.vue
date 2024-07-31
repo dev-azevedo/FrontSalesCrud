@@ -9,12 +9,7 @@
       @resetGet="getSales"
     >
       <template v-slot:lista>
-        <div
-          v-if="isLoading"
-          class="w-full bg-white p-2 mb-3 flex justify-center items-center"
-        >
-          buscando...
-        </div>
+        <SkeletonLoading v-if="isLoading" :heightCard="'h-8'" />
         <div
           v-else-if="sales.length == 0"
           class="w-full bg-white p-2 mb-3 flex justify-center items-center"
@@ -24,71 +19,82 @@
 
         <div
           v-else
-          v-for="sale in sales"
-          :key="sale.id"
-          class="rounded-md bg-white p-2 mb-3 flex justify-between items-center border-l-8 border-slate-500 font-normal"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-5"
         >
-          <div>
-            <div>
-              <span class="text-sm text-slate-500">Cliente: </span>
-              <span>
-                {{ sale.client.name }}
-              </span>
+          <div
+            v-for="sale in sales"
+            :key="sale.id"
+            class="rounded-md bg-white flex flex-col justify-between shadow-xl"
+          >
+            <div
+              class="w-full max-h-56 truncate flex items-center justify-center cursor-pointer rounded-t-md"
+            >
+              <div
+                class="flex justify-center items-center w-full h-8 bg-gray-300"
+              ></div>
+            </div>
+            <div class="grid grid-cols-2 mb-5 divide-x divide-slate-300">
+              <button
+                type="button"
+                class="bg-slate-100 p-2"
+                @click="updateSale(sale.id)"
+              >
+                <i class="bi bi-pencil-square text-yellow-400"></i>
+              </button>
+              <button
+                type="button"
+                class="bg-slate-100"
+                @click="deleteSale(sale.id)"
+              >
+                <i class="bi bi-trash text-red-600"></i>
+              </button>
             </div>
 
-            <div>
-              <span
-                class="text-sm text-slate-500 me-2 cursor-pointer"
-                title="Data da venda"
-              >
-                <i class="bi bi-calendar3"></i>
-              </span>
-              <span>
-                {{ formatDateTimePtBr(sale.createdOn) }}
-              </span>
+            <div class="flex flex-col justify-start items-start px-5 py-3">
+              <div class="truncate cursor-pointer flex justify-center">
+                <div>
+                  <span class="text-sm text-slate-500">Cliente: </span>
+                  <span>
+                    {{ sale.client.name }}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <span
+                  class="text-sm text-slate-500 me-2 cursor-pointer"
+                  title="Data da venda"
+                >
+                  <i class="bi bi-calendar3"></i>
+                </span>
+                <span>
+                  {{ formatDateTimePtBr(sale.createdOn) }}
+                </span>
+              </div>
+
+              <div>
+                <span class="text-sm text-slate-500">Produto: </span>
+                <span>
+                  {{ sale.product.description }}
+                </span>
+              </div>
+              <div>
+                <span class="text-sm text-slate-500">Quantidade: </span>
+                <span>{{ sale.productQuantity }}</span>
+              </div>
+
+              <div>
+                <span class="text-sm text-slate-500">Unidade: </span>
+                <span class="fs-5">
+                  {{ formatMoneyPtBr(sale.product.unitaryValue) }}
+                </span>
+              </div>
+              <div>
+                <span class="text-sm text-slate-500"> Total: </span>
+                <span class="fs-5">
+                  {{ formatMoneyPtBr(sale.valueSale) }}
+                </span>
+              </div>
             </div>
-          </div>
-          <div>
-            <div>
-              <span class="text-sm text-slate-500">Produto: </span>
-              <span>
-                {{ sale.product.description }}
-              </span>
-            </div>
-            <div>
-              <span class="text-sm text-slate-500">Quantidade: </span>
-              <span>{{ sale.productQuantity }}</span>
-            </div>
-          </div>
-          <div class="text-start">
-            <div>
-              <span class="text-sm text-slate-500">Unidade: </span>
-              <span class="fs-5">
-                {{ formatMoneyPtBr(sale.product.unitaryValue) }}
-              </span>
-            </div>
-            <div>
-              <span class="text-sm text-slate-500"> Total: </span>
-              <span class="fs-5">
-                {{ formatMoneyPtBr(sale.valueSale) }}
-              </span>
-            </div>
-          </div>
-          <div>
-            <button
-              type="button"
-              class="text-yellow-500 pe-2 border-e me-2"
-              @click="updateSale(sale.id)"
-            >
-              <i class="bi bi-pencil-square"></i> Editar
-            </button>
-            <button
-              type="button"
-              class="text-red-600 me-2"
-              @click="deleteSale(sale.id)"
-            >
-              <i class="bi bi-trash"></i> Deletar
-            </button>
           </div>
         </div>
       </template>
@@ -113,6 +119,7 @@ import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import { formatMoneyPtBr, formatDateTimePtBr } from "@/services/Helper";
 import Pagination from "@/components/Pagination/Main.vue";
+import SkeletonLoading from "@/components/SkeletonLoading/Main.vue";
 
 const router = useRouter();
 const sales = ref([]);
