@@ -1,6 +1,13 @@
 <template>
-  <section class="mt-5 font-medium">
-    <div class="w-full mt-5 text-start flex flex-col lg:flex-row lg:justify-between lg:items-center px-10 gap-2">
+  <section
+    class="mt-5 font-medium"
+    data-aos="fade-up"
+    data-aos-offset="200"
+    data-aos-easing="ease-in-out"
+  >
+    <div
+      class="w-full mt-5 text-start flex flex-col lg:flex-row lg:justify-between lg:items-center px-10 gap-2"
+    >
       <h1 class="w-full lg:w-1/2 text-2xl font-semibold text-slate-900">
         <i :class="['bi', props.icon]"></i> {{ props.title }}
       </h1>
@@ -54,9 +61,7 @@ const emit = defineEmits(["resetGet"]);
 const search = ref("");
 
 watch(search, (newValue) => {
-  if (newValue.length == 0) 
-    return emit("resetGet");
-
+  if (newValue.length == 0) return emit("resetGet");
 });
 </script>
 

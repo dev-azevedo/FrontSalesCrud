@@ -2,6 +2,16 @@
   <router-view />
 </template>
 
+<script setup>
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { onMounted } from "vue";
+
+onMounted(() => {
+  AOS.init();
+});
+</script>
+
 <style>
 /* slate-900 */
 /* amber-500 */
@@ -21,8 +31,8 @@ button:hover {
   transition: all ease 0.3s;
 }
 
-button:disabled{
-  opacity: .5 !important;
+button:disabled {
+  opacity: 0.5 !important;
   cursor: not-allowed !important;
 }
 
@@ -31,5 +41,4 @@ button:disabled{
   font-weight: 400;
   font-style: normal;
 }
-
 </style>

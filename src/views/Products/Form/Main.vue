@@ -6,6 +6,7 @@
       :update="updateProduct"
       :disabledSendBtn="disabledSendBtn"
       :loadingRequest="isLoading"
+      :icon="'bi-box-seam'"
     >
       <template v-slot:form>
         <div class="flex flex-col justify-start items-start">

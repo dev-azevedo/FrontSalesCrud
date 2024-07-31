@@ -1,24 +1,24 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import VueTheMask from 'vue-the-mask'
-import { createPinia } from 'pinia'
-import money from "v-money"
-import Vue3Toasity from 'vue3-toastify';
-import {setupInterceptors} from "@/services/Api.js";
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import VueTheMask from "vue-the-mask";
+import { createPinia } from "pinia";
+import money from "v-money";
+import Vue3Toasity from "vue3-toastify";
+import { setupInterceptors } from "@/services/Api.js";
 
-const pinia = createPinia()
-const app = createApp(App)
+const pinia = createPinia();
+const app = createApp(App);
 
-app.use(pinia)
-app.use(router)
-app.use(VueTheMask)
-app.use(money, {precision: 4})
+app.use(pinia);
+app.use(router);
+app.use(VueTheMask);
+app.use(money, { precision: 4 });
 app.use(Vue3Toasity, {
-    position: 'bottom-right',
-    autoClose: 3000,
+  position: "bottom-right",
+  autoClose: 3000,
 });
 
 setupInterceptors(router);
 
-app.mount('#app')
+app.mount("#app");

@@ -6,7 +6,7 @@
       placeholder="Busque pelo nome do cliente ou descrição do produto"
       :newItem="addNewSale"
       :searchItem="getClientOrProductByName"
-       @resetGet="getSales"
+      @resetGet="getSales"
     >
       <template v-slot:lista>
         <div

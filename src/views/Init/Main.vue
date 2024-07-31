@@ -5,11 +5,11 @@
     :class="{ '-translate-y-1/2': styleInit }"
   >
     <div class="flex justify-center items-center w-full h-screen">
-      <SignIn @styleInit="styleInit = $event" />
+      <SignIn v-if="styleInit" @styleInit="styleInit = $event" />
     </div>
 
     <div class="flex justify-center items-center w-full h-screen">
-      <SignUp @styleInit="styleInit = $event" />
+      <SignUp v-if="!styleInit" @styleInit="styleInit = $event" />
     </div>
   </section>
 
@@ -19,7 +19,7 @@
     :class="{ 'lg:-translate-x-1/3 -translate-x-2/4': styleInit }"
   >
     <div class="flex justify-center items-center w-1/3 flex-shrink-0 p-20">
-      <SignIn @styleInit="styleInit = $event" />
+      <SignIn v-if="!styleInit" @styleInit="styleInit = $event" />
     </div>
 
     <div
@@ -39,17 +39,17 @@
     </div>
 
     <div class="flex justify-center items-center w-1/3 flex-shrink-0 p-20">
-      <SignUp @styleInit="styleInit = $event" />
+      <SignUp v-if="styleInit" @styleInit="styleInit = $event" />
     </div>
   </section>
 </template>
-  
+
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import SignIn from "./SignIn/Main.vue";
 import SignUp from "./SignUp/Main.vue";
 
-const styleInit = ref("");
+const styleInit = ref(false);
 
 onMounted(() => {
   document.body.style.overflow = "hidden";
@@ -59,7 +59,7 @@ onBeforeUnmount(() => {
   document.body.style.overflow = "";
 });
 </script>
-  
+
 <style scoped>
 #desktop-login {
   height: 100vh;

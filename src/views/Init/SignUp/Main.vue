@@ -1,14 +1,14 @@
 <template>
-  <form class="flex flex-col w-full lg:w-1/2 p-10 lg:p-2">
+  <form
+    class="flex flex-col w-full lg:w-1/2 p-10 lg:p-2"
+    data-aos="zoom-in"
+    data-aos-offset="200"
+    data-aos-easing="ease-in-out"
+  >
     <div class="text-8xl spicy-rice-regular mb-16 flex justify-center">
       <span class="text-emerald-400">Sales</span>
       <span class="text-slate-900">Crud</span>
     </div>
-
-    <span class="spicy-rice-regular text-8xl">
-      <span class="text-slate-900">S</span>
-      <span class="text-emerald-400">C</span>
-    </span>
 
     <div class="mb-5">
       <span>Junte-se a nós e aproveite os melhores produtos.</span>
@@ -114,14 +114,14 @@
       <button
         type="button"
         class="bg-slate-900 text-white rounded-md p-2"
-        @click="emit('styleInit', ''), resetForm()"
+        @click="emit('styleInit', false), resetForm()"
       >
         Já tenho conta
       </button>
     </div>
   </form>
 </template>
-  
+
 <script setup>
 import api from "@/services/Api";
 import { computed, defineEmits, ref, watch } from "vue";
@@ -245,7 +245,7 @@ const register = async () => {
       toast.success(`Cadastrado realizado com sucesso!`, {
         autoClose: 3000,
       });
-      emit("styleInit", "");
+      emit("styleInit", false);
       return resetForm();
     }
   } catch (error) {

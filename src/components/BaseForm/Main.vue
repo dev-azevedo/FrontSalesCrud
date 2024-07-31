@@ -1,7 +1,19 @@
 <template>
-  <section class="mt-5 font-medium">
+  <section
+    class="mt-5 font-medium"
+    data-aos="fade-up"
+    data-aos-offset="200"
+    data-aos-easing="ease-in-out"
+  >
     <div class="px-10 w-full my-5 text-start flex justify-between items-center">
-      <h1 class="text-lg font-semibold">{{ props.title }}</h1>
+      <h1 class="text-2xl font-semibold">
+        <i
+          v-if="props.title.includes('Cadastrar')"
+          class="bi bi-plus-circle"
+        ></i>
+        <i v-else class="bi bi-pencil-square"></i>
+        {{ props.title }}
+      </h1>
 
       <button
         class="bg-slate-900 text-white px-2 py-1 rounded-md hover:opacity-50 ease duration-300"

@@ -6,6 +6,9 @@
       :update="updateSale"
       :disabledSendBtn="disabledSendBtn"
       :loadingRequest="isLoading"
+      data-aos="fade-up"
+      data-aos-offset="200"
+      data-aos-easing="ease-in-out"
     >
       <template v-slot:form>
         <div class="flex flex-col justify-start items-start mt-5 relative">
