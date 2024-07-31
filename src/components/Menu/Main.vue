@@ -46,7 +46,7 @@
             <router-link
               @click="showMenuMobile = false"
               to="/"
-              exactActiveClass="text-emerald-400 font-bold pl-10"
+              exactActiveClass="text-emerald-400 font-bold ml-5"
               class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-columns-gap"></i> Dashboard</router-link
             >
@@ -61,7 +61,7 @@
             <router-link
               @click="showMenuMobile = false"
               to="/vendas"
-              activeClass="text-emerald-400 font-bold pl-10"
+              activeClass="text-emerald-400 font-bold ml-5"
               class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-basket"></i> Vendas</router-link
             >
@@ -76,7 +76,7 @@
             <router-link
               @click="showMenuMobile = false"
               to="/clientes"
-              activeClass="text-emerald-600 font-bold pl-10"
+              activeClass="text-emerald-600 font-bold ml-5"
               class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-people"></i> Clientes</router-link
             >
@@ -91,7 +91,7 @@
             <router-link
               @click="showMenuMobile = false"
               to="/produtos"
-              activeClass="text-emerald-600 font-bold pl-10"
+              activeClass="text-emerald-600 font-bold ml-5"
               class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-box-seam"></i> Produtos</router-link
             >
@@ -108,7 +108,7 @@
             <router-link
               @click="showMenuMobile = false"
               to="/perfil"
-              activeClass="text-emerald-600 font-bold pl-10"
+              activeClass="text-emerald-600 font-bold ml-5"
               class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-person-circle"></i> Perfil</router-link
             >
