@@ -46,8 +46,8 @@
             <router-link
               @click="showMenuMobile = false"
               to="/"
-              exactActiveClass="text-emerald-400 font-bold"
-              class="pl-5 hover:opacity-50 transition ease duration-300"
+              exactActiveClass="text-emerald-400 font-bold pl-10"
+              class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-columns-gap"></i> Dashboard</router-link
             >
           </li>
@@ -61,8 +61,8 @@
             <router-link
               @click="showMenuMobile = false"
               to="/vendas"
-              activeClass="text-emerald-400 font-bold"
-              class="pl-5 hover:opacity-50 transition ease duration-300"
+              activeClass="text-emerald-400 font-bold pl-10"
+              class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-basket"></i> Vendas</router-link
             >
           </li>
@@ -76,8 +76,8 @@
             <router-link
               @click="showMenuMobile = false"
               to="/clientes"
-              activeClass="text-emerald-600 font-bold"
-              class="pl-5 hover:opacity-50 transition ease duration-300"
+              activeClass="text-emerald-600 font-bold pl-10"
+              class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-people"></i> Clientes</router-link
             >
           </li>
@@ -89,9 +89,10 @@
             data-aos-easing="ease-in-out"
           >
             <router-link
+              @click="showMenuMobile = false"
               to="/produtos"
-              activeClass="text-emerald-600 font-bold"
-              class="pl-5 hover:opacity-50 transition ease duration-300"
+              activeClass="text-emerald-600 font-bold pl-10"
+              class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-box-seam"></i> Produtos</router-link
             >
           </li>
@@ -107,8 +108,8 @@
             <router-link
               @click="showMenuMobile = false"
               to="/perfil"
-              activeClass="text-emerald-600 font-bold"
-              class="pl-5 hover:opacity-50 transition ease duration-300"
+              activeClass="text-emerald-600 font-bold pl-10"
+              class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-person-circle"></i> Perfil</router-link
             >
           </li>
@@ -181,6 +182,7 @@ const showMenuMobile = ref(false);
 
 const logout = () => {
   useAuthStore.logout();
+  router.push("/");
 };
 </script>
 
