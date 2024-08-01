@@ -139,16 +139,11 @@ const registerProduct = async () => {
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      err.response.data.errors.map((error) => {
-        return toast.error(error, {
-          autoClose: 3500,
-        });
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    return toast.error("Algo deu errado. Tente novamente.", {
-      autoClose: 3500,
-    });
+    return toast.error("Algo deu errado. Tente novamente.");
   } finally {
     isLoading.value = false;
   }
@@ -208,16 +203,11 @@ const updateProduct = async () => {
           }
         } catch (err) {
           if (err?.response && err?.response?.data) {
-            err.response.data.errors.map((error) => {
-              return toast.error(error, {
-                autoClose: 3500,
-              });
-            });
+            err.response.data.errors.map((error) => toast.error(error.message));
+            return;
           }
 
-          return toast.error("Algo deu errado. Tente novamente.", {
-            autoClose: 3500,
-          });
+          return toast.error("Algo deu errado. Tente novamente.");
         }
       }
 
@@ -235,16 +225,11 @@ const updateProduct = async () => {
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      err.response.data.errors.map((error) => {
-        return toast.error(error, {
-          autoClose: 3500,
-        });
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    return toast.error("Algo deu errado. Tente novamente.", {
-      autoClose: 3500,
-    });
+    return toast.error("Algo deu errado. Tente novamente.");
   } finally {
     isLoading.value = false;
   }
@@ -273,16 +258,11 @@ const getProductById = async () => {
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      err.response.data.errors.map((error) => {
-        return toast.error(error, {
-          autoClose: 3500,
-        });
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    return toast.error("Algo deu errado. Tente novamente.", {
-      autoClose: 3500,
-    });
+    return toast.error("Algo deu errado. Tente novamente.");
   } finally {
     isLoading.value = false;
   }

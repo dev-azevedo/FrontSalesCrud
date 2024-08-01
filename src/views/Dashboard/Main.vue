@@ -106,7 +106,7 @@
 
 <script setup>
 import api from "@/services/Api";
-import Swal from "sweetalert2";
+import toast from "@/services/Toast";
 import { onMounted, reactive, ref } from "vue";
 
 const isLoading = ref(false);
@@ -129,25 +129,12 @@ const getClientBestSeller = async () => {
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
 
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }

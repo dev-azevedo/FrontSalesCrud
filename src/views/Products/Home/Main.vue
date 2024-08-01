@@ -139,12 +139,11 @@ const getProductByDescription = async (description) => {
     products.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      err.response.data.errors.map((error) => {
-        toast.error(error.message);
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    toast.error("Algo deu errado. Tente novamente");
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }
@@ -164,12 +163,11 @@ const getProducts = async () => {
     products.value = data.items;
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      err.response.data.errors.map((error) => {
-        toast.error(error.message);
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    toast.error("Algo deu errado. Tente novamente");
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }

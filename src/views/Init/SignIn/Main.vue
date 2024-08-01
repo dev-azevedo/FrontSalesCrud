@@ -115,11 +115,11 @@ const signIn = async () => {
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      err.response.data.errors.map((error) => {
+      err.response.data.errors.map((error) =>
         toast.error(error.message, {
           autoClose: false,
-        });
-      });
+        })
+      );
     }
   } finally {
     loading.value = false;

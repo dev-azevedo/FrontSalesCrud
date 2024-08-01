@@ -118,6 +118,7 @@ import Swal from "sweetalert2";
 import { formatMoneyPtBr, formatDateTimePtBr } from "@/services/Helper";
 import Pagination from "@/components/Pagination/Main.vue";
 import SkeletonLoading from "@/components/SkeletonLoading/Main.vue";
+import toast from "@/services/Toast";
 
 const router = useRouter();
 const sales = ref([]);
@@ -165,25 +166,11 @@ const getSales = async () => {
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }
@@ -210,12 +197,8 @@ const deleteSale = async (id) => {
   }).then(async (result) => {
     if (result.isConfirmed) {
       await api.delete(`/sale/${id}`);
-      Swal.fire({
-        icon: "success",
-        title: "Venda apagado com sucesso!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+
+      toast.success("Venda apagada com sucesso!");
       getSales();
     }
   });

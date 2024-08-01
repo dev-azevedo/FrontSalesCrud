@@ -100,7 +100,6 @@
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import BaseForm from "@/components/BaseForm/Main.vue";
 import api from "@/services/Api";
-import Swal from "sweetalert2";
 import { useRoute, useRouter } from "vue-router";
 import { formatMoneyPtBr } from "@/services/Helper";
 import toast from "@/services/Toast";
@@ -179,25 +178,12 @@ const getClientByName = async () => {
     clients.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
 
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
   }
 };
 
@@ -215,25 +201,11 @@ const getProductByDescription = async () => {
     products.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
   }
 };
 
@@ -255,12 +227,7 @@ const registerSale = async () => {
     });
 
     if (status == 201) {
-      Swal.fire({
-        icon: "success",
-        title: "Cadastrado com sucesso!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      toast.success("Cadastrado com sucesso!");
 
       inputSearchClient.value = "";
       clientId.value = "";
@@ -278,12 +245,7 @@ const registerSale = async () => {
       err?.response?.data &&
       !err?.response?.data.includes("!DOCTYPE")
     ) {
-      Swal.fire({
-        icon: "error",
-        text: err.response.data,
-        showConfirmButton: false,
-        timer: 2500,
-      });
+      toast.error(err.response.data);
     }
   } finally {
     isLoading.value = false;
@@ -302,12 +264,7 @@ const updateSale = async () => {
     });
 
     if (status == 200) {
-      Swal.fire({
-        icon: "success",
-        title: "Atualizado com sucesso!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      toast.success("Atualizado com sucesso!");
 
       clientId.value = "";
       product.id = "";
@@ -321,25 +278,11 @@ const updateSale = async () => {
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }
@@ -358,25 +301,11 @@ const getSaleById = async () => {
     quantityProduct.value = data.productQuantity;
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }
@@ -389,12 +318,11 @@ const getClientById = async (id) => {
     selectClient(data);
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      err.response.data.errors.map((error) => {
-        toast.error(error.message);
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    toast.error("Algo deu errado. Tente novamente");
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }
@@ -407,12 +335,11 @@ const getProductById = async (id) => {
     selectProduct(data);
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      err.response.data.errors.map((error) => {
-        toast.error(error.message);
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    toast.error("Algo deu errado. Tente novamente");
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }

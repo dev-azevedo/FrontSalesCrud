@@ -114,6 +114,7 @@ import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import Pagination from "@/components/Pagination/Main.vue";
 import SkeletonLoading from "@/components/SkeletonLoading/Main.vue";
+import toast from "@/services/Toast";
 
 const router = useRouter();
 const clients = ref([]);
@@ -146,25 +147,11 @@ const getClientByName = async (name) => {
     if (data) clients.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }
@@ -185,25 +172,11 @@ const getClients = async () => {
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }
@@ -230,12 +203,8 @@ const deleteClient = async (id) => {
   }).then(async (result) => {
     if (result.isConfirmed) {
       await api.delete(`/client/${id}`);
-      Swal.fire({
-        icon: "success",
-        title: "Cliente apagado com sucesso!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+
+      toast.success("Cliente apagado com sucesso!");
       getClients();
     }
   });
