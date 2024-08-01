@@ -45,7 +45,11 @@
               </div>
             </div>
             <div class="grid grid-cols-3 mb-5 divide-x divide-slate-300">
-              <button type="button" class="bg-slate-100">
+              <button
+                type="button"
+                class="bg-slate-100"
+                @click="addNewSale(product.id)"
+              >
                 <i class="bi bi-basket text-emerald-400"></i>
               </button>
               <button
@@ -102,6 +106,7 @@ import Swal from "sweetalert2";
 import { formatMoneyPtBr } from "@/services/Helper";
 import Pagination from "@/components/Pagination/Main.vue";
 import SkeletonLoading from "@/components/SkeletonLoading/Main.vue";
+import toast from "@/services/Toast";
 
 const router = useRouter();
 const products = ref([]);
@@ -134,25 +139,12 @@ const getProductByDescription = async (description) => {
     products.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
       err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
+        toast.error(error.message);
       });
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }
@@ -172,25 +164,12 @@ const getProducts = async () => {
     products.value = data.items;
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
       err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
+        toast.error(error.message);
       });
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }
@@ -217,15 +196,15 @@ const deleteProduct = async (id) => {
   }).then(async (result) => {
     if (result.isConfirmed) {
       await api.delete(`/product/${id}`);
-      Swal.fire({
-        icon: "success",
-        title: "Produto apagado com sucesso!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+
+      toast.success("Produto apagado com sucesso!");
       getProducts();
     }
   });
+};
+
+const addNewSale = (productId) => {
+  router.push({ name: "formSales", query: { productId: productId } });
 };
 </script>
 

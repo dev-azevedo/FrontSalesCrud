@@ -139,6 +139,9 @@ onMounted(() => {
   if (route.query?.clientId) {
     getClientById(route.query.clientId);
   }
+  if (route.query?.productId) {
+    getProductById(route.query.productId);
+  }
 });
 
 watch(inputSearchClient, (newValue) => {
@@ -384,6 +387,24 @@ const getClientById = async (id) => {
     isLoading.value = true;
     const { data } = await api.get(`/client/${id}`);
     selectClient(data);
+  } catch (err) {
+    if (err?.response && err?.response?.data) {
+      err.response.data.errors.map((error) => {
+        toast.error(error.message);
+      });
+    }
+
+    toast.error("Algo deu errado. Tente novamente");
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const getProductById = async (id) => {
+  try {
+    isLoading.value = true;
+    const { data } = await api.get(`/product/${id}`);
+    selectProduct(data);
   } catch (err) {
     if (err?.response && err?.response?.data) {
       err.response.data.errors.map((error) => {
