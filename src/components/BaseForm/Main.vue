@@ -34,7 +34,7 @@
         </div>
         <div>
           <button
-            v-if="idUpdate == 'novo'"
+            v-if="!idUpdate"
             type="button"
             class="cursor-pointer px-2 py-1 bg-emerald-400 rounded-md flex justify-center items-center gap-1"
             @click="register"
