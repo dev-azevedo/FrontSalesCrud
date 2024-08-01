@@ -46,7 +46,10 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-3 mb-5 -mt- divide-x divide-slate-300">
+            <div
+              v-show="token"
+              class="grid grid-cols-3 -mt- divide-x divide-slate-300"
+            >
               <button
                 type="button"
                 class="bg-slate-100"
@@ -70,7 +73,7 @@
               </button>
             </div>
 
-            <div class="flex flex-col justify-start items-start px-5">
+            <div class="flex flex-col mt-5 justify-start items-start px-5">
               <div
                 class="truncate cursor-pointer flex justify-center"
                 :title="client.name"
@@ -119,9 +122,12 @@ import Pagination from "@/components/Pagination/Main.vue";
 import SkeletonLoading from "@/components/SkeletonLoading/Main.vue";
 import toast from "@/services/Toast";
 import { salesCrudStore } from "@/store/SalesCrudStore.js";
+import { authUser } from "@/store/authStore";
+import { computed } from "vue";
 
 const router = useRouter();
 const store = salesCrudStore();
+const authStore = authUser();
 
 const clients = ref([]);
 const totalItems = ref(0);
@@ -129,6 +135,8 @@ const totalPages = ref(0);
 const pageNumber = ref(1);
 const pageSize = ref(12);
 const isLoading = ref(false);
+
+const token = computed(() => authStore.getToken);
 
 onMounted(() => {
   getClients();

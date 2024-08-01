@@ -27,9 +27,31 @@
             class="rounded-md bg-white flex flex-col justify-between shadow-xl"
           >
             <div
-              class="w-full max-h-56 truncate flex items-center justify-center cursor-pointer rounded-t-md"
-            ></div>
+              class="w-full h-14 truncate flex items-center justify-center cursor-pointer rounded-t-md bg-gray-300"
+            >
+              <i
+                class="bi bi-basket-fill w-12 flex justify-center items-center text-gray-100 text-2xl border-2 p-2 rounded-full"
+              ></i>
+            </div>
 
+            <div
+              class="grid grid-cols-2 divide-x divide-slate-300 rounded-b-md"
+            >
+              <button
+                type="button"
+                class="bg-slate-100 p-2 rounded-bl-md"
+                @click="updateSale(sale.id)"
+              >
+                <i class="bi bi-pencil-square text-yellow-400"></i>
+              </button>
+              <button
+                type="button"
+                class="bg-slate-100 rounded-br-md"
+                @click="deleteSale(sale.id)"
+              >
+                <i class="bi bi-trash text-red-600"></i>
+              </button>
+            </div>
             <div class="flex flex-col justify-start items-start px-5 py-3">
               <div class="truncate cursor-pointer flex justify-center">
                 <div>
@@ -74,24 +96,6 @@
                   {{ formatMoneyPtBr(sale.valueSale) }}
                 </span>
               </div>
-            </div>
-            <div
-              class="grid grid-cols-2 divide-x divide-slate-300 rounded-b-md"
-            >
-              <button
-                type="button"
-                class="bg-slate-100 p-2 rounded-bl-md"
-                @click="updateSale(sale.id)"
-              >
-                <i class="bi bi-pencil-square text-yellow-400"></i>
-              </button>
-              <button
-                type="button"
-                class="bg-slate-100 rounded-br-md"
-                @click="deleteSale(sale.id)"
-              >
-                <i class="bi bi-trash text-red-600"></i>
-              </button>
             </div>
           </div>
         </div>

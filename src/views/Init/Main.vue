@@ -1,21 +1,20 @@
 <template>
   <section
     id="mobile-login"
-    class="lg:hidden trasition-all ease duration-300 flex flex-col justify-center items-center bg-emerald-50"
-    :class="{ '-translate-y-1/2': styleInit }"
+    class="lg:hidden flex flex-col justify-center items-center w-full h-screen"
   >
-    <div class="flex justify-center items-center w-full h-screen">
-      <SignIn v-if="styleInit" @styleInit="styleInit = $event" />
+    <div v-if="!styleInit" class="flex justify-center items-center w-full">
+      <SignIn @styleInit="styleInit = $event" />
     </div>
 
-    <div class="flex justify-center items-center w-full h-screen">
-      <SignUp v-if="!styleInit" @styleInit="styleInit = $event" />
+    <div v-else class="flex justify-center items-center w-full h-screen">
+      <SignUp @styleInit="styleInit = $event" />
     </div>
   </section>
 
   <section
-    id="desktop-login"
-    class="hidden lg:block base trasition-all ease duration-300"
+    class="hidden lg:flex trasition-all ease duration-300 h-screen"
+    :style="{ width: `${widthReactive}%` }"
     :class="{ 'lg:-translate-x-1/3 -translate-x-2/4': styleInit }"
   >
     <div class="flex justify-center items-center w-1/3 flex-shrink-0 p-20">
@@ -45,14 +44,25 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import SignIn from "./SignIn/Main.vue";
 import SignUp from "./SignUp/Main.vue";
 
 const styleInit = ref(false);
 
+const widthReactive = ref(150);
+
 onMounted(() => {
   document.body.style.overflow = "hidden";
+  window.innerWidth > 1024
+    ? (widthReactive.value = 150)
+    : (widthReactive.value = 0);
+});
+
+watch(window.innerWidth, () => {
+  window.innerWidth > 1024
+    ? (widthReactive.value = 150)
+    : (widthReactive.value = 0);
 });
 
 onBeforeUnmount(() => {
@@ -65,8 +75,7 @@ onBeforeUnmount(() => {
   height: 100vh;
 }
 
-.base {
-  display: flex;
+.baseDeskTop {
   width: 150%; /* Certifique-se de que a largura total seja suficiente para conter os elementos */
 }
 </style>

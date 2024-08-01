@@ -5,7 +5,9 @@
     data-aos-offset="200"
     data-aos-easing="ease-in-out"
   >
-    <div class="text-8xl spicy-rice-regular mb-16 flex justify-center">
+    <div
+      class="text-6xl lg:text-8xl spicy-rice-regular mb-16 flex justify-center"
+    >
       <span class="text-slate-900">Sales</span>
       <span class="text-emerald-400">Crud</span>
     </div>

@@ -175,13 +175,13 @@ import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const useAuthStore = authUser();
-const userFullName = computed(() => useAuthStore.getUser.fullName);
-const token = computed(() => useAuthStore.getToken);
+const store = authUser();
+const userFullName = computed(() => store.getUser.fullName);
+const token = computed(() => store.getToken);
 const showMenuMobile = ref(false);
 
 const logout = () => {
-  useAuthStore.logout();
+  store.logout();
   router.push("/");
 };
 </script>
