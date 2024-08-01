@@ -20,6 +20,8 @@
 
         <div
           v-else
+          data-aos="fade-up"
+          data-aos-easing="ease-in-out"
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-5"
         >
           <div
@@ -69,8 +71,11 @@
             </div>
 
             <div class="px-5">
-              <div class="truncate flex" :title="product.description">
-                <span class="text-lg">
+              <div
+                class="truncate flex cursor-pointer"
+                :title="product.description"
+              >
+                <span class="text-lg truncate">
                   {{ product.description.toUpperCase() }}
                 </span>
               </div>
@@ -87,6 +92,7 @@
     </BaseHome>
 
     <Pagination
+      @click="store.resetScroll()"
       v-if="products.length > 0 && totalPages > 1"
       :pageNumber="pageNumber"
       :totalPages="totalPages"
@@ -107,8 +113,11 @@ import { formatMoneyPtBr } from "@/services/Helper";
 import Pagination from "@/components/Pagination/Main.vue";
 import SkeletonLoading from "@/components/SkeletonLoading/Main.vue";
 import toast from "@/services/Toast";
+import { salesCrudStore } from "@/store/SalesCrudStore.js";
 
 const router = useRouter();
+const store = salesCrudStore();
+
 const products = ref([]);
 const totalItems = ref(0);
 const totalPages = ref(0);
@@ -117,6 +126,7 @@ const pageSize = ref(12);
 const isLoading = ref(false);
 
 onMounted(() => {
+  window.scrollTo(0, 0);
   getProducts();
 });
 

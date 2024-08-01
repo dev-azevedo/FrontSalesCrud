@@ -19,6 +19,8 @@
 
         <div
           v-else
+          data-aos="fade-up"
+          data-aos-easing="ease-in-out"
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-5"
         >
           <div
@@ -73,7 +75,7 @@
                 class="truncate cursor-pointer flex justify-center"
                 :title="client.name"
               >
-                <span class="text-lg text-center">
+                <span class="text-lg text-center truncate">
                   {{ client.name }}
                 </span>
               </div>
@@ -96,6 +98,7 @@
     </BaseHome>
 
     <Pagination
+      @click="store.resetScroll()"
       v-if="clients.length > 0 && totalPages > 1"
       :pageNumber="pageNumber"
       :totalPages="totalPages"
@@ -115,13 +118,16 @@ import Swal from "sweetalert2";
 import Pagination from "@/components/Pagination/Main.vue";
 import SkeletonLoading from "@/components/SkeletonLoading/Main.vue";
 import toast from "@/services/Toast";
+import { salesCrudStore } from "@/store/SalesCrudStore.js";
 
 const router = useRouter();
+const store = salesCrudStore();
+
 const clients = ref([]);
 const totalItems = ref(0);
 const totalPages = ref(0);
 const pageNumber = ref(1);
-const pageSize = ref(10);
+const pageSize = ref(12);
 const isLoading = ref(false);
 
 onMounted(() => {

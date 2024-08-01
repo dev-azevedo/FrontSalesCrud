@@ -26,6 +26,10 @@ onMounted(() => {
   box-sizing: border-box !important;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 button:hover {
   opacity: 0.5 !important;
   transition: all ease 0.3s;

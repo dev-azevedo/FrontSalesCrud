@@ -74,3 +74,7 @@ export const urlToFile = async (url, filename, mimeType) => {
     return new File([blob], filename, { type: mimeType });
   }
 };
+
+export const toTop = () => {
+  window.scrollTo(0, 0);
+};

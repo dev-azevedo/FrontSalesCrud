@@ -9,14 +9,10 @@
         class="rounded-md bg-white flex flex-col justify-between shadow-xl animate-pulse"
       >
         <div
-          class="w-full max-h-56 truncate flex items-center justify-center rounded-t-md"
+          class="w-full h-56 truncate flex items-center justify-center rounded-t-md"
         >
-          <div
-            class="flex justify-center items-center w-full bg-gray-300"
-            :class="`${props.heightCard}`"
-          >
+          <div class="flex justify-center items-center w-full h-56 bg-gray-300">
             <i
-              v-if="props.heightCard == 'h-56'"
               class="bi bi-arrow-clockwise text-6xl text-gray-100 m-16 opacity-75"
             ></i>
           </div>
@@ -27,17 +23,16 @@
           <button type="button" class="bg-slate-100 p-4"></button>
         </div>
 
-        <div
-          class="px-5"
-          v-for="text in props.heightCard == 'h-56' ? 1 : 3"
-          :key="text"
-        >
+        <div class="px-5" v-for="text in 1" :key="text">
           <div class="truncate flex">
             <span class="text-lg w-56 p-2 bg-slate-300 rounded-sm"></span>
           </div>
 
+          <div class="mb-2 items-center flex">
+            <span class="text-sm w-44 mt-2 p-2 bg-slate-200 rounded-sm"> </span>
+          </div>
           <div class="mb-3 items-center flex">
-            <span class="text-sm w-32 mt-2 p-2 bg-slate-300 rounded-sm"> </span>
+            <span class="text-sm w-32 p-2 bg-slate-200 rounded-sm"> </span>
           </div>
         </div>
       </div>
@@ -45,8 +40,3 @@
   </section>
 </template>
 
-<script setup>
-import { defineProps } from "vue";
-
-const props = defineProps(["heightCard"]);
-</script>
