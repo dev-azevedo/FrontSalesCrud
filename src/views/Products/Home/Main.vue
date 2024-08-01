@@ -197,7 +197,7 @@ const getProducts = async () => {
 };
 
 const addNewProduct = () => {
-  router.push({ name: "formProducts", params: { id: "novo" } });
+  router.push({ name: "formProducts" });
 };
 
 const updateProduct = (idUpdate) => {

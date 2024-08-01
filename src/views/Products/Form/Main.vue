@@ -69,7 +69,7 @@ import { VMoney } from "v-money";
 
 const route = useRoute();
 const router = useRouter();
-const idUpdate = computed(() => route.params.id);
+const idUpdate = computed(() => route.params?.id);
 const isLoading = ref(false);
 const description = ref(null);
 const unitaryValue = ref(null);
@@ -89,11 +89,11 @@ const disabledSendBtn = computed(
 );
 
 const titlePage = computed(() =>
-  idUpdate.value == "novo" ? "Cadastrar novo produto" : "Editar produto"
+  idUpdate.value ? "Editar produto" : "Cadastrar novo produto"
 );
 
 onMounted(() => {
-  if (idUpdate.value != "novo") {
+  if (idUpdate.value) {
     getProductById();
   }
 });

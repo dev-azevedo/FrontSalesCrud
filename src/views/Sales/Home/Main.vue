@@ -28,27 +28,7 @@
           >
             <div
               class="w-full max-h-56 truncate flex items-center justify-center cursor-pointer rounded-t-md"
-            >
-              <div
-                class="flex justify-center items-center w-full h-8 bg-gray-300"
-              ></div>
-            </div>
-            <div class="grid grid-cols-2 mb-5 divide-x divide-slate-300">
-              <button
-                type="button"
-                class="bg-slate-100 p-2"
-                @click="updateSale(sale.id)"
-              >
-                <i class="bi bi-pencil-square text-yellow-400"></i>
-              </button>
-              <button
-                type="button"
-                class="bg-slate-100"
-                @click="deleteSale(sale.id)"
-              >
-                <i class="bi bi-trash text-red-600"></i>
-              </button>
-            </div>
+            ></div>
 
             <div class="flex flex-col justify-start items-start px-5 py-3">
               <div class="truncate cursor-pointer flex justify-center">
@@ -94,6 +74,24 @@
                   {{ formatMoneyPtBr(sale.valueSale) }}
                 </span>
               </div>
+            </div>
+            <div
+              class="grid grid-cols-2 divide-x divide-slate-300 rounded-b-md"
+            >
+              <button
+                type="button"
+                class="bg-slate-100 p-2 rounded-bl-md"
+                @click="updateSale(sale.id)"
+              >
+                <i class="bi bi-pencil-square text-yellow-400"></i>
+              </button>
+              <button
+                type="button"
+                class="bg-slate-100 rounded-br-md"
+                @click="deleteSale(sale.id)"
+              >
+                <i class="bi bi-trash text-red-600"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -192,7 +190,7 @@ const getSales = async () => {
 };
 
 const addNewSale = () => {
-  router.push({ name: "formSales", params: { id: "novo" } });
+  router.push({ name: "formSales" });
 };
 
 const updateSale = (idUpdate) => {

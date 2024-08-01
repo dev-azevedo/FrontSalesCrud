@@ -63,7 +63,7 @@ import { getExtnsionFile, urlToFile } from "@/services/Helper";
 
 const route = useRoute();
 const router = useRouter();
-const idUpdate = computed(() => route.params.id);
+const idUpdate = computed(() => route.params?.id);
 const isLoading = ref(false);
 const name = ref("");
 const email = ref("");
@@ -78,7 +78,7 @@ onMounted(() => {
 
 const disabledSendBtn = computed(() => name.value == "" || city.value == "");
 const titlePage = computed(() =>
-  idUpdate.value == "novo" ? "Cadastrar novo cliente" : "Editar cliente"
+  idUpdate.value ? "Editar cliente" : "Cadastrar novo cliente"
 );
 
 const registerClient = async () => {

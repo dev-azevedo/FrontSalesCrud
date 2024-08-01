@@ -27,7 +27,7 @@
             class="rounded-md bg-white flex flex-col justify-between shadow-xl"
           >
             <div
-              class="w-full max-h-56 truncate flex items-center justify-center cursor-pointer rounded-t-md"
+              class="w-full h-56 truncate flex items-center justify-center rounded-t-md"
             >
               <img
                 v-if="client.pathImage"
@@ -43,8 +43,13 @@
                 <i class="bi bi-people text-6xl text-gray-100 m-16"></i>
               </div>
             </div>
-            <div class="grid grid-cols-3 mb-5 divide-x divide-slate-300">
-              <button type="button" class="bg-slate-100">
+
+            <div class="grid grid-cols-3 mb-5 -mt- divide-x divide-slate-300">
+              <button
+                type="button"
+                class="bg-slate-100"
+                @click="addNewSale(client.id)"
+              >
                 <i class="bi bi-basket text-emerald-400"></i>
               </button>
               <button
@@ -77,7 +82,7 @@
                 :title="client.email"
               >
                 <span class="text-sm text-center text-slate-500">
-                  {{ client.email }}
+                  {{ client.email || "Email não cadastrado" }}
                 </span>
               </div>
 
@@ -205,7 +210,7 @@ const getClients = async () => {
 };
 
 const addNewClient = () => {
-  router.push({ name: "formClients", params: { id: "novo" } });
+  router.push({ name: "formClients" });
 };
 
 const updateClient = (idUpdate) => {
@@ -234,5 +239,9 @@ const deleteClient = async (id) => {
       getClients();
     }
   });
+};
+
+const addNewSale = (clientId) => {
+  router.push({ name: "formSales", query: { clientId: clientId } });
 };
 </script>

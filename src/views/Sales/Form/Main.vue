@@ -103,10 +103,11 @@ import api from "@/services/Api";
 import Swal from "sweetalert2";
 import { useRoute, useRouter } from "vue-router";
 import { formatMoneyPtBr } from "@/services/Helper";
+import toast from "@/services/Toast";
 
 const route = useRoute();
 const router = useRouter();
-const idUpdate = computed(() => route.params.id);
+const idUpdate = computed(() => route.params?.id);
 const isLoading = ref(false);
 
 const quantityProduct = ref(0);
@@ -123,7 +124,7 @@ const showSugestProducts = ref(false);
 
 const totalSale = computed(() => quantityProduct.value * product.unitaryValue);
 const titlePage = computed(() =>
-  idUpdate.value == "novo" ? "Cadastrar nova venda" : "Editar venda"
+  idUpdate.value ? "Editar venda" : "Cadastrar nova venda"
 );
 
 const disabledSendBtn = computed(
@@ -131,8 +132,12 @@ const disabledSendBtn = computed(
 );
 
 onMounted(() => {
-  if (idUpdate.value != "novo") {
+  if (idUpdate.value) {
     getSaleById();
+  }
+
+  if (route.query?.clientId) {
+    getClientById(route.query.clientId);
   }
 });
 
@@ -369,6 +374,24 @@ const getSaleById = async () => {
       showConfirmButton: false,
       timer: 2500,
     });
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const getClientById = async (id) => {
+  try {
+    isLoading.value = true;
+    const { data } = await api.get(`/client/${id}`);
+    selectClient(data);
+  } catch (err) {
+    if (err?.response && err?.response?.data) {
+      err.response.data.errors.map((error) => {
+        toast.error(error.message);
+      });
+    }
+
+    toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }

@@ -17,6 +17,7 @@ app.use(money, { precision: 4 });
 app.use(Vue3Toasity, {
   position: "bottom-right",
   autoClose: 3000,
+  dangerouslyHTMLString: true,
 });
 
 setupInterceptors(router);
