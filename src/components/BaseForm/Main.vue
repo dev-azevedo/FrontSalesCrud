@@ -1,10 +1,10 @@
 <template>
-  <section class="mt-5 font-medium">
-    <div class="px-10 w-full my-5 text-start flex justify-between items-center">
+  <section class="mt-5 font-medium w-full mx-2 lg:w-1/2 shadow-lg rounded-md bg-white">
+    <div class="px-10 text-white w-full py-5 text-start flex gap-4 flex-col lg:flex-row justify-between items-start lg:items-center bg-slate-900 rounded-t-md">
       <h1 class="text-lg font-semibold">{{ props.title }}</h1>
 
       <button
-        class="bg-slate-900 text-white px-2 py-1 rounded-md hover:opacity-50 ease duration-300"
+        class="bg-slate-200 text-slate-900 px-2 py-1 rounded-md hover:opacity-50 ease duration-300"
         @click="router.back()"
         :disabled="loadingRequest"
       >

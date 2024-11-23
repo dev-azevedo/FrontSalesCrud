@@ -48,6 +48,7 @@
               </span>
             </div>
           </div>
+
           <div>
             <div>
               <span class="text-sm text-slate-500">Produto: </span>
@@ -60,6 +61,7 @@
               <span>{{ sale.productQuantity }}</span>
             </div>
           </div>
+
           <div class="text-start">
             <div>
               <span class="text-sm text-slate-500">Unidade: </span>
@@ -74,20 +76,32 @@
               </span>
             </div>
           </div>
+
+          <div class="text-start">
+            <div>
+              <span class="text-sm text-slate-500">Responsável: </span>
+              <span class="fs-5">
+                  {{ sale.userName || "Nenhum cadastrado" }}
+              </span>
+            </div>
+          </div>
+
           <div>
             <button
               type="button"
-              class="text-yellow-500 pe-2 border-e me-2"
+              class="text-yellow-500 p-1 border border-yellow-500 rounded-md me-2" 
               @click="updateSale(sale.id)"
+              :disabled="validateMySale(sale.userName)"
             >
-              <i class="bi bi-pencil-square"></i> Editar
+              <i class="bi bi-pencil-square"></i>
             </button>
             <button
               type="button"
-              class="text-red-600 me-2"
+              class="text-red-600 me-2 border p-1 border-red-600 rounded-md"
               @click="deleteSale(sale.id)"
+              :disabled="validateMySale(sale.userName)"
             >
-              <i class="bi bi-trash"></i> Deletar
+              <i class="bi bi-trash"></i>
             </button>
           </div>
         </div>
@@ -113,6 +127,10 @@ import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import { formatMoneyPtBr, formatDateTimePtBr } from "@/services/Helper";
 import Pagination from "@/components/Pagination/Main.vue";
+import { authUser } from "@/store/authStore";
+import { computed } from "vue";
+
+const auth = authUser();
 
 const router = useRouter();
 const sales = ref([]);
@@ -121,6 +139,8 @@ const totalPages = ref(0);
 const pageNumber = ref(1);
 const pageSize = ref(10);
 const isLoading = ref(false);
+
+const user = computed(() => auth.getUser);
 
 onMounted(() => {
   getSales();
@@ -214,5 +234,11 @@ const deleteSale = async (id) => {
       getSales();
     }
   });
+};
+
+const validateMySale = (userName) => {
+  if (user.value.email == userName) return true;
+
+  return false;
 };
 </script>

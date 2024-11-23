@@ -32,4 +32,27 @@ button:disabled{
   font-style: normal;
 }
 
+label {
+  @apply text-gray-500;
+}
+
+.input-text {
+  @apply w-full p-2 outline-0 border-b border-b-slate-400 focus:border-b-2 focus:border-b-emerald-400 shadow-lg;
+}
+
+@keyframes subir {
+  0% {
+    bottom: -100px; /* Começa fora da tela */
+  }
+  100% {
+    bottom: 0; /* Posição final */
+  }
+}
+
+/* Classe para a animação */
+.animate-card {
+  position: relative;
+  animation: subir 2s ease-out forwards; /* Aplica a animação */
+}
+
 </style>

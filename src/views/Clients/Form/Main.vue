@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full">
+  <section class="w-full flex justify-center lg:items-center lg:h-screen">
     <BaseForm
       :title="titlePage"
       :register="registerClient"
@@ -12,9 +12,20 @@
           <label for="" class="test-start">Nome</label>
           <input
             type="text"
-            class="w-full  p-2 rounded-md outline-0 border focus:border-b-emerald-400"
+            class="input-text"
             placeholder="Informe o nome do cliente"
             v-model="name"
+            :disabled="isLoading"
+          />
+        </div>
+
+        <div class="flex flex-col justify-start items-start mt-5">
+          <label for="" class="test-start">Email</label>
+          <input
+            type="text"
+            class="input-text"
+            placeholder="Informe seu email"
+            v-model="email"
             :disabled="isLoading"
           />
         </div>
@@ -23,7 +34,7 @@
           <label for="" class="test-start">Cidade</label>
           <input
             type="text"
-            class="w-full p-2 rounded-md outline-0 border focus:border-b-emerald-400"
+            class="input-text"
             placeholder="Informe a cidade"
             v-model="city"
             :disabled="isLoading"
@@ -47,6 +58,7 @@ const idUpdate = computed(() => route.params.id);
 const isLoading = ref(false);
 const name = ref("");
 const city = ref("");
+const email = ref("");
 
 onMounted(() => {
   if (idUpdate.value != "novo") {
@@ -54,7 +66,7 @@ onMounted(() => {
   }
 });
 
-const disabledSendBtn = computed(() => name.value == "" || city.value == "");
+const disabledSendBtn = computed(() => name.value == "" || city.value == "" || email.value == "");
 const titlePage = computed(() =>
   idUpdate.value == "novo" ? "Cadastrar novo cliente" : "Editar cliente"
 );
@@ -66,6 +78,7 @@ const registerClient = async () => {
     const { status } = await api.post("/client", {
       name: name.value,
       city: city.value,
+      email: email.value,
     });
 
     if (status == 201) {
@@ -165,6 +178,7 @@ const getClientBy = async () => {
     if (data) {
       name.value = data.name;
       city.value = data.city;
+      email.value = data.email;
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {

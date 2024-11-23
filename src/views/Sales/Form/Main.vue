@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full">
+  <section class="w-full flex justify-center lg:items-center lg:h-screen">
     <BaseForm
       :title="titlePage"
       :register="registerSale"
@@ -12,7 +12,7 @@
           <label for="" class="test-start">Cliente</label>
           <input
             type="text"
-            class="w-full p-2 rounded-md outline-none border focus:border-b-emerald-400"
+            class="input-text"
             placeholder="Informe o nome do cliente"
             v-model="inputSearchClient"
             :disabled="isLoading"
@@ -38,7 +38,7 @@
           <label for="" class="test-start">Produto</label>
           <input
             type="text"
-            class="w-full p-2 rounded-md outline-none border focus:border-b-emerald-400"
+            class="input-text"
             placeholder="Informe o nome do produto"
             v-model="inputSearchProduct"
             :disabled="isLoading"
@@ -76,7 +76,7 @@
           <label for="" class="test-start">Quantidade</label>
           <input
             type="number"
-            class="w-full p-2 rounded-md outline-none border focus:border-b-emerald-400"
+            class="input-text"
             placeholder="Informe a quantidade de produto"
             v-model="quantityProduct"
             :disabled="isLoading"
@@ -100,7 +100,9 @@ import api from "@/services/Api";
 import Swal from "sweetalert2";
 import { useRoute, useRouter } from "vue-router";
 import { formatMoneyPtBr } from "@/services/Helper";
+import { authUser } from "@/store/authStore";
 
+const auth = authUser();
 const route = useRoute();
 const router = useRouter();
 const idUpdate = computed(() => route.params.id);
@@ -126,6 +128,7 @@ const titlePage = computed(() =>
 const disabledSendBtn = computed(
   () => clientId.value == "" || product.id == "" || quantityProduct.value == ""
 );
+const user = computed(() => auth.getUser);
 
 onMounted(() => {
   if (idUpdate.value != "novo") {
@@ -235,12 +238,24 @@ const selectProduct = (productSelect) => {
 };
 
 const registerSale = async () => {
+  if (!user.value.id) {
+    Swal.fire({
+      icon: "error",
+      text: "Você precisa estar logado para realizar esta operação",
+      showConfirmButton: false,
+      timer: 2500,
+    });
+
+    router.push({name: "init"});
+  }
+
   try {
     isLoading.value = true;
     const { status } = await api.post("/sale", {
       clientId: clientId.value,
       productId: product.id,
       productQuantity: quantityProduct.value,
+      userId: user.value.id,
     });
 
     if (status == 201) {
@@ -281,6 +296,16 @@ const registerSale = async () => {
 
 const updateSale = async () => {
   isLoading.value = true;
+    if (!user.value.id) {
+    Swal.fire({
+      icon: "error",
+      text: "Você precisa estar logado para realizar esta operação",
+      showConfirmButton: false,
+      timer: 2500,
+    });
+
+    router.push({name: "init"});
+  }
 
   try {
     const { status } = await api.put("/sale", {
@@ -288,6 +313,7 @@ const updateSale = async () => {
       clientId: clientId.value,
       productId: product.id,
       productQuantity: quantityProduct.value,
+      userId: user.value.id,
     });
 
     if (status == 200) {

@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full">
+  <section class="w-full flex justify-center lg:items-center lg:h-screen">
     <BaseForm
       :title="titlePage"
       :register="registerProduct"
@@ -12,7 +12,7 @@
           <label for="" class="text-start">Descrição</label>
           <input
             type="text"
-            class="w-full p-2 rounded-md outline-none border focus:border-b-emerald-400"
+            class="input-text"
             placeholder="Informe a descrição do produto"
             v-model="description"
             :disabled="isLoading"
@@ -23,7 +23,7 @@
           <label for="" class="text-start">Valor</label>
           <input
             type="text"
-            class="w-full p-2 rounded-md outline-none border focus:border-b-emerald-400"
+            class="input-text"
             placeholder="Informe o valor do produto"
             v-model.lazy="unitaryValue"
             :disabled="isLoading"

@@ -21,70 +21,70 @@
         >
           <i class="bi bi-x-circle"></i> Nenhum produto cadastrado
         </div>
-
         <div
           v-else
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-5"
         >
-          <div
-            v-for="product in products"
-            :key="product.id"
-            class="rounded-md bg-white flex flex-col justify-between shadow-xl"
-          >
             <div
-              class="w-full max-h-56 truncate flex items-center justify-center rounded-t-md"
+              v-for="product in products"
+              :key="product.id"
+              class="rounded-md bg-white flex flex-col justify-between shadow-xl"
             >
-              <img
-                v-if="product.pathImage"
-                :src="product.pathImage"
-                alt="quebrou"
-                class="bg-center h-56 bg-gray-300 w-full"
-              />
-
               <div
-                v-else
-                class="flex justify-center items-center w-full h-56 bg-gray-300"
+                class="w-full max-h-56 truncate flex items-center justify-center rounded-t-md"
               >
-                <i class="bi bi-box text-6xl text-gray-100 m-16"></i>
-              </div>
-            </div>
-            <div class="grid grid-cols-3 mb-5 divide-x divide-slate-300">
-              <button type="button" class="bg-slate-100">
-                <i class="bi bi-basket text-emerald-400"></i>
-              </button>
-              <button
-                type="button"
-                class="bg-slate-100 p-2"
-                @click="updateProduct(product.id)"
-              >
-                <i class="bi bi-pencil-square text-yellow-400"></i>
-              </button>
-              <button
-                type="button"
-                class="bg-slate-100"
-                @click="deleteProduct(product.id)"
-              >
-                <i class="bi bi-trash text-red-600"></i>
-              </button>
-            </div>
+                <img
+                  v-if="product.pathImage"
+                  :src="product.pathImage"
+                  alt="quebrou"
+                  class="bg-center h-56 bg-gray-300 w-full"
+                />
 
-            <div class="">
-              <div
-                class="truncate flex justify-center"
-                :title="product.description"
-              >
-                <span class="text-lg text-center">
-                  {{ product.description.toUpperCase() }}
-                </span>
+                <div
+                  v-else
+                  class="flex justify-center items-center w-full h-56 bg-gray-300"
+                >
+                  <i class="bi bi-box text-6xl text-gray-100 m-16"></i>
+                </div>
+              </div>
+            
+              <div class="grid grid-cols-3 mb-5 divide-x divide-slate-300">
+                <button type="button" class="bg-slate-100">
+                  <i class="bi bi-basket text-emerald-400"></i>
+                </button>
+                <button
+                  type="button"
+                  class="bg-slate-100 p-2"
+                  @click="updateProduct(product.id)"
+                >
+                  <i class="bi bi-pencil-square text-yellow-400"></i>
+                </button>
+                <button
+                  type="button"
+                  class="bg-slate-100"
+                  @click="deleteProduct(product.id)"
+                >
+                  <i class="bi bi-trash text-red-600"></i>
+                </button>
               </div>
 
-              <div class="mb-3 items-center flex justify-center">
-                <span class="text-sm text-slate-500">
-                  {{ formatMoneyPtBr(product.unitaryValue) }}
-                </span>
+              <div class="">
+                <div
+                  class="truncate flex justify-center"
+                  :title="product.description"
+                >
+                  <span class="text-lg text-center">
+                    {{ product.description.toUpperCase() }}
+                  </span>
+                </div>
+
+                <div class="mb-3 items-center flex justify-center">
+                  <span class="text-sm text-slate-500">
+                    {{ formatMoneyPtBr(product.unitaryValue) }}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
         </div>
       </template>
     </BaseHome>
@@ -114,7 +114,7 @@ const products = ref([]);
 const totalItems = ref(0);
 const totalPages = ref(0);
 const pageNumber = ref(1);
-const pageSize = ref(12);
+const pageSize = ref(10);
 const isLoading = ref(false);
 
 onMounted(() => {
