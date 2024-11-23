@@ -9,12 +9,8 @@
       @resetGet="getProducts"
     >
       <template v-slot:lista>
-        <div
-          v-if="isLoading"
-          class="bg-white p-2 mb-3 flex justify-center items-center"
-        >
-          buscando...
-        </div>
+        <SkeletonLoading v-if="isLoading" :heightCard="'h-56'" />
+
         <div
           v-else-if="products.length == 0"
           class="w-full bg-white p-2 mb-3 flex justify-center items-center"
@@ -23,6 +19,8 @@
         </div>
         <div
           v-else
+          data-aos="fade-up"
+          data-aos-easing="ease-in-out"
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-5"
         >
             <div
@@ -49,7 +47,7 @@
               </div>
             
               <div class="grid grid-cols-3 mb-5 divide-x divide-slate-300">
-                <button type="button" class="bg-slate-100">
+                <button type="button" class="bg-slate-100" @click="addNewSale(product.id)">
                   <i class="bi bi-basket text-emerald-400"></i>
                 </button>
                 <button
@@ -90,6 +88,7 @@
     </BaseHome>
 
     <Pagination
+      @click="store.resetScroll()"
       v-if="products.length > 0 && totalPages > 1"
       :pageNumber="pageNumber"
       :totalPages="totalPages"
@@ -108,8 +107,13 @@ import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import { formatMoneyPtBr } from "@/services/Helper";
 import Pagination from "@/components/Pagination/Main.vue";
+import SkeletonLoading from "@/components/SkeletonLoading/Main.vue";
+import toast from "@/services/Toast";
+import { salesCrudStore } from "@/store/SalesCrudStore.js";
 
 const router = useRouter();
+const store = salesCrudStore();
+
 const products = ref([]);
 const totalItems = ref(0);
 const totalPages = ref(0);
@@ -117,7 +121,9 @@ const pageNumber = ref(1);
 const pageSize = ref(10);
 const isLoading = ref(false);
 
+
 onMounted(() => {
+  window.scrollTo(0, 0);
   getProducts();
 });
 
@@ -140,25 +146,11 @@ const getProductByDescription = async (description) => {
     products.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }
@@ -178,32 +170,18 @@ const getProducts = async () => {
     products.value = data.items;
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }
 };
 
 const addNewProduct = () => {
-  router.push({ name: "formProducts", params: { id: "novo" } });
+  router.push({ name: "formProducts" });
 };
 
 const updateProduct = (idUpdate) => {
@@ -223,15 +201,15 @@ const deleteProduct = async (id) => {
   }).then(async (result) => {
     if (result.isConfirmed) {
       await api.delete(`/product/${id}`);
-      Swal.fire({
-        icon: "success",
-        title: "Produto apagado com sucesso!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+
+      toast.success("Produto apagado com sucesso!");
       getProducts();
     }
   });
+};
+
+const addNewSale = (productId) => {
+  router.push({ name: "formSales", query: { productId: productId } });
 };
 </script>
 

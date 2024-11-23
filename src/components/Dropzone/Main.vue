@@ -14,12 +14,12 @@
           class="label-upload w-full p-4 rounded-md text-center"
           :class="{ isDraggingStyle: isDragging }"
         >
-          <div class="spinner-custom rounded" v-show="isLoading">
+          <div class="spinner-custom rounded" v-show="loading">
             <span class="text-white"> Importando... </span>
             <span class="text-white fs-12">Isso pode levar alguns minutos</span>
           </div>
           <span
-            >{{titleDropzone}}
+            >{{ titleDropzone }}
             <br />
             <span class="text-sm"
               >Aceitamos apenas arquivos '.jpg', '.jpeg' ou '.png'</span
@@ -50,7 +50,7 @@
           </div>
         </label>
         <input
-          :disabled="isLoading"
+          :disabled="loading"
           type="file"
           id="upload"
           :accept="acceptTypes"
@@ -62,7 +62,7 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, defineProps, computed } from "vue";
+import { ref, defineEmits, defineProps, computed, watch } from "vue";
 import toast from "@/services/Toast";
 
 const isDragging = ref(false);
@@ -71,9 +71,15 @@ const listFilesUpload = ref([]);
 const acceptTypes = ref([".jpg", ".jpeg", ".png"]);
 
 const emit = defineEmits(["onFileUpload"]);
-const props = defineProps(["titleDropzone", "isLoading"]);
+const props = defineProps(["titleDropzone", "isLoading", "files"]);
 
 const titleDropzone = computed(() => props.titleDropzone);
+const hasFile = computed(() => props.files.length > 0);
+const loading = computed(() => props.isLoading);
+
+watch(hasFile, () => {
+  listFilesUpload.value = props.files;
+});
 
 const OnDragEnter = () => {
   dragCount.value++;
@@ -96,9 +102,9 @@ const onDrop = (e) => {
     const ext = file?.name.split(".").pop();
 
     if (acceptTypes.value.includes("." + ext)) {
-        listFilesUpload.value = [file];
-        
-        return emit("onFileUpload", listFilesUpload.value);
+      listFilesUpload.value = [file];
+
+      return emit("onFileUpload", listFilesUpload.value);
     }
 
     const message = `<div class="flex flex-col">
@@ -114,9 +120,9 @@ const onDrop = (e) => {
 };
 
 const removeFile = (pos) => {
-    listFilesUpload.value.splice(pos, 1);
-        
-    return emit("onFileUpload", listFilesUpload.value);
+  listFilesUpload.value.splice(pos, 1);
+
+  return emit("onFileUpload", listFilesUpload.value);
 };
 
 const onInputChange = (e) => {
@@ -126,9 +132,9 @@ const onInputChange = (e) => {
     const ext = file?.name.split(".").pop();
 
     if (acceptTypes.value.includes("." + ext)) {
-        listFilesUpload.value = [file];
-        
-        return emit("onFileUpload", listFilesUpload.value);
+      listFilesUpload.value = [file];
+
+      return emit("onFileUpload", listFilesUpload.value);
     }
 
     const message = `<div class="flex flex-col">

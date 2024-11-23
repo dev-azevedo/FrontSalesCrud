@@ -6,6 +6,7 @@
       :update="updateProduct"
       :disabledSendBtn="disabledSendBtn"
       :loadingRequest="isLoading"
+      :icon="'bi-box-seam'"
     >
       <template v-slot:form>
         <div class="flex flex-col justify-start items-start">
@@ -40,7 +41,9 @@
           <div>
             <Dropzone
               titleDropzone="Arraste ou clique aqui para importar imagem do produto"
+              :files="listFilesUpload"
               @onFileUpload="($event) => (listFilesUpload = $event)"
+              :isLoading="isLoading"
             />
           </div>
         </section>
@@ -58,6 +61,7 @@ import {
   getExtnsionFile,
   convertCurrencyToFloat,
   formatMoneyPtBr,
+  urlToFile,
 } from "@/services/Helper";
 import Dropzone from "@/components/Dropzone/Main.vue";
 import toast from "@/services/Toast";
@@ -65,7 +69,7 @@ import { VMoney } from "v-money";
 
 const route = useRoute();
 const router = useRouter();
-const idUpdate = computed(() => route.params.id);
+const idUpdate = computed(() => route.params?.id);
 const isLoading = ref(false);
 const description = ref(null);
 const unitaryValue = ref(null);
@@ -85,11 +89,11 @@ const disabledSendBtn = computed(
 );
 
 const titlePage = computed(() =>
-  idUpdate.value == "novo" ? "Cadastrar novo produto" : "Editar produto"
+  idUpdate.value ? "Editar produto" : "Cadastrar novo produto"
 );
 
 onMounted(() => {
-  if (idUpdate.value != "novo") {
+  if (idUpdate.value) {
     getProductById();
   }
 });
@@ -114,13 +118,14 @@ const registerProduct = async () => {
           description.value = null;
           unitaryValue.value = null;
 
-          setTimeout(() => {
-            return router.back();
+          return setTimeout(() => {
+            router.back();
           }, 2500);
         }
       }
 
       await removeImageProduct(data.id);
+
       toast.success("Cadastrado com sucesso!", {
         autoClose: 2500,
       });
@@ -128,22 +133,17 @@ const registerProduct = async () => {
       description.value = null;
       unitaryValue.value = null;
 
-      setTimeout(() => {
-        return router.back();
+      return setTimeout(() => {
+        router.back();
       }, 2500);
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      err.response.data.errors.map((error) => {
-        return toast.error(error, {
-          autoClose: 3500,
-        });
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    return toast.error("Algo deu errado. Tente novamente.", {
-      autoClose: 3500,
-    });
+    return toast.error("Algo deu errado. Tente novamente.");
   } finally {
     isLoading.value = false;
   }
@@ -197,22 +197,17 @@ const updateProduct = async () => {
             description.value = null;
             unitaryValue.value = null;
 
-            setTimeout(() => {
-              return router.back();
+            return setTimeout(() => {
+              router.back();
             }, 2500);
           }
         } catch (err) {
           if (err?.response && err?.response?.data) {
-            err.response.data.errors.map((error) => {
-              return toast.error(error, {
-                autoClose: 3500,
-              });
-            });
+            err.response.data.errors.map((error) => toast.error(error.message));
+            return;
           }
 
-          return toast.error("Algo deu errado. Tente novamente.", {
-            autoClose: 3500,
-          });
+          return toast.error("Algo deu errado. Tente novamente.");
         }
       }
 
@@ -224,22 +219,17 @@ const updateProduct = async () => {
       description.value = null;
       unitaryValue.value = null;
 
-      setTimeout(() => {
-        return router.back();
+      return setTimeout(() => {
+        router.back();
       }, 2500);
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      err.response.data.errors.map((error) => {
-        return toast.error(error, {
-                autoClose: 3500,
-        });
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    return toast.error("Algo deu errado. Tente novamente.", {
-      autoClose: 3500,
-    });
+    return toast.error("Algo deu errado. Tente novamente.");
   } finally {
     isLoading.value = false;
   }
@@ -263,33 +253,18 @@ const getProductById = async () => {
         const mimeType = result.headers["content-type"];
 
         const file = await urlToFile(data.pathImage, fileName + ext, mimeType);
-        console.log(file);
         listFilesUpload.value = [file];
       }
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      err.response.data.errors.map((error) => {
-        return toast.error(error, {
-                autoClose: 3500,
-              });
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    return toast.error("Algo deu errado. Tente novamente.", {
-      autoClose: 3500,
-    });
+    return toast.error("Algo deu errado. Tente novamente.");
   } finally {
     isLoading.value = false;
   }
-};
-
-const urlToFile = async (url, filename, mimeType) => {
-  // Buscar a imagem
-  const response = await fetch(url);
-  // Converter a resposta em um Blob
-  const blob = await response.blob();
-  // Criar um arquivo a partir do Blob
-  return new File([blob], filename, { type: mimeType });
 };
 </script>

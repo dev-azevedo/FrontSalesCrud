@@ -50,6 +50,7 @@ export const authUser = defineStore("authUser", () => {
             resolve(null);
           })
           .catch((error) => {
+            logout();
             reject(error);
             return;
           });

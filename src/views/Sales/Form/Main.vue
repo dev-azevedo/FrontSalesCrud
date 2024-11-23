@@ -6,6 +6,9 @@
       :update="updateSale"
       :disabledSendBtn="disabledSendBtn"
       :loadingRequest="isLoading"
+      data-aos="fade-up"
+      data-aos-offset="200"
+      data-aos-easing="ease-in-out"
     >
       <template v-slot:form>
         <div class="flex flex-col justify-start items-start mt-5 relative">
@@ -97,15 +100,15 @@
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import BaseForm from "@/components/BaseForm/Main.vue";
 import api from "@/services/Api";
-import Swal from "sweetalert2";
 import { useRoute, useRouter } from "vue-router";
 import { formatMoneyPtBr } from "@/services/Helper";
 import { authUser } from "@/store/authStore";
+import toast from "@/services/Toast";
 
 const auth = authUser();
 const route = useRoute();
 const router = useRouter();
-const idUpdate = computed(() => route.params.id);
+const idUpdate = computed(() => route.params?.id);
 const isLoading = ref(false);
 
 const quantityProduct = ref(0);
@@ -122,7 +125,7 @@ const showSugestProducts = ref(false);
 
 const totalSale = computed(() => quantityProduct.value * product.unitaryValue);
 const titlePage = computed(() =>
-  idUpdate.value == "novo" ? "Cadastrar nova venda" : "Editar venda"
+  idUpdate.value ? "Editar venda" : "Cadastrar nova venda"
 );
 
 const disabledSendBtn = computed(
@@ -131,8 +134,15 @@ const disabledSendBtn = computed(
 const user = computed(() => auth.getUser);
 
 onMounted(() => {
-  if (idUpdate.value != "novo") {
+  if (idUpdate.value) {
     getSaleById();
+  }
+
+  if (route.query?.clientId) {
+    getClientById(route.query.clientId);
+  }
+  if (route.query?.productId) {
+    getProductById(route.query.productId);
   }
 });
 
@@ -171,25 +181,12 @@ const getClientByName = async () => {
     clients.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
 
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
   }
 };
 
@@ -207,25 +204,11 @@ const getProductByDescription = async () => {
     products.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
   }
 };
 
@@ -239,12 +222,7 @@ const selectProduct = (productSelect) => {
 
 const registerSale = async () => {
   if (!user.value.id) {
-    Swal.fire({
-      icon: "error",
-      text: "Você precisa estar logado para realizar esta operação",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    toast.error("Você precisa estar logado para realizar esta operação");
 
     router.push({name: "init"});
   }
@@ -259,12 +237,7 @@ const registerSale = async () => {
     });
 
     if (status == 201) {
-      Swal.fire({
-        icon: "success",
-        title: "Cadastrado com sucesso!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      toast.success("Cadastrado com sucesso!");
 
       inputSearchClient.value = "";
       clientId.value = "";
@@ -282,12 +255,7 @@ const registerSale = async () => {
       err?.response?.data &&
       !err?.response?.data.includes("!DOCTYPE")
     ) {
-      Swal.fire({
-        icon: "error",
-        text: err.response.data,
-        showConfirmButton: false,
-        timer: 2500,
-      });
+      toast.error(err.response.data);
     }
   } finally {
     isLoading.value = false;
@@ -297,12 +265,7 @@ const registerSale = async () => {
 const updateSale = async () => {
   isLoading.value = true;
     if (!user.value.id) {
-    Swal.fire({
-      icon: "error",
-      text: "Você precisa estar logado para realizar esta operação",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+      toast.error("Você precisa estar logado para realizar esta operação");
 
     router.push({name: "init"});
   }
@@ -317,12 +280,7 @@ const updateSale = async () => {
     });
 
     if (status == 200) {
-      Swal.fire({
-        icon: "success",
-        title: "Atualizado com sucesso!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      toast.success("Atualizado com sucesso!");
 
       clientId.value = "";
       product.id = "";
@@ -336,25 +294,11 @@ const updateSale = async () => {
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }
@@ -373,25 +317,45 @@ const getSaleById = async () => {
     quantityProduct.value = data.productQuantity;
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const getClientById = async (id) => {
+  try {
+    isLoading.value = true;
+    const { data } = await api.get(`/client/${id}`);
+    selectClient(data);
+  } catch (err) {
+    if (err?.response && err?.response?.data) {
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
+    }
+
+    return toast.error("Algo deu errado. Tente novamente");
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const getProductById = async (id) => {
+  try {
+    isLoading.value = true;
+    const { data } = await api.get(`/product/${id}`);
+    selectProduct(data);
+  } catch (err) {
+    if (err?.response && err?.response?.data) {
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
+    }
+
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }

@@ -22,12 +22,13 @@ const routes = [
           {
             path: "",
             name: "homeSales",
-            component: () => import(
-              /* webpackChunkName: "sales" */ "@/views/Sales/Home/Main.vue"
-            ),
+            component: () =>
+              import(
+                /* webpackChunkName: "sales" */ "@/views/Sales/Home/Main.vue"
+              ),
           },
           {
-            path: "adicionar/:id",
+            path: "formulario/:id?",
             name: "formSales",
             meta: { auth: true },
             component: () =>
@@ -46,12 +47,13 @@ const routes = [
           {
             path: "",
             name: "homeClients",
-            component: () => import(
-              /* webpackChunkName: "client" */ "@/views/Clients/Home/Main.vue"
-            ),
+            component: () =>
+              import(
+                /* webpackChunkName: "client" */ "@/views/Clients/Home/Main.vue"
+              ),
           },
           {
-            path: "adicionar/:id",
+            path: "formulario/:id?",
             name: "formClients",
             meta: { auth: true },
             component: () =>
@@ -76,7 +78,7 @@ const routes = [
               ),
           },
           {
-            path: "adicionar/:id",
+            path: "formulario/:id?",
             name: "formProducts",
             meta: { auth: true },
             component: () =>
@@ -98,10 +100,10 @@ const routes = [
   {
     path: "/inicio/:callback?",
     name: "init",
-    component: () => import(/* webpackChunkName: "init" */ "@/views/Init/Main.vue"),
-  }
+    component: () =>
+      import(/* webpackChunkName: "init" */ "@/views/Init/Main.vue"),
+  },
 ];
-
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

@@ -60,7 +60,7 @@
     <div class="">Total de items: {{ props.totalItems }}</div>
 
     <select
-      class="bg-white rounded-md p-1 cursor-pointer"
+      class="bg-white rounded-md p-1 cursor-pointer hidden"
       style="width: 60px !important"
       v-model="pageSize"
       @change="changePageSize()"

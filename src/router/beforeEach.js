@@ -6,19 +6,29 @@ export default async (to, from, next) => {
   const token = computed(() => auth.getToken);
 
   if (to.meta?.auth) {
-    if (!token.value) 
-      await auth.getTokenStorage();
+    if (!token.value) {
+      try {
+        await auth.getTokenStorage();
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    }
+      
 
     if (to.fullPath == "/inicio" && token.value) 
       return next({ path: "/", replace: true });
 
     if (to.fullPath != "/inicio" && !token.value) {
-      const newToken = await auth.getTokenStorage();
+      try {
+        await auth.getTokenStorage();
 
-      if (!newToken) 
+        if (!token.value)
+          return next({ name: "init", params: { callback: to.fullPath } });
+        return next();
+
+      } catch (error) {
         return next({ name: "init", params: { callback: to.fullPath } });
-      
-      return next();
+      }
     }
   }
 

@@ -2,6 +2,16 @@
   <router-view />
 </template>
 
+<script setup>
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { onMounted } from "vue";
+
+onMounted(() => {
+  AOS.init();
+});
+</script>
+
 <style>
 /* slate-900 */
 /* amber-500 */
@@ -16,13 +26,17 @@
   box-sizing: border-box !important;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 button:hover {
   opacity: 0.5 !important;
   transition: all ease 0.3s;
 }
 
-button:disabled{
-  opacity: .5 !important;
+button:disabled {
+  opacity: 0.5 !important;
   cursor: not-allowed !important;
 }
 
@@ -31,6 +45,7 @@ button:disabled{
   font-weight: 400;
   font-style: normal;
 }
+<<<<<<< HEAD
 
 label {
   @apply text-gray-500;
@@ -55,4 +70,6 @@ label {
   animation: subir 2s ease-out forwards; /* Aplica a animação */
 }
 
+=======
+>>>>>>> 50e3a985861fd455f024b56936bc4103a019ed1d
 </style>

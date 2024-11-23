@@ -2,9 +2,13 @@
   <nav class="bg-slate-900 flex flex-col items-center justify-between">
     <div class="flex flex-col items-center w-full h-full">
       <div
-        class="bg-emerald-400 w-full h-16 lg:h-48 flex  justify-between lg:justify-center items-center px-10 "
+        class="bg-emerald-400 w-full h-16 lg:h-48 flex justify-between lg:justify-center items-center px-10"
       >
         <router-link
+          data-aos="zoom-in"
+          data-aos-offset="200"
+          data-aos-duration="500"
+          data-aos-easing="ease-in-out"
           @click="showMenuMobile = false"
           to="/"
           class="text-slate-900 spicy-rice-regular text-4xl 2xl:text-6xl lg:w-full flex items-center justify-center"
@@ -21,57 +25,101 @@
         :class="{ hidden: !showMenuMobile }"
       >
         <ul class="text-white mt-10 text-lg w-full px-2">
-          <li class="" v-show="userFullName">
+          <li
+            class="pt-5"
+            data-aos="fade-right"
+            data-aos-offset="200"
+            data-aos-duration="500"
+            data-aos-easing="ease-in-out"
+            v-show="userFullName"
+          >
             <span class="text-white pl-5"> Olá, {{ userFullName }} </span>
           </li>
           <li v-show="userFullName" class="pt-5 border-b border-slate-700"></li>
-          <li class="pt-5">
+          <li
+            class="pt-5"
+            data-aos="fade-right"
+            data-aos-offset="200"
+            data-aos-duration="500"
+            data-aos-easing="ease-in-out"
+          >
             <router-link
               @click="showMenuMobile = false"
               to="/"
-              exactActiveClass="text-emerald-400 font-bold"
-              class="pl-5 hover:opacity-50 transition ease duration-300"
+              exactActiveClass="text-emerald-400 font-bold ml-5"
+              class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-columns-gap"></i> Dashboard</router-link
             >
           </li>
-          <li class="pt-5">
+          <li
+            class="pt-5"
+            data-aos="fade-right"
+            data-aos-offset="200"
+            data-aos-duration="500"
+            data-aos-easing="ease-in-out"
+          >
             <router-link
               @click="showMenuMobile = false"
               to="/vendas"
-              exactActiveClass="text-emerald-400 font-bold"
-              class="pl-5 hover:opacity-50 transition ease duration-300"
+              activeClass="text-emerald-400 font-bold ml-5"
+              class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-basket"></i> Vendas</router-link
             >
           </li>
-          <li class="pt-5">
+          <li
+            class="pt-5"
+            data-aos="fade-right"
+            data-aos-offset="200"
+            data-aos-duration="500"
+            data-aos-easing="ease-in-out"
+          >
             <router-link
               @click="showMenuMobile = false"
               to="/clientes"
-              exactActiveClass="text-emerald-600 font-bold"
-              class="pl-5 hover:opacity-50 transition ease duration-300"
+              activeClass="text-emerald-600 font-bold ml-5"
+              class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-people"></i> Clientes</router-link
             >
           </li>
-          <li class="pt-5">
+          <li
+            class="pt-5"
+            data-aos="fade-right"
+            data-aos-offset="200"
+            data-aos-duration="500"
+            data-aos-easing="ease-in-out"
+          >
             <router-link
               @click="showMenuMobile = false"
               to="/produtos"
-              exactActiveClass="text-emerald-600 font-bold"
-              class="pl-5 hover:opacity-50 transition ease duration-300"
+              activeClass="text-emerald-600 font-bold ml-5"
+              class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-box-seam"></i> Produtos</router-link
             >
           </li>
           <li class="pt-5 border-b border-slate-700"></li>
-          <li class="pt-5" v-show="token">
+          <li
+            class="pt-5"
+            v-show="token"
+            data-aos="fade-right"
+            data-aos-offset="200"
+            data-aos-duration="500"
+            data-aos-easing="ease-in-out"
+          >
             <router-link
               @click="showMenuMobile = false"
               to="/perfil"
-              exactActiveClass="text-emerald-600 font-bold"
-              class="pl-5 hover:opacity-50 transition ease duration-300"
+              activeClass="text-emerald-600 font-bold ml-5"
+              class="pl-5 hover:opacity-50 transition-all ease duration-300"
               ><i class="bi bi-person-circle"></i> Perfil</router-link
             >
           </li>
-          <li class="pt-5">
+          <li
+            class="pt-5"
+            data-aos="fade-right"
+            data-aos-offset="200"
+            data-aos-duration="500"
+            data-aos-easing="ease-in-out"
+          >
             <button
               v-if="token"
               type="button"
@@ -114,28 +162,6 @@
                 class="bi bi-github text-white text-lg hover:text-emerald-400 transition ease duration-300"
               ></i
             ></a>
-
-            <a
-              href="https://github.com/dev-azevedo/FrontSalesCrud"
-              class="text-light fs-2"
-              target="_blank"
-              title="Github do projeto - Front-end"
-            >
-              <i
-                class="bi bi-file-earmark-code text-white text-lg hover:text-emerald-400 transition ease duration-300"
-              ></i
-            ></a>
-
-            <a
-              href="https://github.com/dev-azevedo/ApiSalesCrud"
-              class="text-light fs-2"
-              target="_blank"
-              title="Github do projeto - API"
-            >
-              <i
-                class="bi bi-file-earmark-code-fill text-white text-lg hover:text-emerald-400 transition ease duration-300"
-              ></i
-            ></a>
           </div>
         </div>
       </div>
@@ -149,13 +175,14 @@ import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const useAuthStore = authUser();
-const userFullName = computed(() => useAuthStore.getUser.fullName);
-const token = computed(() => useAuthStore.getToken);
+const store = authUser();
+const userFullName = computed(() => store.getUser.fullName);
+const token = computed(() => store.getToken);
 const showMenuMobile = ref(false);
 
 const logout = () => {
-  useAuthStore.logout();
+  store.logout();
+  router.push("/");
 };
 </script>
 

@@ -40,6 +40,13 @@
             :disabled="isLoading"
           />
         </div>
+
+        <Dropzone
+          titleDropzone="Arraste ou clique aqui para importar imagem do produto"
+          :files="listFilesUpload"
+          @onFileUpload="($event) => (listFilesUpload = $event)"
+          :isLoading="isLoading"
+        />
       </template>
     </BaseForm>
   </section>
@@ -49,16 +56,20 @@
 import { computed, onMounted, ref } from "vue";
 import BaseForm from "@/components/BaseForm/Main.vue";
 import api from "@/services/Api";
-import Swal from "sweetalert2";
 import { useRoute, useRouter } from "vue-router";
+import Dropzone from "@/components/Dropzone/Main.vue";
+import toast from "@/services/Toast";
+// import { getExtnsionFile, urlToFile } from "@/services/Helper";
 
 const route = useRoute();
 const router = useRouter();
-const idUpdate = computed(() => route.params.id);
+const idUpdate = computed(() => route.params?.id);
 const isLoading = ref(false);
 const name = ref("");
-const city = ref("");
 const email = ref("");
+const city = ref("");
+
+const listFilesUpload = ref([]);
 
 onMounted(() => {
   if (idUpdate.value != "novo") {
@@ -68,55 +79,84 @@ onMounted(() => {
 
 const disabledSendBtn = computed(() => name.value == "" || city.value == "" || email.value == "");
 const titlePage = computed(() =>
-  idUpdate.value == "novo" ? "Cadastrar novo cliente" : "Editar cliente"
+  idUpdate.value ? "Editar cliente" : "Cadastrar novo cliente"
 );
 
 const registerClient = async () => {
   try {
     isLoading.value = true;
 
-    const { status } = await api.post("/client", {
+    const { status, data } = await api.post("/client", {
       name: name.value,
-      city: city.value,
       email: email.value,
+      city: city.value,
     });
 
     if (status == 201) {
-      Swal.fire({
-        icon: "success",
-        title: "Cadastrado com sucesso!",
-        showConfirmButton: false,
-        timer: 1500,
+      if (listFilesUpload.value.length > 0) {
+        const status = await sendImageClient(data.id);
+
+        if (status == 200) {
+          toast.success("Cadastrado com sucesso!", {
+            autoClose: 2500,
+          });
+
+          name.value = "";
+          city.value = "";
+
+          return setTimeout(() => {
+            router.back();
+          }, 2500);
+        }
+      }
+
+      await removeImageClient(data.id);
+
+      toast.success("Cadastrado com sucesso!", {
+        autoClose: 2500,
       });
 
       name.value = "";
       city.value = "";
 
-      router.back();
+      return setTimeout(() => {
+        router.back();
+      }, 2500);
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente.");
   } finally {
     isLoading.value = false;
+  }
+};
+
+const sendImageClient = async (id) => {
+  const formData = new FormData();
+
+  listFilesUpload.value.forEach((item) => {
+    formData.append("File", item);
+  });
+
+  formData.append("Id", id);
+
+  try {
+    const { status } = await api.post("/client/file", formData);
+    return status;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const removeImageClient = async (id) => {
+  try {
+    await api.delete(`/client/file/${id}`);
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -127,43 +167,57 @@ const updateClient = async () => {
     const { status } = await api.put("/client", {
       id: idUpdate.value,
       name: name.value,
+      email: email.value,
       city: city.value,
     });
 
     if (status == 200) {
-      Swal.fire({
-        icon: "success",
-        title: "Atualizado com sucesso!",
-        showConfirmButton: false,
-        timer: 1500,
+      if (listFilesUpload.value.length > 0) {
+        try {
+          const status = await sendImageClient(idUpdate.value);
+
+          if (status == 200) {
+            toast.success("Atualizado com sucesso!", {
+              autoClose: 2500,
+            });
+
+            name.value = "";
+            city.value = "";
+
+            return setTimeout(() => {
+              router.back();
+            }, 2500);
+          }
+        } catch (err) {
+          if (err?.response && err?.response?.data) {
+            err.response.data.errors.map((error) => toast.error(error.message));
+            return;
+          }
+
+          return toast.error("Algo deu errado. Tente novamente.");
+        }
+      }
+
+      await removeImageClient(idUpdate.value);
+
+      toast.success("Atualizado com sucesso!", {
+        autoClose: 2500,
       });
 
       name.value = "";
       city.value = "";
 
-      router.back();
+      return setTimeout(() => {
+        router.back();
+      }, 2500);
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente.");
   } finally {
     isLoading.value = false;
   }
@@ -177,30 +231,17 @@ const getClientBy = async () => {
 
     if (data) {
       name.value = data.name;
+      email.value = data.email;
       city.value = data.city;
       email.value = data.email;
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente.");
   } finally {
     isLoading.value = false;
   }

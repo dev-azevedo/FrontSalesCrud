@@ -1,6 +1,13 @@
 <template>
-  <form class="flex flex-col w-full lg:w-1/2 p-10 lg:p-2">
-    <div class="text-8xl spicy-rice-regular mb-16 flex justify-center">
+  <form
+    class="flex flex-col w-full lg:w-1/2 p-10 lg:p-2"
+    data-aos="zoom-in"
+    data-aos-offset="200"
+    data-aos-easing="ease-in-out"
+  >
+    <div
+      class="text-6xl lg:text-8xl spicy-rice-regular mb-16 flex justify-center"
+    >
       <span class="text-slate-900">Sales</span>
       <span class="text-emerald-400">Crud</span>
     </div>
@@ -26,7 +33,7 @@
         v-if="typeInputPassword === 'password'"
         type="button"
         @click="typeInputPassword = 'text'"
-         class="p-1"
+        class="p-1"
       >
         <i class="bi bi-eye text-xl"></i>
       </button>
@@ -35,7 +42,7 @@
         v-else
         type="button"
         @click.prevent="typeInputPassword = 'password'"
-         class="p-1"
+        class="p-1"
       >
         <i class="bi bi-eye-slash text-xl"></i>
       </button>
@@ -101,8 +108,8 @@ const signIn = async () => {
     });
 
     useAuthStore.setUser(data);
-    if(status === 200) {
-     if(route.params?.callback) {
+    if (status === 200) {
+      if (route.params?.callback) {
         return router.push(route.params.callback);
       }
 
@@ -110,11 +117,11 @@ const signIn = async () => {
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      err.response.data.errors.map((error) => {
+      err.response.data.errors.map((error) =>
         toast.error(error.message, {
           autoClose: false,
-        });
-      });
+        })
+      );
     }
   } finally {
     loading.value = false;
@@ -122,5 +129,4 @@ const signIn = async () => {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

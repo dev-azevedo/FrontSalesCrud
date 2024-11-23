@@ -1,7 +1,25 @@
 <template>
+<<<<<<< HEAD
   <section class="mt-5 font-medium w-full mx-2 lg:w-1/2 shadow-lg rounded-md bg-white">
     <div class="px-10 text-white w-full py-5 text-start flex gap-4 flex-col lg:flex-row justify-between items-start lg:items-center bg-slate-900 rounded-t-md">
       <h1 class="text-lg font-semibold">{{ props.title }}</h1>
+=======
+  <section
+    class="mt-5 font-medium"
+    data-aos="fade-up"
+    data-aos-offset="200"
+    data-aos-easing="ease-in-out"
+  >
+    <div class="px-10 w-full my-5 text-start flex justify-between items-center">
+      <h1 class="text-2xl font-semibold">
+        <i
+          v-if="props.title.includes('Cadastrar')"
+          class="bi bi-plus-circle"
+        ></i>
+        <i v-else class="bi bi-pencil-square"></i>
+        {{ props.title }}
+      </h1>
+>>>>>>> 50e3a985861fd455f024b56936bc4103a019ed1d
 
       <button
         class="bg-slate-200 text-slate-900 px-2 py-1 rounded-md hover:opacity-50 ease duration-300"
@@ -22,7 +40,7 @@
         </div>
         <div>
           <button
-            v-if="idUpdate == 'novo'"
+            v-if="!idUpdate"
             type="button"
             class="cursor-pointer px-2 py-1 bg-emerald-400 rounded-md flex justify-center items-center gap-1"
             @click="register"

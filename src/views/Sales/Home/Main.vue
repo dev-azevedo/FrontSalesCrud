@@ -6,15 +6,10 @@
       placeholder="Busque pelo nome do cliente ou descrição do produto"
       :newItem="addNewSale"
       :searchItem="getClientOrProductByName"
-       @resetGet="getSales"
+      @resetGet="getSales"
     >
       <template v-slot:lista>
-        <div
-          v-if="isLoading"
-          class="w-full bg-white p-2 mb-3 flex justify-center items-center"
-        >
-          buscando...
-        </div>
+        <SkeletonLoading v-if="isLoading" :heightCard="'h-8'" />
         <div
           v-else-if="sales.length == 0"
           class="w-full bg-white p-2 mb-3 flex justify-center items-center"
@@ -24,28 +19,38 @@
 
         <div
           v-else
-          v-for="sale in sales"
-          :key="sale.id"
-          class="rounded-md bg-white p-2 mb-3 flex justify-between items-center border-l-8 border-slate-500 font-normal"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-5"
         >
-          <div>
-            <div>
-              <span class="text-sm text-slate-500">Cliente: </span>
-              <span>
-                {{ sale.client.name }}
-              </span>
+          <div
+            v-for="sale in sales"
+            :key="sale.id"
+            class="rounded-md bg-white flex flex-col justify-between shadow-xl"
+          >
+            <div
+              class="w-full h-14 truncate flex items-center justify-center cursor-pointer rounded-t-md bg-gray-300"
+            >
+              <i
+                class="bi bi-basket-fill w-12 flex justify-center items-center text-gray-100 text-2xl border-2 p-2 rounded-full"
+              ></i>
             </div>
 
-            <div>
-              <span
-                class="text-sm text-slate-500 me-2 cursor-pointer"
-                title="Data da venda"
+            <div
+              class="grid grid-cols-2 divide-x divide-slate-300 rounded-b-md"
+            >
+              <button
+                type="button"
+                class="bg-slate-100 p-2 rounded-bl-md"
+                @click="updateSale(sale.id)"
               >
-                <i class="bi bi-calendar3"></i>
-              </span>
-              <span>
-                {{ formatDateTimePtBr(sale.createdOn) }}
-              </span>
+                <i class="bi bi-pencil-square text-yellow-400"></i>
+              </button>
+              <button
+                type="button"
+                class="bg-slate-100 rounded-br-md"
+                @click="deleteSale(sale.id)"
+              >
+                <i class="bi bi-trash text-red-600"></i>
+              </button>
             </div>
           </div>
 
@@ -125,10 +130,12 @@ import api from "@/services/Api.js";
 import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-import { formatMoneyPtBr, formatDateTimePtBr } from "@/services/Helper";
+import { formatMoneyPtBr } from "@/services/Helper";
 import Pagination from "@/components/Pagination/Main.vue";
 import { authUser } from "@/store/authStore";
 import { computed } from "vue";
+import SkeletonLoading from "@/components/SkeletonLoading/Main.vue";
+import toast from "@/services/Toast";
 
 const auth = authUser();
 
@@ -180,32 +187,18 @@ const getSales = async () => {
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
-      let errors = "";
-      err.response.data.errors.map((error) => {
-        errors += error.message + "<br />";
-      });
-
-      return Swal.fire({
-        icon: "error",
-        html: errors,
-        showConfirmButton: false,
-        timer: err.response.data.errors.lenght > 1 ? 3000 : 2500,
-      });
+      err.response.data.errors.map((error) => toast.error(error.message));
+      return;
     }
 
-    Swal.fire({
-      icon: "error",
-      text: "Algo deu errado. Tente novamente",
-      showConfirmButton: false,
-      timer: 2500,
-    });
+    return toast.error("Algo deu errado. Tente novamente");
   } finally {
     isLoading.value = false;
   }
 };
 
 const addNewSale = () => {
-  router.push({ name: "formSales", params: { id: "novo" } });
+  router.push({ name: "formSales" });
 };
 
 const updateSale = (idUpdate) => {
@@ -225,12 +218,8 @@ const deleteSale = async (id) => {
   }).then(async (result) => {
     if (result.isConfirmed) {
       await api.delete(`/sale/${id}`);
-      Swal.fire({
-        icon: "success",
-        title: "Venda apagado com sucesso!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+
+      toast.success("Venda apagada com sucesso!");
       getSales();
     }
   });
