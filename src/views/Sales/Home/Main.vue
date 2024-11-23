@@ -96,6 +96,13 @@
                   {{ formatMoneyPtBr(sale.valueSale) }}
                 </span>
               </div>
+
+               <div>
+                <span class="text-sm text-slate-500"> Responsável: </span>
+                <span class="fs-5">
+                  {{ sale.userName || "Nenhum cadastrado" }}
+                </span>
+              </div>
             </div>
           </div>
         </div>

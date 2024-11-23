@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full">
+  <section class="w-full flex justify-center lg:items-center lg:h-screen">
     <BaseForm
       :title="titlePage"
       :register="registerProduct"

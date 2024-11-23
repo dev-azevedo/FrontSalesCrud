@@ -128,7 +128,7 @@ const products = ref([]);
 const totalItems = ref(0);
 const totalPages = ref(0);
 const pageNumber = ref(1);
-const pageSize = ref(12);
+const pageSize = ref(20);
 const isLoading = ref(false);
 
 const token = computed(() => authStore.getToken);
@@ -174,6 +174,8 @@ const getProducts = async () => {
     const { data } = await api.get(
       `/product?pageNumber=${pageNumber.value}&pageSize=${pageSize.value}`
     );
+
+
 
     totalItems.value = data.totalItems;
     totalPages.value = data.totalPages;

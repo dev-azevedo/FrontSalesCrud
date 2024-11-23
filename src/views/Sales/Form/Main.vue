@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full">
+  <section class="w-full flex justify-center lg:items-center lg:h-screen">
     <BaseForm
       :title="titlePage"
       :register="registerSale"
@@ -103,7 +103,9 @@ import api from "@/services/Api";
 import { useRoute, useRouter } from "vue-router";
 import { formatMoneyPtBr } from "@/services/Helper";
 import toast from "@/services/Toast";
+import { authUser } from "@/store/authStore";
 
+const auth = authUser();
 const route = useRoute();
 const router = useRouter();
 const idUpdate = computed(() => route.params?.id);
@@ -129,6 +131,8 @@ const titlePage = computed(() =>
 const disabledSendBtn = computed(
   () => clientId.value == "" || product.id == "" || quantityProduct.value == ""
 );
+
+const user = computed(() => auth.getUser);
 
 onMounted(() => {
   if (idUpdate.value) {
@@ -218,12 +222,19 @@ const selectProduct = (productSelect) => {
 };
 
 const registerSale = async () => {
+  if (!user.value.id) {
+    toast.error("Você precisa estar logado para realizar esta operação");
+
+    router.push({name: "init"});
+  }
+
   try {
     isLoading.value = true;
     const { status } = await api.post("/sale", {
       clientId: clientId.value,
       productId: product.id,
       productQuantity: quantityProduct.value,
+      userId: user.value.id,
     });
 
     if (status == 201) {
@@ -237,7 +248,9 @@ const registerSale = async () => {
       product.unitaryValue = "";
       quantityProduct.value = 0;
 
-      router.back();
+      setTimeout(() => {
+        router.back();
+      }, 3000);
     }
   } catch (err) {
     if (
@@ -253,14 +266,20 @@ const registerSale = async () => {
 };
 
 const updateSale = async () => {
-  isLoading.value = true;
+   if (!user.value.id) {
+    toast.error("Você precisa estar logado para realizar esta operação");
+
+    router.push({name: "init"});
+  }
 
   try {
+    isLoading.value = true;
     const { status } = await api.put("/sale", {
       id: idUpdate.value,
       clientId: clientId.value,
       productId: product.id,
       productQuantity: quantityProduct.value,
+      userId: user.value.id,
     });
 
     if (status == 200) {
@@ -274,7 +293,9 @@ const updateSale = async () => {
       inputSearchProduct.value = "";
       quantityProduct.value = 0;
 
-      router.back();
+      setTimeout(() => {
+        router.back();
+      }, 3000);
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {
