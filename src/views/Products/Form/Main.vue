@@ -64,7 +64,7 @@ import {
   urlToFile,
 } from "@/services/Helper";
 import Dropzone from "@/components/Dropzone/Main.vue";
-import toast from "@/services/Toast";
+import { toast } from "vue3-toastify";
 import { VMoney } from "v-money";
 
 const route = useRoute();
@@ -101,7 +101,7 @@ onMounted(() => {
 const registerProduct = async () => {
   try {
     isLoading.value = true;
-    const { status, data } = await api.post("/product", {
+    const { status, data } = await api.post("/products", {
       description: description.value,
       unitaryValue: convertCurrencyToFloat(unitaryValue.value),
     });
@@ -132,6 +132,7 @@ const registerProduct = async () => {
 
       description.value = null;
       unitaryValue.value = null;
+      listFilesUpload.value = [];
 
       return setTimeout(() => {
         router.back();
@@ -159,7 +160,7 @@ const sendImageProduct = async (id) => {
   formData.append("Id", id);
 
   try {
-    const { status } = await api.post("/product/file", formData);
+    const { status } = await api.post("/products/file", formData);
     return status;
   } catch (err) {
     console.log(err);
@@ -168,7 +169,7 @@ const sendImageProduct = async (id) => {
 
 const removeImageProduct = async (id) => {
   try {
-    await api.delete(`/product/file/${id}`);
+    await api.delete(`/products/file/${id}`);
   } catch (err) {
     console.log(err);
   }
@@ -178,7 +179,7 @@ const updateProduct = async () => {
   try {
     isLoading.value = true;
 
-    const { status } = await api.put("/product", {
+    const { status } = await api.put("/products", {
       id: idUpdate.value,
       description: description.value,
       unitaryValue: convertCurrencyToFloat(unitaryValue.value),
@@ -196,6 +197,7 @@ const updateProduct = async () => {
 
             description.value = null;
             unitaryValue.value = null;
+             listFilesUpload.value = [];
 
             return setTimeout(() => {
               router.back();
@@ -238,7 +240,7 @@ const updateProduct = async () => {
 const getProductById = async () => {
   try {
     isLoading.value = true;
-    const { data } = await api.get(`/product/${idUpdate.value}`);
+    const { data } = await api.get(`/products/${idUpdate.value}`);
 
     if (data) {
       description.value = data.description;

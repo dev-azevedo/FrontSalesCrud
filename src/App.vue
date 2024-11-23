@@ -1,11 +1,15 @@
 <template>
-  <router-view />
+  <keep-alive>
+    <router-view />
+  </keep-alive>
 </template>
 
 <script setup>
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { onMounted } from "vue";
+
+
 
 onMounted(() => {
   AOS.init();

@@ -120,7 +120,7 @@ import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import Pagination from "@/components/Pagination/Main.vue";
 import SkeletonLoading from "@/components/SkeletonLoading/Main.vue";
-import toast from "@/services/Toast";
+import { toast } from "vue3-toastify";
 import { salesCrudStore } from "@/store/SalesCrudStore.js";
 import { authUser } from "@/store/authStore";
 import { computed } from "vue";
@@ -176,7 +176,7 @@ const getClients = async () => {
     isLoading.value = true;
     clients.value = [];
     const { data } = await api.get(
-      `/client?pageNumber=${pageNumber.value}&pageSize=${pageSize.value}`
+      `/clients?pageNumber=${pageNumber.value}&pageSize=${pageSize.value}`
     );
     if (data) {
       totalItems.value = data.totalItems;

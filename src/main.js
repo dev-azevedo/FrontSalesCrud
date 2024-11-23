@@ -5,6 +5,7 @@ import VueTheMask from "vue-the-mask";
 import { createPinia } from "pinia";
 import money from "v-money";
 import Vue3Toasity from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 import { setupInterceptors } from "@/services/Api.js";
 
 const pinia = createPinia();

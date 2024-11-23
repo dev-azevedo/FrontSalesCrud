@@ -63,7 +63,7 @@
 
 <script setup>
 import { ref, defineEmits, defineProps, computed, watch } from "vue";
-import toast from "@/services/Toast";
+import { toast } from "vue3-toastify";
 
 const isDragging = ref(false);
 const dragCount = ref(0);

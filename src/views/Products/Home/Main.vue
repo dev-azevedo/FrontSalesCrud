@@ -115,7 +115,7 @@ import Swal from "sweetalert2";
 import { formatMoneyPtBr } from "@/services/Helper";
 import Pagination from "@/components/Pagination/Main.vue";
 import SkeletonLoading from "@/components/SkeletonLoading/Main.vue";
-import toast from "@/services/Toast";
+import { toast } from "vue3-toastify";
 import { salesCrudStore } from "@/store/SalesCrudStore.js";
 import { authUser } from "@/store/authStore";
 import { computed } from "vue";
@@ -153,7 +153,7 @@ const getProductByDescription = async (description) => {
   try {
     isLoading.value = true;
     products.value = [];
-    const { data } = await api.get(`/product/${description}`);
+    const { data } = await api.get(`/products/${description}`);
     products.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {
@@ -172,7 +172,7 @@ const getProducts = async () => {
     isLoading.value = true;
     products.value = [];
     const { data } = await api.get(
-      `/product?pageNumber=${pageNumber.value}&pageSize=${pageSize.value}`
+      `/products?pageNumber=${pageNumber.value}&pageSize=${pageSize.value}`
     );
 
 
@@ -213,7 +213,7 @@ const deleteProduct = async (id) => {
     cancelButtonText: "Não",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      await api.delete(`/product/${id}`);
+      await api.delete(`/products/${id}`);
 
       toast.success("Produto apagado com sucesso!");
       getProducts();

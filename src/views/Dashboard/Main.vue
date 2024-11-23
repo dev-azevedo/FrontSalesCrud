@@ -30,7 +30,7 @@
       >
         <div class="flex p-5 justify-between">
           <div class="flex flex-col">
-            <span class="text-8xl">0</span>
+            <span class="text-8xl">{{ datas.totalProduct }}</span>
             <span>Total de Produtos</span>
           </div>
 
@@ -49,7 +49,7 @@
       >
         <div class="flex p-5 justify-between">
           <div class="flex flex-col">
-            <span class="text-8xl">0</span>
+            <span class="text-8xl">{{ datas.totalClient }}</span>
             <span>Total de clientes</span>
           </div>
 
@@ -68,7 +68,7 @@
       >
         <div class="flex p-5 justify-between">
           <div class="flex flex-col">
-            <span class="text-8xl">0</span>
+            <span class="text-8xl">{{ datas.totalSale }}</span>
             <span>Total de vendas</span>
           </div>
 
@@ -87,7 +87,7 @@
       >
         <div class="flex p-5 justify-between">
           <div class="flex flex-col">
-            <span class="text-8xl">0</span>
+            <span class="text-8xl">{{ datas.productBestSeller }}</span>
             <span>Produto mais vendido</span>
           </div>
 
@@ -106,26 +106,32 @@
 
 <script setup>
 import api from "@/services/Api";
-import toast from "@/services/Toast";
+import { toast } from "vue3-toastify";
 import { onMounted, reactive, ref } from "vue";
 
 const isLoading = ref(false);
-const clientBestSeller = reactive({
-  client: null,
-  saleCount: null,
-});
+
+const datas = reactive({
+  totalProduct: 0,
+  totalClient: 0,
+  totalSale: 0,
+  productBestSeller: 0,
+})
 
 onMounted(() => {
-  getClientBestSeller();
+  getDatas();
 });
 
-const getClientBestSeller = async () => {
+const getDatas = async () => {
   try {
     isLoading.value = true;
-    const { data } = await api.get(`/client/bestSeller`);
+    const { data } = await api.get(`/Dashboards`);
+    console.log(data);
     if (data) {
-      clientBestSeller.client = data.client;
-      clientBestSeller.saleCount = data.saleCount;
+      datas.totalProduct = data.totalProducts;
+      datas.totalClient = data.totalClients;
+      datas.totalSale = data.totalSales;
+      datas.productBestSeller = data.productBestSeller;
     }
   } catch (err) {
     if (err?.response && err?.response?.data) {

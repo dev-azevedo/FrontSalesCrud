@@ -127,7 +127,7 @@
 <script setup>
 import api from "@/services/Api";
 import { computed, defineEmits, ref, watch } from "vue";
-import toast from "@/services/Toast";
+import { toast } from "vue3-toastify";
 import { validateEmail, formatDate } from "@/services/Helper";
 import Spinner from "@/components/Spinner/Main.vue";
 

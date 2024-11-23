@@ -84,7 +84,7 @@
 import api from "@/services/Api";
 import { computed, defineEmits, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import toast from "@/services/Toast";
+import { toast } from "vue3-toastify";
 import { authUser } from "@/store/authStore";
 import Spinner from "@/components/Spinner/Main.vue";
 

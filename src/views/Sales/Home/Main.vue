@@ -129,7 +129,7 @@ import Swal from "sweetalert2";
 import { formatMoneyPtBr, formatDateTimePtBr } from "@/services/Helper";
 import Pagination from "@/components/Pagination/Main.vue";
 import SkeletonLoading from "@/components/SkeletonLoading/Main.vue";
-import toast from "@/services/Toast";
+import { toast } from "vue3-toastify";
 
 const router = useRouter();
 const sales = ref([]);
@@ -157,7 +157,7 @@ const getClientOrProductByName = async (nameOrdescription) => {
 
   isLoading.value = true;
   sales.value = [];
-  const { data } = await api.get(`/sale/${nameOrdescription}`);
+  const { data } = await api.get(`/sales/${nameOrdescription}`);
   sales.value = data;
   isLoading.value = false;
 };
@@ -167,7 +167,7 @@ const getSales = async () => {
     isLoading.value = true;
     sales.value = [];
     const { data } = await api.get(
-      `/sale?pageNumber=${pageNumber.value}&pageSize=${pageSize.value}`
+      `/sales?pageNumber=${pageNumber.value}&pageSize=${pageSize.value}`
     );
     if (data) {
       totalItems.value = data.totalItems;
@@ -207,7 +207,7 @@ const deleteSale = async (id) => {
     cancelButtonText: "Não",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      await api.delete(`/sale/${id}`);
+      await api.delete(`/sales/${id}`);
 
       toast.success("Venda apagada com sucesso!");
       getSales();
