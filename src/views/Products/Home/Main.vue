@@ -142,7 +142,7 @@ const getProductByDescription = async (description) => {
   try {
     isLoading.value = true;
     products.value = [];
-    const { data } = await api.get(`/product/${description}`);
+    const { data } = await api.get(`/products/${description}`);
     products.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {
@@ -161,7 +161,7 @@ const getProducts = async () => {
     isLoading.value = true;
     products.value = [];
     const { data } = await api.get(
-      `/product?pageNumber=${pageNumber.value}&pageSize=${pageSize.value}`
+      `/products?pageNumber=${pageNumber.value}&pageSize=${pageSize.value}`
     );
 
     totalItems.value = data.totalItems;
@@ -200,7 +200,7 @@ const deleteProduct = async (id) => {
     cancelButtonText: "Não",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      await api.delete(`/product/${id}`);
+      await api.delete(`/products/${id}`);
 
       toast.success("Produto apagado com sucesso!");
       getProducts();

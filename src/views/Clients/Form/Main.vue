@@ -86,7 +86,7 @@ const registerClient = async () => {
   try {
     isLoading.value = true;
 
-    const { status, data } = await api.post("/client", {
+    const { status, data } = await api.post("/clients", {
       name: name.value,
       email: email.value,
       city: city.value,
@@ -145,7 +145,7 @@ const sendImageClient = async (id) => {
   formData.append("Id", id);
 
   try {
-    const { status } = await api.post("/client/file", formData);
+    const { status } = await api.post("/clients/file", formData);
     return status;
   } catch (err) {
     console.log(err);
@@ -154,7 +154,7 @@ const sendImageClient = async (id) => {
 
 const removeImageClient = async (id) => {
   try {
-    await api.delete(`/client/file/${id}`);
+    await api.delete(`/clients/file/${id}`);
   } catch (err) {
     console.log(err);
   }
@@ -164,7 +164,7 @@ const updateClient = async () => {
   try {
     isLoading.value = true;
 
-    const { status } = await api.put("/client", {
+    const { status } = await api.put("/clients", {
       id: idUpdate.value,
       name: name.value,
       email: email.value,
@@ -227,7 +227,7 @@ const getClientBy = async () => {
   try {
     isLoading.value = true;
 
-    const { data } = await api.get(`/client/${idUpdate.value}`);
+    const { data } = await api.get(`/clients/${idUpdate.value}`);
 
     if (data) {
       name.value = data.name;

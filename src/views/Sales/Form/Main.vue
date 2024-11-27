@@ -177,7 +177,7 @@ watch(product.id, () => {
 const getClientByName = async () => {
   try {
     clients.value = [];
-    const { data } = await api.get(`/client/${inputSearchClient.value}`);
+    const { data } = await api.get(`/clients/${inputSearchClient.value}`);
     clients.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {
@@ -200,7 +200,7 @@ const selectClient = (client) => {
 const getProductByDescription = async () => {
   try {
     products.value = [];
-    const { data } = await api.get(`/product/${inputSearchProduct.value}`);
+    const { data } = await api.get(`/products/${inputSearchProduct.value}`);
     products.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {
@@ -229,7 +229,7 @@ const registerSale = async () => {
 
   try {
     isLoading.value = true;
-    const { status } = await api.post("/sale", {
+    const { status } = await api.post("/sales", {
       clientId: clientId.value,
       productId: product.id,
       productQuantity: quantityProduct.value,
@@ -271,7 +271,7 @@ const updateSale = async () => {
   }
 
   try {
-    const { status } = await api.put("/sale", {
+    const { status } = await api.put("/sales", {
       id: idUpdate.value,
       clientId: clientId.value,
       productId: product.id,
@@ -307,7 +307,7 @@ const updateSale = async () => {
 const getSaleById = async () => {
   try {
     isLoading.value = true;
-    const { data } = await api.get(`/sale/${idUpdate.value}`);
+    const { data } = await api.get(`/sales/${idUpdate.value}`);
     clientId.value = data.client.id;
     product.id = data.product.id;
     product.unitaryValue = data.product.unitaryValue;
@@ -330,7 +330,7 @@ const getSaleById = async () => {
 const getClientById = async (id) => {
   try {
     isLoading.value = true;
-    const { data } = await api.get(`/client/${id}`);
+    const { data } = await api.get(`/clients/${id}`);
     selectClient(data);
   } catch (err) {
     if (err?.response && err?.response?.data) {
@@ -347,7 +347,7 @@ const getClientById = async (id) => {
 const getProductById = async (id) => {
   try {
     isLoading.value = true;
-    const { data } = await api.get(`/product/${id}`);
+    const { data } = await api.get(`/products/${id}`);
     selectProduct(data);
   } catch (err) {
     if (err?.response && err?.response?.data) {

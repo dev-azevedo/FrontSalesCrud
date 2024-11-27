@@ -122,7 +122,7 @@ onMounted(() => {
 const getClientBestSeller = async () => {
   try {
     isLoading.value = true;
-    const { data } = await api.get(`/client/bestSeller`);
+    const { data } = await api.get(`/clients/bestSeller`);
     if (data) {
       clientBestSeller.client = data.client;
       clientBestSeller.saleCount = data.saleCount;
