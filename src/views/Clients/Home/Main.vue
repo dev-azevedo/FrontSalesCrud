@@ -157,7 +157,7 @@ const getClientByName = async (name) => {
   try {
     isLoading.value = true;
     clients.value = [];
-    const { data } = await api.get(`/client/${name}`);
+    const { data } = await api.get(`/clients/${name}`);
     if (data) clients.value = data;
   } catch (err) {
     if (err?.response && err?.response?.data) {
@@ -216,7 +216,7 @@ const deleteClient = async (id) => {
     cancelButtonText: "Não",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      await api.delete(`/client/${id}`);
+      await api.delete(`/clients/${id}`);
 
       toast.success("Cliente apagado com sucesso!");
       getClients();
