@@ -12,29 +12,32 @@
         <i :class="['bi', props.icon]"></i> {{ props.title }}
       </h1>
 
-      <div class="w-full lg:w-2/3 flex items-center justify-end gap-1">
+      <div class="w-full flex-col lg:flex-row lg:w-2/3 flex items-center justify-end gap-1">
         <input
           type="text"
-          class="border w-3/4 p-2 rounded-md outline-none focus:border-b-emerald-400"
+          class="border w-full lg:w-3/4 p-2 rounded-md outline-none focus:border-b-emerald-400"
           :placeholder="placeholder"
           v-model="search"
           @keyup.enter="search && searchItem(search)"
         />
-        <button
-          type="button"
-          class="bg-red-400 p-2 rounded-md text-white hover:opacity-50 ease duration-300"
-          v-show="search.length >= 2"
-          @click="search = ''"
-        >
-          Limpar busca
-        </button>
+        <div class="flex items-center justify-end w-full lg:w-auto gap-1 mx-1">
+          <button
+            type="button"
+            class="bg-red-500 w-1/2 lg:w-auto p-2 rounded-md text-white hover:opacity-50 ease duration-300"
+            v-show="search.length >= 2"
+            @click="search = ''"
+          >
+             <i class="bi bi-trash"></i>
+          </button>
 
-        <button
-          class="bg-slate-900 text-white p-2 rounded-md hover:opacity-50 ease duration-300"
-          @click="newItem()"
-        >
-          <i class="bi bi-plus-square"></i>
-        </button>
+          <button
+            class="bg-slate-900 w-1/2 lg:w-auto text-white p-2 rounded-md hover:opacity-50 ease duration-300"
+            @click="newItem()"
+            title="Cadastrar"
+          >
+            <i class="bi bi-plus-square"></i>
+          </button>
+        </div>
       </div>
     </div>
 

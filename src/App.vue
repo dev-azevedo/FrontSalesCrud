@@ -45,7 +45,6 @@ button:disabled {
   font-weight: 400;
   font-style: normal;
 }
-<<<<<<< HEAD
 
 label {
   @apply text-gray-500;
@@ -70,6 +69,4 @@ label {
   animation: subir 2s ease-out forwards; /* Aplica a animação */
 }
 
-=======
->>>>>>> 50e3a985861fd455f024b56936bc4103a019ed1d
 </style>
